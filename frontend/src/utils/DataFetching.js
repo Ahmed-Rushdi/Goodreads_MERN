@@ -1,20 +1,11 @@
-import axios, { AxiosError, AxiosInstance } from "axios";
+import axios, { AxiosError } from "axios";
 import { useState, useEffect } from "react";
 const URL = process.env.BACKEND_URL;
 
-interface UseFetchDataState<T> {
-  data: T | null;
-  loading: boolean;
-  error: AxiosError | null;
-}
-
-export function useFetchData<T>(
-  url: string,
-  token: string
-): UseFetchDataState<T[]> {
-  const [data, setData] = useState<T[] | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<AxiosError | null>(null);
+export function useFetchData(url, token) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { axiosInstance } = useAxios(token);
 
   useEffect(() => {
@@ -38,7 +29,7 @@ export function useFetchData<T>(
   }, [url, axiosInstance]);
   return { data, loading, error };
 }
-export function useAxios(token: string): { axiosInstance: AxiosInstance } {
+export function useAxios(token) {
   const axiosInstance = axios.create({
     baseURL: `${URL}`,
     headers: {
