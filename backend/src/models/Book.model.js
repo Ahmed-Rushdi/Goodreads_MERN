@@ -51,7 +51,7 @@ const bookSchema = new Schema({
   categories: {
     type: [String],
   },
-  ratings: {
+  reviews: {
     type: [Review],
   },
 });
