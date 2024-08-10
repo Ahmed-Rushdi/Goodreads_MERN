@@ -2,7 +2,8 @@ const { Schema, model } = require("mongoose");
 const { Review } = require("./Review.model.js");
 const bookSchema = new Schema({
   isbn13: {
-    type: Schema.Types.ObjectId(String),
+    type: String,
+    unique: true,
     validate: {
       validator: function (v) {
         return /^[0-9]{12}[0-9X]$/.test(v);
@@ -14,9 +15,10 @@ const bookSchema = new Schema({
   },
   isbn10: {
     type: String,
+    unique: true,
     validate: {
       validator: function (v) {
-        return /^[0-9]{12}[0-9X]$/.test(v);
+        return v ? /^[0-9]{12}[0-9X]$/.test(v) : true;
       },
       message: (props) =>
         `${props.value} is not a valid ISBN-10! It should be 10 digits with the last one being a number or 'X'.`,
