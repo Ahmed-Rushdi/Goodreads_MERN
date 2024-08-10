@@ -1,5 +1,7 @@
 const { Schema, model } = require("mongoose");
 
+// ! WARNING: don't call .save() this isn't meant to be a Collection just a Subdocument for Books and Users 
+
 const reviewSchema = new Schema(
   {
     userId: {
