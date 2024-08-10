@@ -3,20 +3,32 @@ const { Review } = require("./Review.model.js");
 const bookSchema = new Schema({
   isbn13: {
     type: Schema.Types.ObjectId(String),
-    match: /^[0-9]{12}[0-9X]$/,
+    validate: {
+      validator: function (v) {
+        return /^[0-9]{12}[0-9X]$/.test(v);
+      },
+      message: (props) =>
+        `${props.value} is not a valid ISBN-13! It should be 13 digits with the last one being a number or 'X'.`,
+    },
     required: [true, "ISBN 13 is required"],
   },
   isbn10: {
     type: String,
-    match: /^[0-9]{9}[0-9X]$/,
+    validate: {
+      validator: function (v) {
+        return /^[0-9]{12}[0-9X]$/.test(v);
+      },
+      message: (props) =>
+        `${props.value} is not a valid ISBN-10! It should be 10 digits with the last one being a number or 'X'.`,
+    },
   },
   title: {
     type: String,
-    required: true,
+    required: [true, "Title is required"],
   },
   author: {
     type: String,
-    required: true,
+    required: [true, "Author is required"],
   },
   description: {
     type: String,
