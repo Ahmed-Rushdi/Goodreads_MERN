@@ -1,0 +1,23 @@
+const { Schema, model } = require("mongoose");
+
+const reviewSchema = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  rating: {
+    type: Number,
+    validate: {
+      validator: function (val) {
+        return val >= 1 && val <= 5;
+      },
+      message: (props) =>
+        `${props.value} is not a valid rating! Rating must be between 1 and 5.`,
+    },
+    required: true,
+  },
+  review: String,
+});
+const Review = model("Review", reviewSchema);
+module.exports = Review;
