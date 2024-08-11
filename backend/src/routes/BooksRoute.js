@@ -1,22 +1,22 @@
 const express = require("express");
 const Book = require("../models/Book.model");
-const Review = require("../models/Review.model");
 
 const router = express.Router();
 
-// * Books
-// TODO: Add more operations for books
+// * Get All Books
 router.get("/", async (req, res) => {
   const books = await Book.find();
   res.send(books);
 });
 
+// * Get Books by ISBN
 router.get("/:isbn13", async (req, res) => {
   const book = await Book.findOne({ isbn13: req.params.isbn13 });
   if (!book) return res.status(404).send("Book not found");
   res.send(book);
 });
 
+// * Add Book
 router.post("/", async (req, res) => {
   try {
     const book = new Book(req.body);
@@ -26,6 +26,17 @@ router.post("/", async (req, res) => {
     res.status(409).send(error.errmsg);
   }
 });
+
+// * Update Book info
+router.put("/:isbn13", async (req, res) => {
+  const book = await Book.findOne({ isbn13: req.params.isbn13 });
+  if (!book) return res.status(404).send("Book not found");
+  book.set(req.body);
+  await book.save();
+  res.send(book);
+});
+
+// * Delete Book
 router.delete("/:isbn13", async (req, res) => {
   const book = await Book.findOne({ isbn13: req.params.isbn13 });
   if (!book) return res.status(404).send("Book not found");
@@ -33,7 +44,5 @@ router.delete("/:isbn13", async (req, res) => {
   res.send(book);
 });
 
-
-// TODO: Test and add more operations
 
 module.exports = router;

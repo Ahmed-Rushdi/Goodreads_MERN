@@ -30,6 +30,7 @@ const bookSchema = new Schema({
   },
   author: {
     type: String,
+    index: true,
     required: [true, "Author is required"],
   },
   description: {
@@ -52,9 +53,18 @@ const bookSchema = new Schema({
   },
   categories: {
     type: [String],
+    index: true,
   },
   reviews: {
     type: [Review],
+  },
+  averageRating: {
+    type: Number,
+    default: 0,
+  },
+  ratingsCount: {
+    type: Number,
+    default: 0,
   },
 });
 const Book = model("Book", bookSchema);
