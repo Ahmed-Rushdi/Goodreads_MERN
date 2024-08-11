@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 
 const booksRoute = require("./routes/BooksRoute.js");
+const reviewsRoute = require("./routes/ReviewsRoute.js");
 
 const port = process.env.PORT;
 const mongoUri = process.env.MONGODB_URI;
@@ -25,6 +26,7 @@ app.use(express.json());
 app.use(logger(logging));
 
 app.use("/api/books", booksRoute);
+app.use("/api/reviews", reviewRoute);
 
 app.listen(port, () => {
   console.log(`Server is running on http://0.0.0.0:${port}`);
