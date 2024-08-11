@@ -1,14 +1,13 @@
 const express = require("express");
 const Book = require("../models/Book.model");
 const Review = require("../models/Review.model");
-// const User = require("../models/User.model");
+const User = require("../models/User.model");
 
 const router = express.Router();
 
-// * Reviews
 // TODO: integrate with user  (uncomment code when the user model is available)
 
-// retrieve all reviews of specific book
+// * Get all reviews of specific book
 router.get("/book/:isbn13", async (req, res) => {
   const book = await Book.findOne({ isbn13: req.params.isbn13 });
   if (!book) return res.status(404).send("Book not found");
@@ -16,44 +15,44 @@ router.get("/book/:isbn13", async (req, res) => {
   res.send(reviews);
 });
 
-// retrieve all reviews of specific book
+// * Get all reviews of specific user
 router.get("/user/:userId", async (req, res) => {
-  // TODO: integrate with user model (uncomment code when the user model is available)
-  //   const user = await User.findOne({ _id: req.params.userId });
-  //   if (!user) return res.status(404).send("User not found");
-  //   const reviews = user.reviews;
-  //   res.send(reviews);
+  const user = await User.findOne({ _id: req.params.userId });
+  if (!user) return res.status(404).send("User not found");
+  const reviews = user.reviews;
+  res.send(reviews);
 });
 
-// add review to specific book and user
+// * Add review to specific book and user
 router.post("/:isbn13", async (req, res) => {
   const book = await Book.findOne({ isbn13: req.params.isbn13 });
   if (!book) return res.status(404).send("Book not found");
-  // TODO: integrate with user model
+  const user = await User.findOne({ _id: req.body.userId });
+  if (!user) return res.status(404).send("User not found");
   const review = new Review(req.body);
   book.reviews.push(review);
+  user.reviews.push(review);
   await book.save();
-  res.send("review added");
+  res.send("Added Review");
 });
 
-// TODO: integrate with user model (uncomment code when the user model is available)
-// delete specific review from book and user
+// * Delete specific review from book and user
+// ? There is probably a better way to do this?
+// TODO find a better way
 router.delete("/:isbn13/:userId", async (req, res) => {
-  const book = await Book.findOne({
-    isbn13: req.params.isbn13,
-  });
+  const book = await Book.findOne({ isbn13: req.params.isbn13 });
   if (!book) return res.status(404).send("Book not found");
-  //   const user = await User.findOne({ _id: req.params.userId });
-  //   if (!user) return res.status(404).send("Review not found");
-  const reviewPartial = {
-    bookId: req.params.isbn13,
-    userId: req.params.userId,
-  };
-  book.reviews.pull(reviewPartial);
-  //   user.reviews.pull(reviewPartial);
+  const user = await User.findOne({ _id: req.params.userId });
+  if (!user) return res.status(404).send("Review not found");
+
+  const review = User.reviews.find((r) => r.bookId === req.params.isbn13);
+  book.reviews.pull(review);
+  user.reviews.pull(review);
+
   await book.save();
   await user.save();
-  res.send("review deleted");
+
+  res.send("Deleted Review");
 });
 
 

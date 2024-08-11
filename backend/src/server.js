@@ -13,7 +13,7 @@ const logging = process.env.LOGGING;
 const app = express();
 
 // * Expose public for thumbnail retrieval (host:port/thumbnails)
-// ? is this good practice? IDK.
+// ? is this the way to do it? IDK.
 app.use(express.static(path.join(__dirname, "../public")));
 
 mongoose
