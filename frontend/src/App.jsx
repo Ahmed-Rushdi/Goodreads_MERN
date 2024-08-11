@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./layouts/Home";
-import Navbar from "./components/Navbar";
-import BooksDisplay from "./layouts/BooksDisplay";
-import BookPage from "./layouts/BookPage";
+import UserProfile from "./components/userProfile";
 function App() {
   const [count, setCount] = useState(0);
 
@@ -19,17 +17,17 @@ function App() {
           <Route path="/book/:id" element={<BookPage />} />
           {/* <Route path="/registration" element={<Registration />} /> */}
 
-          {/* <Route path="/contact" element={<Contact />} /> */}
-          {/* <Route path="/login" element={<LoginPage />} /> */}
-          {/* <Route
+        {/* <Route path="/contact" element={<Contact />} /> */}
+        {/* <Route path="/login" element={<LoginPage />} /> */}
+        <Route
           path="/profile"
           element={
-            <RequireAuth loginPath="/login">
-            <Profile />
-            </RequireAuth>
-            }
-        /> */}
-          {/* <Route path="/inquiry" element={<InquiryForm />} />
+            // <RequireAuth loginPath="/login">
+              <UserProfile />
+            // </RequireAuth>
+          }
+        />
+        {/* <Route path="/inquiry" element={<InquiryForm />} />
         <Route path="/about" element={<About />} /> */}
         </Routes>
       </div>

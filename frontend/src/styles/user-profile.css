@@ -1,0 +1,13 @@
+body {
+    @apply bg-corn-silk;
+    box-sizing: border-box;
+}
+.user-profile {
+    margin-top: 10rem;
+}
+.info-shelf {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
