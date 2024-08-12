@@ -1,6 +1,6 @@
-const { Schema, model } = require("mongoose");
-const { Review } = require("./Review.model.js");
-const { isbnValidator } = require("../utils/validators");
+import { Schema, model } from "mongoose";
+import { Review } from "./Review.model.js";
+import { isbnValidator } from "../utils/validators";
 
 const bookSchema = new Schema({
   isbn13: {
@@ -68,4 +68,4 @@ const bookSchema = new Schema({
   },
 });
 const Book = model("Book", bookSchema);
-module.exports = Book;
+export default Book;

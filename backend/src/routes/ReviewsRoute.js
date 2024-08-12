@@ -1,5 +1,5 @@
 const express = require("express");
-const Book = require("../models/Book.model");
+const Book = require("../models/Book.model").default;
 const Review = require("../models/Review.model");
 const User = require("../models/User.model");
 
@@ -54,6 +54,5 @@ router.delete("/:isbn13/:userId", async (req, res) => {
 
   res.send("Deleted Review");
 });
-
 
 module.exports = router;

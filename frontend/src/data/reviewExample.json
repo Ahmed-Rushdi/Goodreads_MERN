@@ -1,0 +1,32 @@
+[
+  {
+    "userId": "64b1f8e7361b0a23e47a1d3c",
+    "BookId": "978-3-16-148410-0",
+    "rating": 4.5,
+    "review": "A fascinating and immersive read. The character development was excellent, and the plot twists kept me hooked till the end."
+  },
+  {
+    "userId": "64b1f8e7361b0a23e47a1d3d",
+    "BookId": "978-1-86197-876-9",
+    "rating": 3.0,
+    "review": "The book had a promising start, but the middle part dragged a bit. Still, the ending was satisfying."
+  },
+  {
+    "userId": "64b1f8e7361b0a23e47a1d3e",
+    "BookId": "978-0-7432-7356-5",
+    "rating": 5.0,
+    "review": "An absolute masterpiece! The narrative was compelling, and the writing style was beautiful. Highly recommended."
+  },
+  {
+    "userId": "64b1f8e7361b0a23e47a1d3f",
+    "BookId": "978-0-670-82162-3",
+    "rating": 2.5,
+    "review": "The concept was interesting, but the execution left a lot to be desired. Some parts felt rushed and underdeveloped."
+  },
+  {
+    "userId": "64b1f8e7361b0a23e47a1d40",
+    "BookId": "978-0-395-19395-8",
+    "rating": 4.0,
+    "review": "A solid read with a few minor flaws. The world-building was top-notch, but some characters felt one-dimensional."
+  }
+]
