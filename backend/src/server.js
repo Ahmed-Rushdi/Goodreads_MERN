@@ -13,7 +13,7 @@ const mongoUri = process.env.MONGODB_URI;
 const logging = process.env.LOGGING;
 
 const app = express();
-// registeration !!!!
+
 // * Expose public for thumbnail retrieval (host:port/thumbnails)
 // ? is this the way to do it? IDK.
 app.use(express.static(path.join(__dirname, "../public")));
