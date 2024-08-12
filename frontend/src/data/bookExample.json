@@ -1,0 +1,110 @@
+[
+  {
+    "isbn13": "9781234567897",
+    "isbn10": "123456789X",
+    "title": "The Great Book",
+    "author": "John Doe",
+    "description": "An in-depth exploration of great ideas.",
+    "publisher": "Fictional Publishing House",
+    "publishedDate": "2022-08-11T00:00:00.000Z",
+    "pageCount": 350,
+    "thumbnail": "https://example.com/thumbnail.jpg",
+    "language": "en",
+    "categories": ["Fiction", "Adventure"],
+    "reviews": [
+      {
+        "user": "JaneSmith",
+        "rating": 5,
+        "comment": "Amazing book! Highly recommend.",
+        "date": "2023-05-10T00:00:00.000Z"
+      },
+      {
+        "user": "BookLover123",
+        "rating": 4,
+        "comment": "Great read, but a bit slow in the middle.",
+        "date": "2023-06-20T00:00:00.000Z"
+      }
+    ]
+  },
+  {
+    "isbn13": "9781234567897",
+    "isbn10": "123456789X",
+    "title": "The Great Book",
+    "author": "John Doe",
+    "description": "An in-depth exploration of great ideas.",
+    "publisher": "Fictional Publishing House",
+    "publishedDate": "2022-08-11T00:00:00.000Z",
+    "pageCount": 350,
+    "thumbnail": "https://example.com/thumbnail.jpg",
+    "language": "en",
+    "categories": ["Fiction", "Adventure"],
+    "reviews": [
+      {
+        "user": "JaneSmith",
+        "rating": 5,
+        "comment": "Amazing book! Highly recommend.",
+        "date": "2023-05-10T00:00:00.000Z"
+      },
+      {
+        "user": "BookLover123",
+        "rating": 4,
+        "comment": "Great read, but a bit slow in the middle.",
+        "date": "2023-06-20T00:00:00.000Z"
+      }
+    ]
+  },
+  {
+    "isbn13": "9781234567897",
+    "isbn10": "123456789X",
+    "title": "The Great Book",
+    "author": "John Doe",
+    "description": "An in-depth exploration of great ideas.",
+    "publisher": "Fictional Publishing House",
+    "publishedDate": "2022-08-11T00:00:00.000Z",
+    "pageCount": 350,
+    "thumbnail": "https://example.com/thumbnail.jpg",
+    "language": "en",
+    "categories": ["Fiction", "Adventure"],
+    "reviews": [
+      {
+        "user": "JaneSmith",
+        "rating": 5,
+        "comment": "Amazing book! Highly recommend.",
+        "date": "2023-05-10T00:00:00.000Z"
+      },
+      {
+        "user": "BookLover123",
+        "rating": 4,
+        "comment": "Great read, but a bit slow in the middle.",
+        "date": "2023-06-20T00:00:00.000Z"
+      }
+    ]
+  },
+  {
+    "isbn13": "9781234567897",
+    "isbn10": "123456789X",
+    "title": "The Great Book",
+    "author": "John Doe",
+    "description": "An in-depth exploration of great ideas.",
+    "publisher": "Fictional Publishing House",
+    "publishedDate": "2022-08-11T00:00:00.000Z",
+    "pageCount": 350,
+    "thumbnail": "https://example.com/thumbnail.jpg",
+    "language": "en",
+    "categories": ["Fiction", "Adventure"],
+    "reviews": [
+      {
+        "user": "JaneSmith",
+        "rating": 5,
+        "comment": "Amazing book! Highly recommend.",
+        "date": "2023-05-10T00:00:00.000Z"
+      },
+      {
+        "user": "BookLover123",
+        "rating": 4,
+        "comment": "Great read, but a bit slow in the middle.",
+        "date": "2023-06-20T00:00:00.000Z"
+      }
+    ]
+  }
+]
