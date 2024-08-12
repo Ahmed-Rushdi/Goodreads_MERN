@@ -9,6 +9,8 @@ const userSchema = new Schema({
   books: [{ type: Schema.Types.ObjectId, ref: "Book" }],
   currentlyReading: [{ type: Schema.Types.ObjectId, ref: "Book" }],
   wantToRead: [{ type: Schema.Types.ObjectId, ref: "Book" }],
+  following: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  followers: [{ type: Schema.Types.ObjectId, ref: "User" }],
   verificationToken: { type: String },
   refreshToken: { type: String },
 });
