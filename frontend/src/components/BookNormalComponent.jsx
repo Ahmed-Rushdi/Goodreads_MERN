@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "../Styling/css/components/blogPost.css";
 import "../Styling/css/components/btn.css";
 import WantToRead from "./WantToRead";
@@ -6,7 +6,9 @@ import ReadMore from "./ReadMore";
 import { Link } from "react-router-dom";
 import Rating from "./Rating";
 import AuthorCard from "./AuthorCard";
-
+import ReviewCard from "./ReviewCard";
+import reviews from "../data/reviewExample.json";
+import TotalReviewsOverview from "./TotalReviewsOverview";
 function BookNormalComponent({ productsData }) {
   console.log(productsData);
 
@@ -62,9 +64,20 @@ function BookNormalComponent({ productsData }) {
                 </li>
               </ul>
             </div>
-            <div className="text-xl ">
-              <h2>About the author</h2>
-              <AuthorCard />
+            <div className="product-overview-mobile">
+              <div className="overview-title">
+                <h2>About the author</h2>
+                <AuthorCard />
+              </div>
+            </div>
+            <div className="product-overview-mobile">
+              <div className="overview-title">
+                <h2 className="text-xl py-4">Reviews & Ratings</h2>
+                <div className="py-3">
+                  <TotalReviewsOverview reviews={reviews} />
+                </div>{" "}
+                <ReviewCard reviewData={reviews} />
+              </div>
             </div>
           </div>
         </div>

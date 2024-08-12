@@ -4,7 +4,8 @@ import "../Styling/css/components/btn.css";
 import data from "../data/bookExample.json";
 import { useParams } from "react-router-dom";
 import BookNormalComponent from "../components/BookNormalComponent";
-// import BookMobileComponent from "../components/BookMobileComponent";
+import BookMobileComponent from "../components/BookMobileComponent";
+
 export default function BookPage() {
   const { id } = useParams();
   const [productsData, setProductsData] = useState(data);
@@ -22,7 +23,7 @@ export default function BookPage() {
   return productsData.length > 0 ? (
     isMobile ? (
       // <BookMobileComponent productsData={productsData[0]} />
-      <BookNormalComponent productsData={productsData[0]} />
+      <BookMobileComponent productsData={productsData[0]} />
     ) : (
       <BookNormalComponent productsData={productsData[0]} />
     )

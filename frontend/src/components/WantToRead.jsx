@@ -2,6 +2,8 @@ import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 export default function WantToRead({ isbn }) {
+  //handle if not logged in 
+  //if logged in post request using the jwt
   console.log(isbn);
   const lists = [
     {
