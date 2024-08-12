@@ -1,0 +1,47 @@
+@import "../sassStyling/colors";
+@import "../sassStyling/variables";
+@import "../sassStyling/breakpoints";
+
+.post-submitted-card {
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  h2 {
+    text-align: center;
+    color: #333;
+  }
+
+  label {
+    @extend %label;
+  }
+
+  input,
+  select {
+    @extend %input-field;
+    min-width: 90%;
+  }
+}
+
+.submit-details h3 > a {
+  text-decoration: none;
+  color: $secondary;
+}
+
+.form-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.error {
+  font-weight: bold;
+  color: red;
+  margin-top: 8px;
+}

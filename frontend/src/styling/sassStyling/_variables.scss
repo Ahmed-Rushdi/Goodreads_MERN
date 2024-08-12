@@ -1,0 +1,100 @@
+@use "sass:math";
+
+//Variables
+$base-padding: 0.75rem;
+
+$base-margin: 0.75rem;
+
+$base-product-margin-left: 15px;
+
+$top-padding: 5rem;
+
+$base-border-thickness: 1px;
+
+$base-border-radius: 20px;
+
+$base-border: 1px solid $borderColor;
+
+$combined-value: $base-border-radius + 16 * 0.75;
+
+$cart-width-height: 40px;
+
+$base-box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.1);
+
+$base-font-size: 1rem;
+
+$large-font-size: $base-font-size * 1.5;
+
+$main-transition: all 0.3s ease 0s;
+
+$slider-width: 500px;
+$slider-height: 300px;
+$line-height: 35px;
+$max-search-width: 600px;
+
+%container {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0 0;
+  padding: 0 $base-padding;
+  padding-top: $top-padding;
+  box-sizing: border-box;
+  background-color: $backgroundPrimary;
+}
+%input-container {
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 130px;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+%flex-layout {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+%flex-center {
+  display: flex;
+  align-items: center;
+}
+
+%arrow {
+  position: absolute;
+  font-size: 3rem;
+  top: 50%;
+  color: $arrowColor;
+  z-index: 1;
+  cursor: pointer;
+  user-select: none;
+  transform: translateY(-50%);
+  font-weight: bold;
+  transition: 0.6s ease;
+  font-size: 30px;
+}
+
+%transition {
+  transition: 0.3s ease;
+}
+
+%input-field {
+  padding: $base-padding * 0.5;
+  border-radius: 3px;
+  font-size: $base-font-size;
+  border: 1px solid #ccc;
+  margin-bottom: $base-margin;
+}
+%label {
+  margin-bottom: $base-margin * 0.5;
+  color: #333;
+}
+
+%form {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,119 @@
+@import "../sassStyling/colors";
+@import "../sassStyling/variables";
+@import "../sassStyling/breakpoints";
+@import "../sassStyling/gridSystem";
+
+.popular-header-container {
+  text-align: left !important;
+  width: 100%;
+  font-weight: bold;
+  font-size: $large-font-size;
+}
+.popular-container {
+  display: flex;
+  flex-wrap: wrap;
+  margin: $base-margin;
+}
+.popular-product-card {
+  padding: 10px;
+  border: grey 2px solid;
+  border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+.popular-product-info {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  font-size: $base-font-size * 0.75;
+}
+.popular-product-title,
+.popular-product-price {
+  font-weight: bold;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+.banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $banner;
+  flex-direction: column;
+  padding: $base-padding $base-padding * 0.5;
+}
+
+.banner-header {
+  font-size: $base-font-size * 2;
+  padding: $base-padding * 2;
+}
+.banner-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.banner-single-card {
+  display: flex;
+  flex: 1 1 0%;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: $base-margin;
+  min-width: 300px;
+  max-width: 500px;
+}
+
+.banner-card-title {
+  font-size: $base-font-size * 1.5;
+  text-align: center;
+  margin-bottom: $base-margin;
+  font-weight: bold;
+}
+
+.banner-question {
+  font-size: $base-font-size;
+  font-weight: bold;
+  text-align: center;
+  margin-top: $base-margin * 2.5;
+}
+
+.home-image {
+  margin: $base-margin;
+  width: 95vw;
+  position: relative;
+}
+
+.image-text {
+}
+
+.banner-image-div {
+  border-radius: $combined-value;
+  padding: $base-padding;
+  transition: $main-transition;
+  &:hover {
+    border: $base-border;
+    transform: scale(1.005);
+  }
+}
+
+.banner-image {
+  border-radius: $base-border-radius;
+  width: 100%;
+  box-shadow: $base-box-shadow;
+}
+
+.home-video {
+  max-width: fit-content;
+}
+.home-slider {
+  display: flex;
+  justify-content: center;
+  padding: $base-padding;
+  margin: $base-margin;
+}
+
+.product-hovered {
+}
