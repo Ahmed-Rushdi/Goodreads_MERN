@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import "../Styling/css/components/blogPost.css";
-import "../Styling/css/components/card.css";
 import "../Styling/css/components/btn.css";
-import "../Styling/css/components/loader.css";
 import WantToRead from "./WantToRead";
 import ReadMore from "./ReadMore";
 import { Link } from "react-router-dom";
