@@ -36,7 +36,7 @@ router.post("/:isbn13", async (req, res) => {
   res.send("Added Review");
 });
 
-// * Delete specific review from book and user
+// * Delete specific review from book and user async (req, res) => { async (req, res) => {
 // ? There is probably a better way to do this?
 // TODO find a better way
 router.delete("/:isbn13/:userId", async (req, res) => {
