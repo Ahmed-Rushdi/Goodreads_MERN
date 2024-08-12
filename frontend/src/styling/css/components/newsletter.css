@@ -1,0 +1,15 @@
+.email-input {
+  padding: 0.375rem;
+  border-radius: 3px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  margin-bottom: 0.75rem;
+}
+
+.newsletter {
+  display: flex;
+  padding: 6.75rem;
+  background-color: #aac8a7;
+  width: 100%;
+  justify-content: flex-end;
+}

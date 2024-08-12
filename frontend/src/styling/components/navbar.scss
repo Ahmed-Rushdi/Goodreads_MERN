@@ -1,0 +1,218 @@
+@import "../sassStyling/colors";
+@import "../sassStyling/variables";
+@import "../sassStyling/breakpoints";
+.navbar {
+  @extend %flex-layout;
+  box-shadow: $base-box-shadow;
+  background-color: $navbarBackground;
+  flex-wrap: wrap;
+  position: fixed;
+  top: 0;
+  z-index: 6;
+  display: block;
+}
+.main-nav-container {
+  @extend %flex-layout;
+  padding: $base-padding;
+  padding-top: 0;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: 3fr 1fr 3fr;
+  justify-items: center;
+}
+//need to make a transtition usable
+.sticky-navbar {
+  left: 0;
+  position: fixed;
+  top: 0;
+  background-color: $navbarBackground;
+  width: 100%;
+  z-index: 5;
+}
+
+.logo {
+  cursor: pointer;
+}
+
+.navbar li {
+  list-style: none;
+  display: inline-block;
+  margin: $base-margin;
+}
+.navbar li a {
+  text-decoration: none;
+  margin: $base-margin;
+  transition: $main-transition;
+  color: $navbarText;
+}
+.navbar li a :hover {
+  opacity: 0.8;
+}
+
+/* see edits */
+
+.search-bar {
+  @extend %input-field;
+  height: 4vh;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  width: 100%;
+  min-width: 130px;
+}
+
+.navbar-menu {
+  display: none;
+}
+
+@include xs {
+  .navbar-links {
+    display: none;
+  }
+  .navbar-menu {
+    display: inline-block;
+    width: 40px;
+  }
+}
+@include sm {
+  .navbar-links {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.sidebar {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background-color: $defaultWhite;
+  padding: $base-padding;
+  border: $base-border-thickness solid #ccc;
+  margin-top: $base-margin;
+  font-size: $large-font-size;
+  color: $text;
+  bottom: 0px;
+  top: 58px;
+  z-index: 4;
+}
+
+.sidebar-content {
+  height: 90%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.sidebar a {
+  color: #333;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.sidebar a:hover {
+  color: #000;
+}
+
+.nav-search {
+  padding: 0;
+  @extend %flex-center;
+}
+
+.sign-in-div {
+  margin-left: 7px;
+  cursor: pointer;
+}
+
+.cart-div {
+  cursor: pointer;
+}
+.search-svg {
+  margin-left: $base-margin * 0.5;
+}
+.cancel-search-svg {
+  width: 25px;
+}
+.sign-in-icon {
+  margin-left: 7px;
+}
+
+.search-container {
+  display: grid;
+  background-color: $defaultWhite;
+  grid-template-columns: 38px auto 30px;
+  align-items: center;
+  width: 60%;
+  max-width: $max-search-width;
+  margin: 0 auto;
+  line-height: $line-height;
+  border-radius: 6px;
+  border: ($base-border-thickness * 2) solid $searchColor;
+}
+
+.search-container:focus-within {
+  border: ($base-border-thickness * 2) solid $searchFocus;
+}
+
+.category-navebar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  border-top: ($base-border-thickness * 1.5) dashed $mainBlack;
+}
+
+.navbar-logo {
+  width: 80px;
+  margin-top: 4px;
+}
+
+.right-navbar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.left-navbar {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+.navbar-ribbon {
+  background-color: $navbarRibbon;
+  height: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: $base-padding;
+  align-items: center;
+  font-size: small;
+}
+.navbar-social {
+  display: inline-block;
+  margin: 0 $base-margin * 0.5;
+}
+.navbar-icons {
+  margin: 0 $base-margin * 0.5;
+}
+.navbar-mobile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  margin: 0 20px;
+}
+.mobile-nav-icons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 62px;
+}
+
+.navbar-links-mobile > li {
+  margin: 0 0 0 5px;
+  color: #353131;
+}
+.bars {
+  color: $navbarIcon;
+  font-size: x-large;
+  margin-left: 33px;
+}

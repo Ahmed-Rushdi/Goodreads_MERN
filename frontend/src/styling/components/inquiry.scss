@@ -1,0 +1,20 @@
+@import "../sassStyling/colors";
+@import "../sassStyling/variables";
+@import "../sassStyling/breakpoints";
+@import "../sassStyling/gridSystem";
+
+.inquiry-container {
+  @extend %input-container;
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+}
+
+.input-field,
+.textarea-field {
+  @extend %input-field;
+  width: 100%;
+  box-sizing: border-box;
+}

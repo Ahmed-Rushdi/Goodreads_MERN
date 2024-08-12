@@ -1,0 +1,86 @@
+@import "../sassStyling/colors";
+@import "../sassStyling/variables";
+@import "../sassStyling/breakpoints";
+
+.about-container {
+  @extend %container;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: $base-padding;
+  margin-top: 100px;
+}
+
+.about-container img {
+  max-width: 45%;
+  height: auto;
+  margin-right: $base-margin;
+}
+
+.about-container > div {
+  flex-grow: 1;
+}
+
+.about-info h1 {
+  text-align: center;
+  font-weight: bold;
+}
+.about-info {
+  line-height: 2;
+}
+.about-info h2 {
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .about-container {
+    flex-direction: column;
+  }
+
+  .about-container img {
+    margin-right: 0;
+    margin-bottom: $base-margin;
+    max-width: 100%;
+  }
+  .about-info {
+    line-height: normal;
+  }
+}
+.leaflet-container > .leaflet-pane {
+  z-index: 1;
+}
+.leaflet-control {
+  display: none;
+}
+.contact-details {
+  width: 98%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: $base-margin;
+  margin-bottom: $base-margin * 5;
+}
+
+.map-container {
+  width: 100%;
+  margin: 125px auto;
+  margin-bottom: 0;
+}
+
+.contact-title {
+  font-weight: bold;
+  text-align: center;
+  font-size: $base-font-size * 2.5;
+  margin: $base-margin * 2;
+}
+
+.office {
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 1px solid grey;
+}
+
+.contact-li {
+  text-align: center;
+}
