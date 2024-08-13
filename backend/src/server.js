@@ -6,9 +6,9 @@ const process = require("process");
 const booksRoute = require("./routes/BooksRoute");
 const reviewsRoute = require("./routes/ReviewsRoute");
 const userRoutes = require("./routes/UserRoute");
-const profileRoute = require("./routes/ProfileRoute")
+const profileRoute = require("./routes/ProfileRoute");
 const connectDB = require("./utils/dbConnection");
-const cors = require('cors');
+const cors = require("cors");
 
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
@@ -40,11 +40,13 @@ app.use(passport.session());
 // * Expose public for thumbnail retrieval (host:port/thumbnails)
 // ? is this the way to do it? IDK.
 
-app.use(cors({
-  origin: 'http://localhost:5173', // Your React frontend URL
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true, // If you want to allow cookies or authentication headers
-}));
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Your React frontend URL
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true, // If you want to allow cookies or authentication headers
+  })
+);
 
 app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.json());
