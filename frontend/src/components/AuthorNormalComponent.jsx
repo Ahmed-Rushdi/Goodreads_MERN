@@ -1,15 +1,10 @@
 import React from "react";
 import "../Styling/css/components/blogPost.css";
 import "../Styling/css/components/btn.css";
-import WantToRead from "./WantToRead";
 import ReadMore from "./ReadMore";
 import { Link } from "react-router-dom";
-import Rating from "./Rating";
-import AuthorCard from "./AuthorCard";
-import ReviewCard from "./ReviewCard";
-import reviews from "../data/reviewExample.json";
-import TotalReviewsOverview from "./TotalReviewsOverview";
-function BookNormalComponent({ productsData }) {
+import BooksDisplayCard from "./BooksDisplayCard";
+function AuthorNormalComponent({ productsData }) {
   console.log(productsData);
 
   return (
@@ -20,14 +15,10 @@ function BookNormalComponent({ productsData }) {
             <div className="normal-img-container">
               <img src={productsData.thumbnail} />
             </div>
-            <div className="">
-              <div className="want-to-read">
-                <WantToRead />
-              </div>
-              <div className="py-3">
-                <Rating id={"1"} />
-              </div>
-              <h3>Rate This Book</h3>
+            <div className="want-to-read">
+              <button className="p-2 border hover:bg-gray-200">
+                Follow Author
+              </button>
             </div>
           </div>
           <div className="title">
@@ -39,7 +30,6 @@ function BookNormalComponent({ productsData }) {
                 <li className="lite-info-li text-xl">
                   Author: {productsData.author}
                 </li>
-                <li className="lite-info-li">{productsData.rating}</li>
                 <ReadMore text={productsData.description} limit={10} />
                 <li className="lite-info-li">
                   Genres{" "}
@@ -66,21 +56,9 @@ function BookNormalComponent({ productsData }) {
                 </li>
               </ul>
             </div>
-            <div className="product-overview-mobile">
-              <div className="overview-title">
-                <h2>About the author</h2>
-                <AuthorCard />
-              </div>
-            </div>
-            <div className="product-overview-mobile">
-              <div className="overview-title">
-                <h2 className="text-xl py-4">Reviews & Ratings</h2>
-                <div className="py-3">
-                  <TotalReviewsOverview reviews={reviews} />
-                </div>{" "}
-                <ReviewCard reviewData={reviews} />
-              </div>
-            </div>
+
+            <h2>Books by the author</h2>
+            <BooksDisplayCard data={productsData} />
           </div>
         </div>
       </div>
@@ -88,4 +66,4 @@ function BookNormalComponent({ productsData }) {
   );
 }
 
-export default BookNormalComponent;
+export default AuthorNormalComponent;
