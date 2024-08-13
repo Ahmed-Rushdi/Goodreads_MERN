@@ -1,34 +1,37 @@
-const express = require("express");
+const { Router } = require("express");
+const { userAuth, adminAuth } = require("../middlewares/JwtAuth");
 const {
   getBooks,
   getBook,
+  getCategoryBooks,
+  getAuthorBooks,
   postBook,
   putBook,
   deleteBook,
 } = require("../controllers/BookController");
 
-const router = express.Router();
+const router = Router();
 
 // * Get All Books or paginated books if page and limit are provided
 router.get("/", getBooks);
 
-// * Get Books by ISBN
+// * Get Book by ISBN
 router.get("/:isbn13", getBook);
 
 // * Get Books by category
 router.get("/category/:categoryId", getCategoryBooks);
 
 // * Get Books by author
-router.get("/author/:authorId", getCategoryBooks);
+router.get("/author/:authorId", getAuthorBooks);
 
 // * Add Book
-router.post("/", postBook);
+router.post("/", userAuth, adminAuth, postBook);
 
 // * Update Book info by ISBN
 // ! ISBN should be immutable
-router.put("/:isbn13", putBook);
+router.put("/:isbn13", userAuth, adminAuth, putBook);
 
 // * Delete Book by ISBN
-router.delete("/:isbn13", deleteBook);
+router.delete("/:isbn13", userAuth, adminAuth, deleteBook);
 
 module.exports = router;

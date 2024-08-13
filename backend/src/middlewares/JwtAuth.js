@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
+const User = require("../models/User.model");
 
-jwtAuth = (req, res, next) => {
+const userAuth = (req, res, next) => {
   const token = req.headers["x-access-token"];
   if (!token) {
     return res.status(403).send("A token is required for authentication");
@@ -13,4 +14,18 @@ jwtAuth = (req, res, next) => {
   }
   return next();
 };
-module.exports = jwtAuth;
+
+const adminAuth = async (req, res, next) => {
+  try {
+    const userId = req.user?.id;
+    if (!userId) return res.status(403).send("Unauthorized");
+    const user = await User.findById(userId).select("role");
+    if (!user || user.role !== "admin")
+      return res.status(403).send("Unauthorized");
+    return next();
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+};
+
+module.exports = { userAuth, adminAuth };

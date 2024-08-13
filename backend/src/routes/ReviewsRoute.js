@@ -1,4 +1,5 @@
-const express = require("express");
+const { Router } = require("express");
+const { userAuth, adminAuth } = require("../middlewares/JwtAuth");
 const {
   getBookReviews,
   getUserReviews,
@@ -8,7 +9,7 @@ const {
   deleteReview,
 } = require("../controllers/ReviewController");
 
-const router = express.Router();
+const router = Router();
 
 // * Get reviews of specific book
 router.get("/book/:isbn13", getBookReviews);
@@ -20,12 +21,15 @@ router.get("/user/", getUserReviews);
 router.get("/user/:isbn13", getReview);
 
 // * Add review to specific book and user
-router.post("/:isbn13", postReview);
+router.post("/:isbn13", userAuth, postReview);
 
 // * Update specific review from book and user
-router.put("/:isbn13", putReview);
+router.put("/:isbn13", userAuth, putReview);
 
-// * Delete specific review from book and user async (req, res) => { async (req, res) => {
-router.delete("/:isbn13", deleteReview);
+// * Delete specific review from book and current user
+router.delete("/:isbn13", userAuth, deleteReview);
+
+// * Delete specific review from book and any user (admin op)
+router.delete("/:isbn13/:userId", userAuth, adminAuth, deleteReview);
 
 module.exports = router;

@@ -45,7 +45,7 @@ const getUserPaginatedReviews = async (req, res) => {
       .send({ error: "Page and limit must be positive integers." });
   }
   const startIndex = (page - 1) * limit;
-  const uid = req.user._id;
+  const uid = req.user.id;
 
   const user = await User.findOne({ _id: uid });
   if (!user) return res.status(404).send("User not found");
@@ -76,7 +76,7 @@ const getAllBookReviews = async (req, res) => {
 
 // * Get all reviews of specific user with User._id passed as req.user from jwt middleware
 const getAllUserReviews = async (req, res) => {
-  const uid = req.user._id;
+  const uid = req.user.id;
   const user = await User.findOne({ _id: uid });
   if (!user) return res.status(404).send("User not found");
   const reviews = user.reviews;
@@ -115,7 +115,7 @@ const getUserReviews = async (req, res) => {
 const getReview = async (req, res) => {
   const review = await Review.findOne({
     bookId: req.params.isbn13,
-    userId: req.user._id,
+    userId: req.user.id,
   });
   if (!review) return res.status(404).send("Review not found");
   res.send(review);
@@ -125,12 +125,12 @@ const getReview = async (req, res) => {
 const postReview = async (req, res) => {
   const book = await Book.findOne({ isbn13: req.params.isbn13 });
   if (!book) return res.status(404).send("Book not found");
-  const user = await User.findOne({ _id: req.user._id });
+  const user = await User.findOne({ _id: req.user.id });
   if (!user) return res.status(404).send("User not found");
 
   const review = new Review(req.body);
   review.bookId = req.params.isbn13;
-  review.userId = req.user._id;
+  review.userId = req.user.id;
 
   book.reviews.push(review);
   user.reviews.push(review);
@@ -145,7 +145,7 @@ const putReview = async (req, res) => {
   try {
     const book = await Book.findOne({ isbn13: req.params.isbn13 });
     if (!book) return res.status(404).send("Book not found");
-    const user = await User.findOne({ _id: req.user._id });
+    const user = await User.findOne({ _id: req.user.id });
     if (!user) return res.status(404).send("User not found");
     const review = user.reviews.find((r) => r.bookId === req.params.isbn13);
     if (!review) return res.status(404).send("Review not found");
@@ -173,7 +173,28 @@ const deleteReview = async (req, res) => {
   try {
     const book = await Book.findOne({ isbn13: req.params.isbn13 });
     if (!book) return res.status(404).send("Book not found");
-    const user = await User.findOne({ _id: req.user._id });
+    const user = await User.findOne({ _id: req.user.id });
+    if (!user) return res.status(404).send("User not found");
+    const review = user.reviews.find((r) => r.bookId === req.params.isbn13);
+    if (!review) return res.status(404).send("Review not found");
+
+    book.reviews.pull(review);
+    user.reviews.pull(review);
+
+    await Promise.all([book.save(), user.save()]);
+
+    res.send("Review Deleted");
+  } catch (error) {
+    res.status(500).send(`an error occurred while updating review: ${error}`);
+  }
+};
+
+// * DELETE
+const deleteReviewAdmin = async (req, res) => {
+  try {
+    const book = await Book.findOne({ isbn13: req.params.isbn13 });
+    if (!book) return res.status(404).send("Book not found");
+    const user = await User.findOne({ _id: req.params.userId });
     if (!user) return res.status(404).send("User not found");
     const review = user.reviews.find((r) => r.bookId === req.params.isbn13);
     if (!review) return res.status(404).send("Review not found");
@@ -196,4 +217,5 @@ module.exports = {
   postReview,
   putReview,
   deleteReview,
+  deleteReviewAdmin,
 };

@@ -101,6 +101,8 @@ const deleteBook = (req, res) => {
 module.exports = {
   getBooks,
   getBook,
+  getCategoryBooks,
+  getAuthorBooks,
   postBook,
   putBook,
   deleteBook,
