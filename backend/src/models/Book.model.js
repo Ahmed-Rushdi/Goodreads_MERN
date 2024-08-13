@@ -16,8 +16,8 @@ const bookSchema = new Schema({
     type: String,
     required: [true, "Title is required"],
   },
-  author: {
-    type: String,
+  authorId: {
+    type: Schema.Types.ObjectId,
     index: true,
     required: [true, "Author is required"],
   },
@@ -40,7 +40,8 @@ const bookSchema = new Schema({
     type: String,
   },
   categories: {
-    type: [String],
+    type: [Schema.Types.ObjectId],
+    ref: "Category",
     index: true,
   },
   reviews: [{
