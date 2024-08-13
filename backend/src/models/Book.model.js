@@ -1,6 +1,5 @@
-import { Schema, model } from "mongoose";
-import { Review } from "./Review.model.js";
-import { isbnValidator } from "../utils/validators";
+const { Schema, model } = require("mongoose");
+const { isbnValidator } = require("../utils/validators");
 
 const bookSchema = new Schema({
   isbn13: {
@@ -13,17 +12,6 @@ const bookSchema = new Schema({
     },
     required: [true, "ISBN 13 is required"],
   },
-  // isbn10: {
-  //   type: String,
-  //   unique: true,
-  //   validate: {
-  //     validator: function (v) {
-  //       return v ? /^[0-9]{12}[0-9X]$/.test(v) : true;
-  //     },
-  //     message: (props) =>
-  //       `${props.value} is not a valid ISBN-10! It should be 10 digits with the last one being a number or 'X'.`,
-  //   },
-  // },
   title: {
     type: String,
     required: [true, "Title is required"],
@@ -55,9 +43,10 @@ const bookSchema = new Schema({
     type: [String],
     index: true,
   },
-  reviews: {
-    type: [Review],
-  },
+  reviews: [{
+    type: Schema.Types.ObjectId,
+    ref: "Review", // Reference to the Review model
+  }],
   averageRating: {
     type: Number,
     default: 0,
@@ -67,5 +56,6 @@ const bookSchema = new Schema({
     default: 0,
   },
 });
+
 const Book = model("Book", bookSchema);
-export default Book;
+module.exports = Book;
