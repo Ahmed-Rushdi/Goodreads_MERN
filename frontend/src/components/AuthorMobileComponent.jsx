@@ -1,31 +1,22 @@
 import React from "react";
 import "../Styling/css/components/blogPost.css";
 import "../Styling/css/components/btn.css";
-import WantToRead from "./WantToRead";
 import ReadMore from "./ReadMore";
 import { Link } from "react-router-dom";
-import Rating from "./Rating";
-import AuthorCard from "./AuthorCard";
-import ReviewCard from "./ReviewCard";
-import reviews from "../data/reviewExample.json";
-import TotalReviewsOverview from "./TotalReviewsOverview";
+import BooksDisplayCard from "./BooksDisplayCard";
 
-function BookMobileComponent({ productsData }) {
+function AuthorMobileComponent({ productsData }) {
   return (
     <div>
       <div className="single-product-container">
         <div className="all-img-container-mobile">
-          <div className="">
+          <div className="author-info">
             <div className="normal-img-container">
               <img src={productsData.thumbnail} />
             </div>
-            <div className="want-to-read">
-              <WantToRead />
-            </div>
-            <div className="py-3">
-              <Rating id={"1"} />
-            </div>
-            <h3>Rate This Book</h3>
+            <button className="p-2 border hover:bg-gray-200">
+              Follow Author
+            </button>
           </div>
           <div className="title">
             <div className="border-element">
@@ -65,17 +56,8 @@ function BookMobileComponent({ productsData }) {
         </div>
         <div className="product-overview-mobile">
           <div className="overview-title">
-            <h2>About the author</h2>
-            <AuthorCard />
-          </div>
-        </div>
-        <div className="product-overview-mobile">
-          <div className="overview-title">
-            <h2 className="text-xl py-3">Reviews</h2>
-            <div className="py-3">
-              <TotalReviewsOverview reviews={reviews} />
-            </div>
-            <ReviewCard reviewData={reviews} />
+            <h2>Books by the author</h2>
+            <BooksDisplayCard data={productsData} />
           </div>
         </div>
       </div>
@@ -83,4 +65,4 @@ function BookMobileComponent({ productsData }) {
   );
 }
 
-export default BookMobileComponent;
+export default AuthorMobileComponent;

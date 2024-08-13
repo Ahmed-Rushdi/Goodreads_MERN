@@ -1,0 +1,572 @@
+{
+    "books": [
+      {
+        "isbn13": "9781234567897",
+        "isbn10": "123456789X",
+        "title": "The Great Book",
+        "author": "John Doe",
+        "description": "An in-depth exploration of great ideas.",
+        "publisher": "Fictional Publishing House",
+        "publishedDate": "2022-08-11T00:00:00.000Z",
+        "pageCount": 350,
+        "thumbnail": "https://example.com/thumbnail.jpg",
+        "language": "en",
+        "categories": ["Fiction", "Adventure"],
+        "reviews": [
+          {
+            "user": "JaneSmith",
+            "rating": 5,
+            "comment": "Amazing book! Highly recommend.",
+            "date": "2023-05-10T00:00:00.000Z"
+          },
+          {
+            "user": "BookLover123",
+            "rating": 4,
+            "comment": "Great read, but a bit slow in the middle.",
+            "date": "2023-06-20T00:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "isbn13": "9780143128540",
+        "isbn10": "014312854X",
+        "title": "Sapiens: A Brief History of Humankind",
+        "author": "Yuval Noah Harari",
+        "description": "A brief history of the human race, from the Stone Age to the present.",
+        "publisher": "Harper",
+        "publishedDate": "2015-02-10T00:00:00.000Z",
+        "pageCount": 498,
+        "thumbnail": "https://example.com/sapiens.jpg",
+        "language": "en",
+        "categories": ["History", "Science"],
+        "reviews": [
+          {
+            "user": "HistoryBuff",
+            "rating": 5,
+            "comment": "A fascinating journey through our past.",
+            "date": "2023-03-12T00:00:00.000Z"
+          },
+          {
+            "user": "CuriousReader",
+            "rating": 4,
+            "comment": "Insightful, though a bit dense at times.",
+            "date": "2023-04-15T00:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "isbn13": "9780307455925",
+        "isbn10": "0307455925",
+        "title": "The Girl with the Dragon Tattoo",
+        "author": "Stieg Larsson",
+        "description": "A mystery and thriller about a journalist and a computer hacker investigating a cold case.",
+        "publisher": "Vintage Crime/Black Lizard",
+        "publishedDate": "2008-09-16T00:00:00.000Z",
+        "pageCount": 644,
+        "thumbnail": "https://example.com/dragon_tattoo.jpg",
+        "language": "en",
+        "categories": ["Mystery", "Thriller"],
+        "reviews": [
+          {
+            "user": "MysteryLover",
+            "rating": 5,
+            "comment": "An absolute page-turner!",
+            "date": "2023-06-25T00:00:00.000Z"
+          },
+          {
+            "user": "ThrillerFan",
+            "rating": 4,
+            "comment": "Gripping, but a bit long.",
+            "date": "2023-07-10T00:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "isbn13": "9780451524935",
+        "isbn10": "0451524934",
+        "title": "1984",
+        "author": "George Orwell",
+        "description": "A dystopian novel set in a totalitarian society ruled by Big Brother.",
+        "publisher": "Signet Classic",
+        "publishedDate": "1950-07-01T00:00:00.000Z",
+        "pageCount": 328,
+        "thumbnail": "https://example.com/1984.jpg",
+        "language": "en",
+        "categories": ["Dystopian", "Classic"],
+        "reviews": [
+          {
+            "user": "DystopiaFan",
+            "rating": 5,
+            "comment": "Terrifying and thought-provoking.",
+            "date": "2023-02-18T00:00:00.000Z"
+          },
+          {
+            "user": "ClassicReader",
+            "rating": 4,
+            "comment": "A must-read, though bleak.",
+            "date": "2023-03-05T00:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "isbn13": "9781501127625",
+        "isbn10": "1501127623",
+        "title": "The Power of Habit",
+        "author": "Charles Duhigg",
+        "description": "An exploration of the science of habits and how they shape our lives.",
+        "publisher": "Random House",
+        "publishedDate": "2014-01-07T00:00:00.000Z",
+        "pageCount": 416,
+        "thumbnail": "https://example.com/power_of_habit.jpg",
+        "language": "en",
+        "categories": ["Self-help", "Psychology"],
+        "reviews": [
+          {
+            "user": "SelfHelpGuru",
+            "rating": 5,
+            "comment": "Life-changing insights on habits.",
+            "date": "2023-05-11T00:00:00.000Z"
+          },
+          {
+            "user": "HabitChanger",
+            "rating": 4,
+            "comment": "Great concepts, but could be shorter.",
+            "date": "2023-06-22T00:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "isbn13": "9780061122415",
+        "isbn10": "0061122416",
+        "title": "The Alchemist",
+        "author": "Paulo Coelho",
+        "description": "A philosophical story about a shepherd's journey to realize his personal legend.",
+        "publisher": "HarperOne",
+        "publishedDate": "1993-05-01T00:00:00.000Z",
+        "pageCount": 208,
+        "thumbnail": "https://example.com/alchemist.jpg",
+        "language": "en",
+        "categories": ["Fiction", "Philosophy"],
+        "reviews": [
+          {
+            "user": "PhilosophySeeker",
+            "rating": 5,
+            "comment": "A beautiful and inspiring tale.",
+            "date": "2023-04-09T00:00:00.000Z"
+          },
+          {
+            "user": "StoryLover",
+            "rating": 4,
+            "comment": "Inspirational, but not for everyone.",
+            "date": "2023-05-21T00:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "isbn13": "9780307387899",
+        "isbn10": "0307387895",
+        "title": "The Road",
+        "author": "Cormac McCarthy",
+        "description": "A post-apocalyptic novel about a father and son's survival journey.",
+        "publisher": "Vintage",
+        "publishedDate": "2007-03-28T00:00:00.000Z",
+        "pageCount": 287,
+        "thumbnail": "https://example.com/the_road.jpg",
+        "language": "en",
+        "categories": ["Fiction", "Post-apocalyptic"],
+        "reviews": [
+          {
+            "user": "SurvivorFan",
+            "rating": 5,
+            "comment": "Heart-wrenching and powerful.",
+            "date": "2023-01-13T00:00:00.000Z"
+          },
+          {
+            "user": "DarkTales",
+            "rating": 4,
+            "comment": "Bleak but beautifully written.",
+            "date": "2023-02-07T00:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "isbn13": "9780385490818",
+        "isbn10": "038549081X",
+        "title": "Into the Wild",
+        "author": "Jon Krakauer",
+        "description": "The true story of Christopher McCandless's journey into the Alaskan wilderness.",
+        "publisher": "Anchor",
+        "publishedDate": "1997-01-20T00:00:00.000Z",
+        "pageCount": 224,
+        "thumbnail": "https://example.com/into_the_wild.jpg",
+        "language": "en",
+        "categories": ["Non-fiction", "Adventure"],
+        "reviews": [
+          {
+            "user": "Explorer",
+            "rating": 5,
+            "comment": "A tragic and thought-provoking story.",
+            "date": "2023-06-15T00:00:00.000Z"
+          },
+          {
+            "user": "NatureLover",
+            "rating": 4,
+            "comment": "Fascinating, but very sad.",
+            "date": "2023-07-03T00:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "isbn13": "9780316769488",
+        "isbn10": "0316769487",
+        "title": "The Catcher in the Rye",
+        "author": "J.D. Salinger",
+        "description": "The story of a teenager, Holden Caulfield, and his experiences in New York City.",
+        "publisher": "Little, Brown and Company",
+        "publishedDate": "1951-07-16T00:00:00.000Z",
+        "pageCount": 277,
+        "thumbnail": "https://example.com/catcher_rye.jpg",
+        "language": "en",
+        "categories": ["Fiction", "Classic"],
+        "reviews": [
+          {
+            "user": "TeenAngst",
+            "rating": 5,
+            "comment": "A relatable and timeless story.",
+            "date": "2023-03-19T00:00:00.000Z"
+          },
+          {
+            "user": "ClassicReader",
+            "rating": 4,
+            "comment": "Great, but a bit overrated.",
+            "date": "2023-04-28T00:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "isbn13": "9780374533557",
+        "isbn10": "0374533555",
+        "title": "The Brief Wondrous Life of Oscar Wao",
+        "author": "Junot Díaz",
+        "description": "A story about a Dominican boy and his family's curse, spanning several generations.",
+        "publisher": "Riverhead Books",
+        "publishedDate": "2007-09-06T00:00:00.000Z",
+        "pageCount": 335,
+        "thumbnail": "https://example.com/oscar_wao.jpg",
+        "language": "en",
+        "categories": ["Fiction", "Historical Fiction"],
+        "reviews": [
+          {
+            "user": "LitFan",
+            "rating": 5,
+            "comment": "A powerful and unique narrative.",
+            "date": "2023-04-22T00:00:00.000Z"
+          },
+          {
+            "user": "StoryLover",
+            "rating": 4,
+            "comment": "Rich in culture, but challenging to read.",
+            "date": "2023-05-11T00:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "isbn13": "9780140283297",
+        "isbn10": "0140283293",
+        "title": "Guns, Germs, and Steel: The Fates of Human Societies",
+        "author": "Jared Diamond",
+        "description": "A study of the factors that led to the dominance of certain civilizations.",
+        "publisher": "W.W. Norton & Company",
+        "publishedDate": "1997-04-01T00:00:00.000Z",
+        "pageCount": 518,
+        "thumbnail": "https://example.com/guns_germs_steel.jpg",
+        "language": "en",
+        "categories": ["History", "Anthropology"],
+        "reviews": [
+          {
+            "user": "HistoryBuff",
+            "rating": 5,
+            "comment": "An insightful and comprehensive study.",
+            "date": "2023-06-30T00:00:00.000Z"
+          },
+          {
+            "user": "ScienceFan",
+            "rating": 4,
+            "comment": "Very detailed, but a bit dense.",
+            "date": "2023-07-20T00:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "isbn13": "9781400031702",
+        "isbn10": "1400031702",
+        "title": "Beloved",
+        "author": "Toni Morrison",
+        "description": "A haunting tale of slavery and its lasting effects on a family.",
+        "publisher": "Vintage",
+        "publishedDate": "2004-06-08T00:00:00.000Z",
+        "pageCount": 324,
+        "thumbnail": "https://example.com/beloved.jpg",
+        "language": "en",
+        "categories": ["Fiction", "Historical Fiction"],
+        "reviews": [
+          {
+            "user": "HistoryReader",
+            "rating": 5,
+            "comment": "Powerful and unforgettable.",
+            "date": "2023-01-20T00:00:00.000Z"
+          },
+          {
+            "user": "LiteraryFan",
+            "rating": 4,
+            "comment": "Intense and deeply moving.",
+            "date": "2023-02-15T00:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "isbn13": "9780307277671",
+        "isbn10": "0307277674",
+        "title": "The Road",
+        "author": "Cormac McCarthy",
+        "description": "A post-apocalyptic journey of a father and son through a desolate landscape.",
+        "publisher": "Vintage",
+        "publishedDate": "2006-09-26T00:00:00.000Z",
+        "pageCount": 287,
+        "thumbnail": "https://example.com/the_road.jpg",
+        "language": "en",
+        "categories": ["Fiction", "Post-apocalyptic"],
+        "reviews": [
+          {
+            "user": "DarkJourney",
+            "rating": 5,
+            "comment": "Profound and heartbreaking.",
+            "date": "2023-05-02T00:00:00.000Z"
+          },
+          {
+            "user": "SurvivorReader",
+            "rating": 4,
+            "comment": "Beautifully written, though very dark.",
+            "date": "2023-06-12T00:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "isbn13": "9780142424178",
+        "isbn10": "014242417X",
+        "title": "The Fault in Our Stars",
+        "author": "John Green",
+        "description": "A love story about two teenagers who meet at a cancer support group.",
+        "publisher": "Dutton Books",
+        "publishedDate": "2012-01-10T00:00:00.000Z",
+        "pageCount": 313,
+        "thumbnail": "https://example.com/fault_in_our_stars.jpg",
+        "language": "en",
+        "categories": ["Fiction", "Young Adult"],
+        "reviews": [
+          {
+            "user": "YAReader",
+            "rating": 5,
+            "comment": "Heartwarming and heartbreaking.",
+            "date": "2023-07-18T00:00:00.000Z"
+          },
+          {
+            "user": "TeenLitLover",
+            "rating": 4,
+            "comment": "Emotional and well-written.",
+            "date": "2023-08-05T00:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "isbn13": "9780345803481",
+        "isbn10": "0345803485",
+        "title": "Fifty Shades of Grey",
+        "author": "E.L. James",
+        "description": "A romance novel that explores the relationship between a college graduate and a business magnate.",
+        "publisher": "Vintage",
+        "publishedDate": "2012-04-03T00:00:00.000Z",
+        "pageCount": 514,
+        "thumbnail": "https://example.com/fifty_shades.jpg",
+        "language": "en",
+        "categories": ["Fiction", "Romance"],
+        "reviews": [
+          {
+            "user": "RomanceFan",
+            "rating": 4,
+            "comment": "Engaging but controversial.",
+            "date": "2023-07-09T00:00:00.000Z"
+          },
+          {
+            "user": "ContemporaryReader",
+            "rating": 3,
+            "comment": "Entertaining but not for everyone.",
+            "date": "2023-07-25T00:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "isbn13": "9781501104435",
+        "isbn10": "1501104439",
+        "title": "Big Little Lies",
+        "author": "Liane Moriarty",
+        "description": "A novel about three women, each at a crossroads, whose lives collide in a murder mystery.",
+        "publisher": "Berkley Books",
+        "publishedDate": "2014-07-29T00:00:00.000Z",
+        "pageCount": 460,
+        "thumbnail": "https://example.com/big_little_lies.jpg",
+        "language": "en",
+        "categories": ["Fiction", "Mystery"],
+        "reviews": [
+          {
+            "user": "MysteryFan",
+            "rating": 5,
+            "comment": "A thrilling and clever read.",
+            "date": "2023-06-28T00:00:00.000Z"
+          },
+          {
+            "user": "BookClubReader",
+            "rating": 4,
+            "comment": "Entertaining and thought-provoking.",
+            "date": "2023-07-12T00:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "isbn13": "9780385504227",
+        "isbn10": "0385504225",
+        "title": "The Da Vinci Code",
+        "author": "Dan Brown",
+        "description": "A mystery thriller that follows Robert Langdon as he uncovers secrets hidden in famous works of art.",
+        "publisher": "Doubleday",
+        "publishedDate": "2003-03-18T00:00:00.000Z",
+        "pageCount": 489,
+        "thumbnail": "https://example.com/da_vinci_code.jpg",
+        "language": "en",
+        "categories": ["Fiction", "Thriller"],
+        "reviews": [
+          {
+            "user": "ThrillerLover",
+            "rating": 5,
+            "comment": "An exciting and fast-paced thriller.",
+            "date": "2023-06-04T00:00:00.000Z"
+          },
+          {
+            "user": "HistoryFan",
+            "rating": 4,
+            "comment": "Captivating, though not always accurate.",
+            "date": "2023-07-02T00:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "isbn13": "9781444775815",
+        "isbn10": "1444775812",
+        "title": "The Secret",
+        "author": "Rhonda Byrne",
+        "description": "A self-help book that teaches the law of attraction to achieve goals and success.",
+        "publisher": "Atria Books",
+        "publishedDate": "2006-11-26T00:00:00.000Z",
+        "pageCount": 198,
+        "thumbnail": "https://example.com/the_secret.jpg",
+        "language": "en",
+        "categories": ["Self-help", "Spirituality"],
+        "reviews": [
+          {
+            "user": "MindfulReader",
+            "rating": 5,
+            "comment": "Inspiring and life-changing.",
+            "date": "2023-02-28T00:00:00.000Z"
+          },
+          {
+            "user": "Skeptic",
+            "rating": 3,
+            "comment": "Interesting, but not fully convinced.",
+            "date": "2023-03-14T00:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "isbn13": "9781451673319",
+        "isbn10": "1451673310",
+        "title": "Fahrenheit 451",
+        "author": "Ray Bradbury",
+        "description": "A dystopian novel about a future society where books are banned and burned.",
+        "publisher": "Simon & Schuster",
+        "publishedDate": "1953-10-19T00:00:00.000Z",
+        "pageCount": 249,
+        "thumbnail": "https://example.com/fahrenheit_451.jpg",
+        "language": "en",
+        "categories": ["Dystopian", "Classic"],
+        "reviews": [
+          {
+            "user": "BookBurner",
+            "rating": 5,
+            "comment": "A chilling and important read.",
+            "date": "2023-03-15T00:00:00.000Z"
+          },
+          {
+            "user": "ClassicFan",
+            "rating": 4,
+            "comment": "Profound, but a bit depressing.",
+            "date": "2023-04-01T00:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "isbn13": "9781101904220",
+        "isbn10": "1101904224",
+        "title": "The Goldfinch",
+        "author": "Donna Tartt",
+        "description": "A novel about a boy who survives an art museum bombing and the impact it has on his life.",
+        "publisher": "Little, Brown and Company",
+        "publishedDate": "2013-09-23T00:00:00.000Z",
+        "pageCount": 771,
+        "thumbnail": "https://example.com/goldfinch.jpg",
+        "language": "en",
+        "categories": ["Fiction", "Literature"],
+        "reviews": [
+          {
+            "user": "ArtLover",
+            "rating": 5,
+            "comment": "Beautifully written and compelling.",
+            "date": "2023-06-01T00:00:00.000Z"
+          },
+          {
+            "user": "BookWorm",
+            "rating": 4,
+            "comment": "Long, but worth the read.",
+            "date": "2023-07-08T00:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "isbn13": "9780307278449",
+        "isbn10": "0307278441",
+        "title": "The Kite Runner",
+        "author": "Khaled Hosseini",
+        "description": "A novel about a young boy from Kabul and the impact of betrayal and redemption on his life.",
+        "publisher": "Riverhead Books",
+        "publishedDate": "2003-05-29T00:00:00.000Z",
+        "pageCount": 372,
+        "thumbnail": "https://example.com/kite_runner.jpg",
+        "language": "en",
+        "categories": ["Fiction", "Historical Fiction"],
+        "reviews": [
+          {
+            "user": "HistoricalReader",
+            "rating": 5,
+            "comment": "Heart-wrenching and powerful.",
+            "date": "2023-02-14T00:00:00.000Z"
+          },
+          {
+            "user": "EmotionalReader",
+            "rating": 4,
+            "comment": "An emotional journey.",
+            "date": "2023-03-07T00:00:00.000Z"
+          }
+        ]
+      }
+    ]
+  }
+  

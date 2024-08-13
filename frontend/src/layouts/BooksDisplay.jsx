@@ -5,9 +5,11 @@ function BooksDisplay() {
   return (
     <div>
       <ul role="list" className="divide-y divide-gray-100">
-        {bookData.map((data) => {
-          return <BooksDisplayCard data={data} />;
-        })}
+        <div className="mx-24">
+          {bookData.map((data) => {
+            return <BooksDisplayCard data={data} />;
+          })}
+        </div>
       </ul>
     </div>
   );
