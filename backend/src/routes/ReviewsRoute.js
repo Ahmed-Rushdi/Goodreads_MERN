@@ -1,58 +1,35 @@
-const express = require("express");
-const Book = require("../models/Book.model").default;
-const Review = require("../models/Review.model");
-const User = require("../models/User.model");
+const { Router } = require("express");
+const { userAuth, adminAuth } = require("../middlewares/JwtAuth");
+const {
+  getBookReviews,
+  getUserReviews,
+  getReview,
+  postReview,
+  putReview,
+  deleteReview,
+} = require("../controllers/ReviewController");
 
-const router = express.Router();
+const router = Router();
 
-// TODO: integrate with user  (uncomment code when the user model is available)
+// * Get reviews of specific book
+router.get("/book/:isbn13", getBookReviews);
 
-// * Get all reviews of specific book
-router.get("/book/:isbn13", async (req, res) => {
-  const book = await Book.findOne({ isbn13: req.params.isbn13 });
-  if (!book) return res.status(404).send("Book not found");
-  const reviews = book.reviews;
-  res.send(reviews);
-});
+// * Get reviews of specific user
+router.get("/user/", getUserReviews);
 
-// * Get all reviews of specific user
-router.get("/user/:userId", async (req, res) => {
-  const user = await User.findOne({ _id: req.params.userId });
-  if (!user) return res.status(404).send("User not found");
-  const reviews = user.reviews;
-  res.send(reviews);
-});
+// * Get specific review by isbn13 (from req.params) and user._id (from req.user)
+router.get("/user/:isbn13", getReview);
 
 // * Add review to specific book and user
-router.post("/:isbn13", async (req, res) => {
-  const book = await Book.findOne({ isbn13: req.params.isbn13 });
-  if (!book) return res.status(404).send("Book not found");
-  const user = await User.findOne({ _id: req.body.userId });
-  if (!user) return res.status(404).send("User not found");
-  const review = new Review(req.body);
-  book.reviews.push(review);
-  user.reviews.push(review);
-  await book.save();
-  res.send("Added Review");
-});
+router.post("/:isbn13", userAuth, postReview);
 
-// * Delete specific review from book and user async (req, res) => { async (req, res) => {
-// ? There is probably a better way to do this?
-// TODO find a better way
-router.delete("/:isbn13/:userId", async (req, res) => {
-  const book = await Book.findOne({ isbn13: req.params.isbn13 });
-  if (!book) return res.status(404).send("Book not found");
-  const user = await User.findOne({ _id: req.params.userId });
-  if (!user) return res.status(404).send("Review not found");
+// * Update specific review from book and user
+router.put("/:isbn13", userAuth, putReview);
 
-  const review = User.reviews.find((r) => r.bookId === req.params.isbn13);
-  book.reviews.pull(review);
-  user.reviews.pull(review);
+// * Delete specific review from book and current user
+router.delete("/:isbn13", userAuth, deleteReview);
 
-  await book.save();
-  await user.save();
-
-  res.send("Deleted Review");
-});
+// * Delete specific review from book and any user (admin op)
+router.delete("/:isbn13/:userId", userAuth, adminAuth, deleteReview);
 
 module.exports = router;

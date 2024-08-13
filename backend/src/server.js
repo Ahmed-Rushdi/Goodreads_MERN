@@ -5,6 +5,8 @@ const path = require("path");
 const process = require("process");
 const booksRoute = require("./routes/BooksRoute");
 const reviewsRoute = require("./routes/ReviewsRoute");
+const authorRoute = require("./routes/AuthorRoute");
+const categoriesRoute = require("./routes/CategoriesRoute");
 const userRoutes = require("./routes/UserRoute");
 const profileRoute = require("./routes/ProfileRoute");
 const connectDB = require("./utils/dbConnection");
@@ -59,6 +61,8 @@ app.use(logger(logging));
 app.use("/api/users", userRoutes);
 app.use("/api/books", booksRoute);
 app.use("/api/reviews", reviewsRoute);
+app.use("/api/authors", authorRoute);
+app.use("/api/categories", categoriesRoute);
 app.use("/api/profile", profileRoute);
 
 const startServer = async () => {

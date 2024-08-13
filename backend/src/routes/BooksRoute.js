@@ -1,48 +1,37 @@
-const express = require("express");
-const Book = require("../models/Book.model");
+const { Router } = require("express");
+const { userAuth, adminAuth } = require("../middlewares/JwtAuth");
+const {
+  getBooks,
+  getBook,
+  getCategoryBooks,
+  getAuthorBooks,
+  postBook,
+  putBook,
+  deleteBook,
+} = require("../controllers/BookController");
 
-const router = express.Router();
+const router = Router();
 
-// * Get All Books
-router.get("/", async (req, res) => {
-  const books = await Book.find();
-  res.send(books);
-});
+// * Get All Books or paginated books if page and limit are provided
+router.get("/", getBooks);
 
-// * Get Books by ISBN
-router.get("/:isbn13", async (req, res) => {
-  const book = await Book.findOne({ isbn13: req.params.isbn13 });
-  if (!book) return res.status(404).send("Book not found");
-  res.send(book);
-});
+// * Get Book by ISBN
+router.get("/:isbn13", getBook);
+
+// * Get Books by category
+router.get("/category/:categoryId", getCategoryBooks);
+
+// * Get Books by author
+router.get("/author/:authorId", getAuthorBooks);
 
 // * Add Book
-router.post("/", async (req, res) => {
-  try {
-    const book = new Book(req.body);
-    await book.save();
-    res.send("book created");
-  } catch (error) {
-    res.status(409).send(error.errmsg);
-  }
-});
+router.post("/", userAuth, adminAuth, postBook);
 
-// * Update Book info
-router.put("/:isbn13", async (req, res) => {
-  const book = await Book.findOne({ isbn13: req.params.isbn13 });
-  if (!book) return res.status(404).send("Book not found");
-  book.set(req.body);
-  await book.save();
-  res.send(book);
-});
+// * Update Book info by ISBN
+// ! ISBN should be immutable
+router.put("/:isbn13", userAuth, adminAuth, putBook);
 
-// * Delete Book
-router.delete("/:isbn13", async (req, res) => {
-  const book = await Book.findOne({ isbn13: req.params.isbn13 });
-  if (!book) return res.status(404).send("Book not found");
-  await book.remove();
-  res.send(book);
-});
-
+// * Delete Book by ISBN
+router.delete("/:isbn13", userAuth, adminAuth, deleteBook);
 
 module.exports = router;

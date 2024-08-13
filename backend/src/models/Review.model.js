@@ -9,7 +9,7 @@ const reviewSchema = new Schema(
       ref: "User",
       required: true,
     },
-    BookId: {
+    bookId: {
       type: String,
       ref: "Book",
       validator: isbnValidator,
