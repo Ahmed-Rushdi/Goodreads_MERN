@@ -1,5 +1,7 @@
 const Book = require("../models/Book.model");
 
+// TODO Refactor repeated pagination code
+
 // * GET
 // * Get paginated books
 const getPaginatedBooks = async (req, res) => {
@@ -53,16 +55,99 @@ const getBook = async (req, res) => {
   res.send(book);
 };
 
-// * Get books by category
-const getCategoryBooks = async (req, res) => {
+
+// * Get paginated category books
+const getPaginatedCatBooks = async (req, res) => {
+  const page = parseInt(req.query.page);
+  const limit = parseInt(req.query.limit);
+
+  if (isNaN(page) || page < 1 || isNaN(limit) || limit < 1) {
+    return res
+      .status(400)
+      .send({ error: "Page and limit must be positive integers." });
+  }
+
+  const startIndex = (page - 1) * limit;
+  const paginatedBooks = await Book.find({ categories: req.params.categoryId }).skip(startIndex).limit(limit);
+
+  const count = await Book.countDocuments({ categories: req.params.categoryId });
+
+  if (paginatedBooks.length === 0) {
+    return res.status(404).send({ error: "No books found." });
+  }
+  res.send({
+    books: paginatedBooks,
+    totalBooks: count,
+    currentPage: page,
+    totalPages: Math.ceil(count / limit),
+  });
+};
+
+// * Get all category books
+const getAllCatBooks = async (req, res) => {
   const books = await Book.find({ categories: req.params.categoryId });
   res.send(books);
 };
+// * Get category books handler checks for pagination request
+const getCategoryBooks = async (req, res) => {
+  try {
+    const { page, limit } = req.query;
+    if (page !== undefined && limit !== undefined) {
+      return getPaginatedCatBooks(req, res);
+    } else {
+      return getAllCatBooks(req, res);
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
 
-// * Get books by author
-const getAuthorBooks = async (req, res) => {
+// * Get paginated author books
+const getPaginatedAuthorBooks = async (req, res) => {
+  const page = parseInt(req.query.page);
+  const limit = parseInt(req.query.limit);
+
+  if (isNaN(page) || page < 1 || isNaN(limit) || limit < 1) {
+    return res
+      .status(400)
+      .send({ error: "Page and limit must be positive integers." });
+  }
+
+  const startIndex = (page - 1) * limit;
+  const paginatedBooks = await Book.find({ authorId: req.params.authorId })
+    .skip(startIndex)
+    .limit(limit);
+
+  const count = await Book.countDocuments({ authorId: req.params.authorId });
+
+  if (paginatedBooks.length === 0) {
+    return res.status(404).send({ error: "No books found." });
+  }
+  res.send({
+    books: paginatedBooks,
+    totalBooks: count,
+    currentPage: page,
+    totalPages: Math.ceil(count / limit),
+  });
+};
+
+// * Get all author books
+const getAllAuthorBooks = async (req, res) => {
   const books = await Book.find({ authorId: req.params.authorId });
   res.send(books);
+};
+// * Get author books handler checks for pagination request
+const getAuthorBooks = async (req, res) => {
+  try {
+    const { page, limit } = req.query;
+    if (page !== undefined && limit !== undefined) {
+      return getPaginatedAuthorBooks(req, res);
+    } else {
+      return getAllAuthorBooks(req, res);
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
 };
 
 // * POST
