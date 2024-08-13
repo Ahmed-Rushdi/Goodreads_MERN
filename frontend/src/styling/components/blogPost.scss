@@ -27,6 +27,7 @@
 }
 .normal-img-container {
   margin: 30px 15px;
+  width: 100%;
 }
 .alt-img-container-mobile {
   width: 100%;
@@ -43,7 +44,6 @@
 }
 .all-img-container-mobile {
   margin: 20px 10px;
-  width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -53,7 +53,7 @@
   align-items: center;
   justify-content: flex-start;
   margin: 3rem 0;
-  margin-left: 35%;
+  margin-left: 30%;
   padding: $base-padding;
 }
 .left-section {
@@ -61,6 +61,10 @@
   left: 50px;
   top: 15rem;
   padding: $base-padding;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 .post-container {
   @extend %container;
@@ -126,6 +130,12 @@
   flex-wrap: wrap;
   border: $base-border-thickness solid $productBorder;
   margin: $base-margin * 2 0;
+}
+.author-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
 }
 
 .overview-title {

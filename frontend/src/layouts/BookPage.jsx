@@ -22,7 +22,6 @@ export default function BookPage() {
   // Only render the child component if productsData is not empty
   return productsData.length > 0 ? (
     isMobile ? (
-      // <BookMobileComponent productsData={productsData[0]} />
       <BookMobileComponent productsData={productsData[0]} />
     ) : (
       <BookNormalComponent productsData={productsData[0]} />

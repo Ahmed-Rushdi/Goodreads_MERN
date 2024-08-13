@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function BooksDisplayCard({ data }) {
   console.log(data);
   return (
-    <li key={data.isbn13} className="flex justify-between gap-x-6 py-5 mx-24">
+    <li key={data.isbn13} className="flex justify-between gap-x-6 py-5 ">
       <div className="flex min-w-0 gap-x-4">
         <Link to="#">
           <img
