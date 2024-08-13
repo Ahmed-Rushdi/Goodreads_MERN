@@ -1,6 +1,7 @@
 body {
     @apply bg-corn-silk;
     box-sizing: border-box;
+    padding-bottom: 50px;
 }
 .user-profile {
     margin-top: 10rem;
@@ -10,4 +11,9 @@ body {
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+    color: #d4a373;
+}
+
+PaginationRounded {
+    margin-bottom: 20px;
 }

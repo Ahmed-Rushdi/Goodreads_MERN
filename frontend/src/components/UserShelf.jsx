@@ -1,12 +1,27 @@
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
+
 const UserShelf = () => {
     return (
-        <aside>
-            <select>
-                <option value="read">Read</option>
-                <option value="want-to-read">Want to Read</option>
-                <option value="reading">Reading</option>
-            </select>
-        </aside>
+        <div className="book-status">
+            {/* <ul>
+                <li><button variant="text" color="default">
+                  Read
+                </button></li>
+                <li><button variant="text" color="default">
+                  Currently Reading
+                </button></li>
+                <li><button variant="text" color="default">
+                  Want to Read
+                </button></li>
+            </ul> */}
+            <h1>User's Book Shelves: </h1>
+            <Stack direction="row" spacing={2}>
+            <Button>Read</Button>
+            <Button>Want to Read</Button>
+            <Button>Currently Reading</Button>
+            </Stack>
+        </div>
     );
 }
  
