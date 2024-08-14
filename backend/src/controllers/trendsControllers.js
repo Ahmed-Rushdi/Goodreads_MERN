@@ -1,9 +1,9 @@
 const Book = require("../models/Book.model");
 const Author = require("../models/Author.model");
-const Categories = require("../models/Author.model");
+const Category = require("../models/Author.model");
 const getTrendingBooks = async (req, res) => {
   try {
-    const trendingBooks = Book.find({})
+    const trendingBooks = await Book.find({})
       .sort({ averageRating: -1, ratingCount: -1 })
       .limit(10);
     res.status(200).json(trendingBooks);
@@ -13,7 +13,7 @@ const getTrendingBooks = async (req, res) => {
 };
 const getTrendingAuthors = async (req, res) => {
   try {
-    const trendingAuthors = Author.find({})
+    const trendingAuthors = await Author.find({})
       .populate("bookCount")
       .populate("totalRatings")
       .populate("averageRating")
@@ -29,7 +29,7 @@ const getTrendingAuthors = async (req, res) => {
 };
 const getTrendingCategories = async (req, res) => {
   try {
-    const trendingCategories = Categories.find({})
+    const trendingCategories = await Category.find({})
       .populate("bookCount")
       .sort({ bookCount: -1 })
       .limit(10);
