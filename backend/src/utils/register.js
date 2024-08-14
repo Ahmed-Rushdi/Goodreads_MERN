@@ -1,6 +1,5 @@
 const User = require("../models/User.model");
 
-
 const register = async (user) => {
   const newUser = new User(user);
   await newUser.save();
