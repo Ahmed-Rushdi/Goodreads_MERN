@@ -12,3 +12,5 @@ router.get("/trending-books", getTrendingBooks);
 router.get("/trending-authors", getTrendingAuthors);
 
 router.get("/trending-categories", getTrendingCategories);
+
+module.exports = router;

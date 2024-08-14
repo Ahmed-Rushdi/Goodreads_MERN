@@ -9,6 +9,7 @@ const authorRoute = require("./routes/AuthorRoute");
 const categoriesRoute = require("./routes/CategoriesRoute");
 const userRoutes = require("./routes/UserRoute");
 const profileRoute = require("./routes/ProfileRoute");
+const trendsRoute = require("./routes/TrendsRoute");
 const connectDB = require("./utils/dbConnection");
 const cors = require("cors");
 
@@ -59,6 +60,7 @@ app.use(cookieParser());
 
 app.use(logger(logging));
 app.use("/api/users", userRoutes);
+app.use("/api/trend", trendsRoute);
 app.use("/api/books", booksRoute);
 app.use("/api/reviews", reviewsRoute);
 app.use("/api/authors", authorRoute);
