@@ -6,13 +6,12 @@ import BooksDisplay from "./layouts/BooksDisplay";
 import BookPage from "./layouts/BookPage";
 import AuthorPage from "./layouts/AuthorPage";
 import UserProfile from "./components/userProfile";
+import TrendingBooksPage from "./layouts/TrendingBooksPage";
 import RegisterPage from "./components/RegisterPage";
 import ForgotPasswordPage from "./components/ForgotPasswordPage";
 import LoginPage from "./components/LoginPage";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <Router>
       <Navbar />
@@ -24,6 +23,9 @@ function App() {
           <Route path="/trending/:popular" element={<BooksDisplay />} />
           <Route path="/book/:id" element={<BookPage />} />
           <Route path="/author/:id" element={<AuthorPage />} />
+          <Route path="/currently-trending" element={<TrendingBooksPage />} />
+          {/* <Route path="/registration" element={<Registration />} /> */}
+
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
