@@ -1,4 +1,4 @@
-import { useState } from "react";
+
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./layouts/Home";
 import Navbar from "./components/Navbar";
@@ -6,8 +6,9 @@ import BooksDisplay from "./layouts/BooksDisplay";
 import BookPage from "./layouts/BookPage";
 import AuthorPage from "./layouts/AuthorPage";
 import UserProfile from "./components/userProfile";
+import Navbar from './components/Navbar'
 function App() {
-  const [count, setCount] = useState(0);
+
 
   return (
     <Router>

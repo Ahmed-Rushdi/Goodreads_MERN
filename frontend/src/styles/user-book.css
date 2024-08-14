@@ -1,12 +1,10 @@
 .user-book {
-    border: 0.5px solid black;
-    margin-bottom: 1rem;
-    padding: 20px;
+    margin: 2rem 0;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    width: 55vw;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: auto;
 }
 .user-book h3 {
     margin-bottom: 10px;
@@ -15,13 +13,14 @@ div h1 {
     font-size: 2rem;
     font-weight: bolder;
 }
-div h3 {
+div h2 {
     font-size: 1.25rem;
     font-weight: bold;
 }
 
 .book-image {
-    max-width: 20%;
+    margin-right: 2rem;
+    max-width: 30%;
     max-height: 100%;
 }
 .book-image img {
@@ -29,8 +28,25 @@ div h3 {
     max-height: 100%;
 }
 .book-info {
-    width: 65%;
+    margin-right: 2rem;
+    min-width: 55%;
 }
 .book-shelf {
-    max-width: 15%;
+    min-width: 15%;
+}
+
+/* user-book.css */
+.book-info .rating  {
+    display: flex;
+    align-items: baseline;
+    margin: 0; /* Optional: adjust margin as needed */
+}
+
+.book-info .rating p {
+    font-size: 24px;
+    margin-right: 5px;
+    font-style: italic;
+}
+.book-info p .MuiRating-root {
+    margin-left: 8px; /* Adjust spacing between text and rating component */
 }

@@ -15,7 +15,7 @@ const UserShelf = () => {
                   Want to Read
                 </button></li>
             </ul> */}
-            <h1>User's Book Shelves: </h1>
+            <h1>User Book Shelves: </h1>
             <Stack direction="row" spacing={2}>
             <Button>Read</Button>
             <Button>Want to Read</Button>
