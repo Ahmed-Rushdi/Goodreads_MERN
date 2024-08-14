@@ -11,9 +11,9 @@ const LoginPage = () => {
     console.log("Sign In:", { email, password });
   };
 
-  const handleFacebookConnect = () => {
+  const handleGmailConnect = () => {
     // Handle Facebook connect logic here
-    console.log("Connect with Facebook");
+    console.log("Connect with Gmail");
   };
 
   return (
@@ -42,11 +42,7 @@ const LoginPage = () => {
         <button type="submit" className="submit">
           Sign In
         </button>
-        <button
-          type="button"
-          className="fb-btn"
-          onClick={handleFacebookConnect}
-        >
+        <button type="button" className="fb-btn" onClick={handleGmailConnect}>
           Connect with <span>Gmail</span>
         </button>
         <button className="sign-up">Sign Up</button>

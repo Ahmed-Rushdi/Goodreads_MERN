@@ -6,7 +6,9 @@ import BooksDisplay from "./layouts/BooksDisplay";
 import BookPage from "./layouts/BookPage";
 import AuthorPage from "./layouts/AuthorPage";
 import UserProfile from "./components/userProfile";
-import LoginPage from "./components/LoginPage";
+// import LoginPage from "./components/LoginPage";
+import RegisterPage from "./components/RegisterPage";
+
 function App() {
   const [count, setCount] = useState(0);
 
