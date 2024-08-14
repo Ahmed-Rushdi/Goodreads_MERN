@@ -239,7 +239,7 @@ input {
   }
 
   .sub-cont {
-    display: none; /* Hide the sub-container */
+    display: none;
   }
 
   .img__text {
@@ -250,7 +250,7 @@ input {
   }
 
   .img {
-    display: none; /* Hide the image */
+    display: none;
   }
 
   .img__text .sign-up-btn {
