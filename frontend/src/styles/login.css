@@ -1,19 +1,10 @@
-/* Reset default styles */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 body {
   font-family: "Open Sans", Helvetica, Arial, sans-serif;
   background: #ededed;
 }
 
 /* Container */
-.cont {
+.cont-1 {
   overflow: hidden;
   position: relative;
   width: 900px;
@@ -21,10 +12,11 @@ body {
   margin: 0 auto 100px;
   background: #fff;
   display: flex;
+  top: 180px;
 }
 
 /* Form */
-.form {
+.form-1 {
   position: relative;
   width: calc(900px - 260px);
   height: 100%;
@@ -48,7 +40,7 @@ body {
 }
 
 /* Image section */
-.img {
+.img-1 {
   position: relative;
   width: 100%;
   height: 100%;
@@ -59,7 +51,7 @@ body {
 }
 
 /* Overlay */
-.img::after {
+.img-1::after {
   content: "";
   position: absolute;
   left: 0;
@@ -92,7 +84,7 @@ body {
   line-height: 1.5;
 }
 
-.img__text .sign-up-btn {
+.img__text .sign-up-btn-1 {
   display: inline-block;
   width: 150px;
   margin-top: 20px;
@@ -109,11 +101,11 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.img__text .sign-up-btn:hover {
+.img__text .sign-up-btn-1:hover {
   background-color: #bfa66b;
 }
 
-.img__text .sign-up-btn:active {
+.img__text .sign-up-btn-1:active {
   background-color: #a17b4d;
   transform: scale(0.98);
 }
@@ -131,7 +123,7 @@ button {
   margin: 10px auto;
 }
 
-.submit {
+.submit-1 {
   background: #d4af7a;
   margin-top: 40px;
   margin-bottom: 20px;
@@ -139,28 +131,28 @@ button {
   transition-duration: 0.4s;
   cursor: pointer;
 }
-.submit:hover {
+.submit-1:hover {
   color: white;
   background-color: #76663f;
 }
-.submit:active {
+.submit-1:active {
   box-shadow: 0 5px #666;
   transform: translateY(4px);
 }
 
-.fb-btn {
+.fb-btn-1 {
   border: 2px solid #d3dae9;
   color: #d3dae9;
   background: #fff;
 }
-.fb-btn:hover {
+.fb-btn-1:hover {
   color: black;
 }
-.fb-btn:active {
+.fb-btn-1:active {
   transform: translateY(4px);
 }
 
-.fb-btn span {
+.fb-btn-1 span {
   font-weight: bold;
   color: #768cb6;
 }
@@ -199,7 +191,7 @@ input {
 .forgot-pass:hover {
   color: bisque;
 }
-.sign-up {
+.sign-up-1 {
   width: 150px;
   margin-top: 25px;
   padding: 10px;
@@ -216,15 +208,15 @@ input {
   color: black;
   display: none;
 }
-.sign-up:hover {
+.sign-up-1:hover {
   color: black;
 }
-.sign-up:active {
+.sign-up-1:active {
   transform: translateY(4px);
 }
 /* Responsive styles */
 @media (max-width: 768px) {
-  .sign-up {
+  .sign-up-1 {
     display: block;
   }
   .cont {
@@ -249,11 +241,11 @@ input {
     text-align: center;
   }
 
-  .img {
+  .img-1 {
     display: none;
   }
 
-  .img__text .sign-up-btn {
+  .img__text .sign-up-btn-1 {
     display: block;
     width: 100%;
     margin: 20px auto;
