@@ -6,9 +6,9 @@ import BooksDisplay from "./layouts/BooksDisplay";
 import BookPage from "./layouts/BookPage";
 import AuthorPage from "./layouts/AuthorPage";
 import UserProfile from "./components/userProfile";
-// import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
-import ForgotPasswordForm from "./components/ForgotPasswordPage";
+import ForgotPasswordPage from "./components/ForgotPasswordPage";
+import LoginPage from "./components/LoginPage";
 
 function App() {
 
@@ -24,10 +24,10 @@ function App() {
           <Route path="/trending/:popular" element={<BooksDisplay />} />
           <Route path="/book/:id" element={<BookPage />} />
           <Route path="/author/:id" element={<AuthorPage />} />
-          {/* <Route path="/registration" element={<Registration />} /> */}
-
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           {/* <Route path="/contact" element={<Contact />} /> */}
-          {/* <Route path="/login" element={<LoginPage />} /> */}
           <Route
             path="/profile"
             element={

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import "../styles/forgotpassword.css";
 import { FcKey } from "react-icons/fc";
 import icon from "../assets/icons8-forgot-password-96.png";
-const ForgotPasswordForm = () => {
+
+const ForgotPasswordPage = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -38,7 +39,11 @@ const ForgotPasswordForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: "500px", margin: "auto" }}>
+    <form
+      className="form-2"
+      onSubmit={handleSubmit}
+      style={{ maxWidth: "500px", margin: "auto" }}
+    >
       <center>
         <img src={icon} alt="icon" />
       </center>
@@ -82,11 +87,11 @@ const ForgotPasswordForm = () => {
       <span id="pwd-length-2"></span>
 
       <span id="message">{message}</span>
-      <button className="btn" type="submit">
+      <button className="btn-2" type="submit">
         Reset Password
       </button>
     </form>
   );
 };
 
-export default ForgotPasswordForm;
+export default ForgotPasswordPage;

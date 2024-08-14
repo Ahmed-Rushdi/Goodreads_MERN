@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "../styles/signup.css";
-import { VscEye, VscEyeClosed } from "react-icons/vsc"; // Make sure to install react-icons package
+import { VscEye, VscEyeClosed } from "react-icons/vsc";
 
 const SignUpPage = () => {
   const [name, setName] = useState("");
