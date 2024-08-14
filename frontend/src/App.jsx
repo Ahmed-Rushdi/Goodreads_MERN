@@ -8,6 +8,7 @@ import AuthorPage from "./layouts/AuthorPage";
 import UserProfile from "./components/userProfile";
 // import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
+import ForgotPasswordForm from "./components/ForgotPasswordPage";
 
 function App() {
 
