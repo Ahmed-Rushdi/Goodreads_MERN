@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 import { useState, useEffect } from "react";
-const URL = process.env.BACKEND_URL;
+const URL = "http://localhost:3000";
 
 export function useFetchData(url, token) {
   const [data, setData] = useState(null);
