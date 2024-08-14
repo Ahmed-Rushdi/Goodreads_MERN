@@ -9,5 +9,5 @@ const categorySchema = new Schema({
   description: { type: String },
 });
 
-const Category = model("Category", authorSchema);
+const Category = model("Category", categorySchema);
 module.exports = Category;
