@@ -25,19 +25,19 @@ const app = express();
 
 // google session
 
-app.use(
-  session({
-    secret: session_secret,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: false,
-      maxAge: 24 * 60 * 60 * 1000,
-    },
-  })
-);
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(
+//   session({
+//     secret: session_secret,
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//       secure: false,
+//       maxAge: 24 * 60 * 60 * 1000,
+//     },
+//   })
+// );
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 // * Expose public for thumbnail retrieval (host:port/thumbnails)
 // ? is this the way to do it? IDK.
@@ -55,7 +55,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use("/api/auth", authenticationRoute);
+// app.use("/api/auth", authenticationRoute);
 
 app.use(logger(logging));
 app.use("/api/users", userRoutes);
