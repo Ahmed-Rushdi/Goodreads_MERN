@@ -4,16 +4,38 @@ import "../styles/login.css";
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Handle form submission logic here
-    console.log("Sign In:", { email, password });
+    try {
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("Login successful:", data);
+        // Store the tokens in localStorage or cookies if needed
+        localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("refreshToken", data.refreshToken);
+        window.location.href = "/";
+      } else {
+        setError(data.message);
+      }
+    } catch (error) {
+      setError(" error occured why logging in :", error);
+    }
   };
 
   const handleGmailConnect = () => {
-    // Handle Facebook connect logic here
+    // Handle Gmail connect logic here
     console.log("Connect with Gmail");
   };
 
