@@ -6,6 +6,7 @@ import BooksDisplay from "./layouts/BooksDisplay";
 import BookPage from "./layouts/BookPage";
 import AuthorPage from "./layouts/AuthorPage";
 import UserProfile from "./components/userProfile";
+import LoginPage from "./components/LoginPage";
 function App() {
 
 
