@@ -15,14 +15,14 @@ function BooksDisplayCard({ data }) {
           />
         </Link>
         <div className="min-w-0 flex-auto">
-          <Link to={`/book/${data.isbn13}`}>
+          {/* <Link to={`/book/${data.isbn13}`}>
             <p className="hover:underline text-sm font-semibold leading-6 text-gray-900">
               {data.title.slice(0, 120)}
             </p>
-          </Link>
+          </Link> */}
           <Link to={`/author/${data.authorId}`}>
             <p className="mt-1 truncate text-xs leading-5 text-gray-500 hover:underline">
-              {data.author}
+              {data.authorId}
             </p>
           </Link>
         </div>
