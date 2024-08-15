@@ -6,6 +6,7 @@ const authorSchema = new Schema({
     required: true,
     unique: true,
   },
+  image: { type: String },
   bio: { type: String },
   birthDate: { type: Date },
 });

@@ -1,0 +1,168 @@
+[
+  {
+    "title": "Nineteen Eighty-four",
+    "isbn13": "9780451524935",
+    "author": {
+      "name": "George Orwell",
+      "bio": "Eric Arthur Blair (25 June 1903 – 21 January 1950) was a British novelist, poet, essayist, journalist, and critic who wrote under the pen name of George Orwell, a name inspired by his favourite place River Orwell. His work is characterised by lucid prose, social criticism, opposition to all totalitarianism (i.e. to both left-wing authoritarian communism and to right-wing fascism), and support of democratic socialism.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/George_Orwell_press_photo.jpg/220px-George_Orwell_press_photo.jpg",
+      "birthDate": "1903-06-25"
+    },
+    "categories": [
+      "London (England)"
+    ],
+    "description": "Eternal warfare is the price of bleak prosperity in this satire of totalitarian barbarism.",
+    "publisher": "Unknown Publisher",
+    "publishedDate": "1949",
+    "pageCount": 326,
+    "thumbnail": "No image available",
+    "language": "en",
+    "averageRating": 0,
+    "ratingsCount": 0
+  },
+  {
+    "title": "The lord of the rings",
+    "isbn13": "9780261103573",
+    "author": {
+      "name": "John Ronald Reuel Tolkien",
+      "bio": "John Ronald Reuel Tolkien CBE FRSL (/ˈruːl ˈtɒlkiːn/, ROOL TOL-keen; 3 January 1892 – 2 September 1973) was an English writer and philologist. He was the author of the high fantasy works The Hobbit and The Lord of the Rings.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/J._R._R._Tolkien%2C_ca._1925.jpg/220px-J._R._R._Tolkien%2C_ca._1925.jpg",
+      "birthDate": "1892-01-03"
+    },
+    "categories": [],
+    "description": "No description available.",
+    "publisher": "Unknown Publisher",
+    "publishedDate": "1997",
+    "pageCount": 398,
+    "thumbnail": "http://books.google.com/books/content?id=L5ABrgEACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "language": "en",
+    "averageRating": 0,
+    "ratingsCount": 0
+  },
+  {
+    "title": "And Then There Were None",
+    "isbn13": "9780062073488",
+    "author": {
+      "name": "Agatha Christie",
+      "bio": "Dame Agatha Mary Clarissa Christie, Lady Mallowan, DBE (née Miller; 15 September 1890 – 12 January 1976) was an English writer known for her 66 detective novels and 14 short story collections, particularly those revolving around fictional detectives Hercule Poirot and Miss Marple. She also wrote the world's longest-running play, the murder mystery The Mousetrap, which has been performed in the West End of London since 1952. A writer during the \"Golden Age of Detective Fiction\", Christie has been called the \"Queen of Crime\"—a moniker which is now trademarked by her estate—or the \"Queen of Mystery\". She also wrote six novels under the pseudonym Mary Westmacott. In 1971, she was made a Dame (DBE) by Queen Elizabeth II for her contributions to literature. Guinness World Records lists Christie as the best-selling fiction writer of all time, her novels having sold more than two billion copies.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Agatha_Christie.png/220px-Agatha_Christie.png",
+      "birthDate": "1890-09-15"
+    },
+    "categories": [
+      "Fiction"
+    ],
+    "description": "The World's Bestselling Mystery \"Ten . . .\" Ten strangers are lured to an isolated island mansion off the Devon coast by a mysterious \"U.N. Owen.\" \"Nine . . .\" At dinner a recorded message accuses each of them in turn of having a guilty secret, and by the end of the night one of the guests is dead. \"Eight . . .\" Stranded by a violent storm, and haunted by a nursery rhyme counting down one by one . . . one by one they begin to die. \"Seven . . .\" Who among them is the killer and will any of them survive?",
+    "publisher": "Harper Collins",
+    "publishedDate": "2011-03-29",
+    "pageCount": 324,
+    "thumbnail": "http://books.google.com/books/content?id=4EBHUjNLuyIC&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "language": "en",
+    "averageRating": 3.5,
+    "ratingsCount": 3
+  },
+  {
+    "title": "The Shining",
+    "isbn13": "9780307743657",
+    "author": {
+      "name": "Stephen King",
+      "bio": "Bio not available",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Stephen_King%2C_Comicon.jpg/220px-Stephen_King%2C_Comicon.jpg",
+      "birthDate": "1947-09-21"
+    },
+    "categories": [
+      "Fiction"
+    ],
+    "description": "#1 NEW YORK TIMES BESTSELLER • ONE OF TIME MAGAZINE'S 100 BEST MYSTERY AND THRILLER BOOKS OF ALL TIME • Before Doctor Sleep, there was The Shining, a classic of modern American horror from the undisputed master, Stephen King. Jack Torrance’s new job at the Overlook Hotel is the perfect chance for a fresh start. As the off-season caretaker at the atmospheric old hotel, he’ll have plenty of time to spend reconnecting with his family and working on his writing. But as the harsh winter weather sets in, the idyllic location feels ever more remote . . . and more sinister. And the only one to notice the strange and terrible forces gathering around the Overlook is Danny Torrance, a uniquely gifted five-year-old.",
+    "publisher": "Vintage",
+    "publishedDate": "2012-06-26",
+    "pageCount": 674,
+    "thumbnail": "http://books.google.com/books/content?id=c2VHVEWUFoQC&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "language": "en",
+    "averageRating": 4,
+    "ratingsCount": 3
+  },
+  {
+    "title": "To Kill a Mockingbird",
+    "isbn13": "9780061120084",
+    "author": {
+      "name": "Harper Lee",
+      "bio": "Lee received numerous accolades and honorary degrees, including the Presidential Medal of Freedom in 2007, which was awarded for her contribution to literature.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Photo_portrait_of_Harper_Lee_%28To_Kill_a_Mockingbird_dust_jacket%2C_1960%29.jpg/220px-Photo_portrait_of_Harper_Lee_%28To_Kill_a_Mockingbird_dust_jacket%2C_1960%29.jpg",
+      "birthDate": "1926-04-28"
+    },
+    "categories": [
+      "Fiction"
+    ],
+    "description": "Harper Lee's Pulitzer Prize-winning masterwork of honor and injustice in the deep South -- and the heroism of one man in the face of blind and violent hatred One of the best-loved stories of all time, To Kill a Mockingbird has been translated into more than forty languages, sold more than thirty million copies worldwide, served as the basis of an enormously popular motion picture, and was voted one of the best novels of the twentieth century by librarians across the country. A gripping, heart-wrenching, and wholly remarkable tale of coming-of-age in a South poisoned by virulent prejudice, it views a world of great beauty and savage inequities through the eyes of a young girl, as her father -- a crusading local lawyer -- risks everything to defend a black man unjustly accused of a terrible crime.",
+    "publisher": "Harper Perennial Modern Classics",
+    "publishedDate": "2006-05-23",
+    "pageCount": 346,
+    "thumbnail": "http://books.google.com/books/content?id=ncuX8p2xLIUC&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "language": "en",
+    "averageRating": 4.5,
+    "ratingsCount": 9
+  },
+  {
+    "title": "Zen Speaks",
+    "isbn13": "9780385472579",
+    "author": {
+      "name": "Zhizhong Cai",
+      "bio": "Bio not available",
+      "image": "Image not available",
+      "birthDate": ""
+    },
+    "categories": [
+      "Zen Buddhism"
+    ],
+    "description": "An illustrated adaptation of the early Zen Buddhist classics of the 13th century. Collected and popularized by the immensely popular Chinese illustrator Tsai Chih Chung, the book includes 100 Zen tales for the reader of today, bringing to life the spirit and philosophy of Zen through cartoon panels.",
+    "publisher": "Anchor",
+    "publishedDate": "1994",
+    "pageCount": 0,
+    "thumbnail": "http://books.google.com/books/content?id=TN4GAAAACAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "language": "en",
+    "averageRating": 5,
+    "ratingsCount": 1
+  },
+  {
+    "title": "Don Quixote",
+    "isbn13": "9780142437230",
+    "author": {
+      "name": "Miguel De Cervantes Saavedra",
+      "bio": "Bio not available",
+      "image": "Image not available",
+      "birthDate": ""
+    },
+    "categories": [
+      "Fiction"
+    ],
+    "description": "Nominated as one of America’s best-loved novels by PBS’s The Great American Read Don Quixote has become so entranced reading tales of chivalry that he decides to turn knight errant himself. In the company of his faithful squire, Sancho Panza, these exploits blossom in all sorts of wonderful ways. While Quixote's fancy often leads him astray—he tilts at windmills, imagining them to be giants—Sancho acquires cunning and a certain sagacity. Sane madman and wise fool, they roam the world together-and together they have haunted readers' imaginations for nearly four hundred years. With its experimental form and literary playfulness, Don Quixote has been generally recognized as the first modern novel. This Penguin Classics edition, with its beautiful new cover design, includes John Rutherford's masterly translation, which does full justice to the energy and wit of Cervantes's prose, as well as a brilliant critical introduction by Roberto Gonzalez Echevarriá.",
+    "publisher": "Penguin",
+    "publishedDate": "2003-02-25",
+    "pageCount": 1076,
+    "thumbnail": "http://books.google.com/books/content?id=sI_UG8lLey0C&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "language": "en",
+    "averageRating": 4.5,
+    "ratingsCount": 6
+  },
+  {
+    "title": "Invisible Man",
+    "isbn13": "9780679732761",
+    "author": {
+      "name": "Ralph Ellison",
+      "bio": "A posthumous novel, Juneteenth, was published after being assembled from voluminous notes Ellison left upon his death.",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Ralph_Ellison_photo_portrait_seated.jpg/220px-Ralph_Ellison_photo_portrait_seated.jpg",
+      "birthDate": "1913-03-01"
+    },
+    "categories": [
+      "African American fiction"
+    ],
+    "description": "In this modern classic mystery, a scientist must face the consequences of rendering himself invisible with a secret formula.",
+    "publisher": "Unknown Publisher",
+    "publishedDate": "1995",
+    "pageCount": 616,
+    "thumbnail": "http://books.google.com/books/content?id=QZBiAAAAMAAJ&printsec=frontcover&img=1&zoom=1&source=gbs_api",
+    "language": "en",
+    "averageRating": 3,
+    "ratingsCount": 5
+  }
+]
