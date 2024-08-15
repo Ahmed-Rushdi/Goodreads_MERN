@@ -1,8 +1,7 @@
 const Book = require("../models/Book.model");
 const Author = require("../models/Author.model");
-
-const { paginateData } = require("../utils/paginator");
 const Category = require("../models/Category.model");
+const { paginateData } = require("../utils/paginator.js");
 
 // * GET
 // * Get paginated books

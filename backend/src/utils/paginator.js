@@ -18,4 +18,4 @@ const paginateData = async (model, query, page, limit) => {
     totalPages: Math.ceil(count / limit),
   };
 };
-module.exports = paginateData;
+module.exports = { paginateData };
