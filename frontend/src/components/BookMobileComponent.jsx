@@ -10,54 +10,54 @@ import ReviewCard from "./ReviewCard";
 import reviews from "../data/reviewExample.json";
 import TotalReviewsOverview from "./TotalReviewsOverview";
 
-function BookMobileComponent({ productsData }) {
+function BookMobileComponent({ book }) {
   return (
     <div>
       <div className="single-product-container">
         <div className="all-img-container-mobile">
           <div className="">
             <div className="normal-img-container">
-              <img src={productsData.thumbnail} />
+              <img src={book.thumbnail} />
             </div>
-            <div className="want-to-read">
-              <WantToRead />
+            <div className="ratings-mobile-container">
+              <div className="want-to-read">
+                <WantToRead />
+              </div>
+              <div className="py-3">
+                <Rating id={book.isbn13} />
+              </div>
+              <h3>Rate This Book</h3>
             </div>
-            <div className="py-3">
-              <Rating id={"1"} />
-            </div>
-            <h3>Rate This Book</h3>
           </div>
           <div className="title">
             <div className="border-element">
-              <h2 className="font-semibold">{productsData.title}</h2>
+              <h2 className="font-semibold">{book.title}</h2>
             </div>
             <div className="border-element">
               <ul className="lite-info-ul">
-                <li className="lite-info-li text-xl">{productsData.author}</li>
-                <li className="lite-info-li">{productsData.rating}</li>
-                <ReadMore text={productsData.description} limit={10} />
+                <li className="lite-info-li text-xl">{book.authorId}</li>
+                <li className="lite-info-li">{book.rating}</li>
+                <ReadMore text={book.description} limit={120} />
                 <li className="lite-info-li">
                   Genres{" "}
-                  {productsData.categories.map((cat) => {
+                  {book.categories.map((cat) => {
                     return (
                       <Link
                         className="hover:underline mx-2 font-semibold"
-                        to={"#"}
+                        to={`/category/${cat}`}
                       >
                         {cat}{" "}
                       </Link>
                     );
                   })}
                 </li>
-                <li className="lite-info-li my-2">
-                  {productsData.pageCount} page
-                </li>
+                <li className="lite-info-li my-2">{book.pageCount} page</li>
                 <li className="lite-info-li my-2 ">
                   <span className="mr-5">First Published</span>
-                  {productsData.publishedDate}
+                  {book.publishedDate}
                 </li>
                 <li className="lite-info-li my-2">
-                  <span className="mr-5">ISBN</span> {productsData.isbn13}
+                  <span className="mr-5">ISBN</span> {book.isbn13}
                 </li>
               </ul>
             </div>
@@ -66,16 +66,16 @@ function BookMobileComponent({ productsData }) {
         <div className="product-overview-mobile">
           <div className="overview-title">
             <h2>About the author</h2>
-            <AuthorCard />
+            <AuthorCard authorId={book.authorId} />{" "}
           </div>
         </div>
         <div className="product-overview-mobile">
           <div className="overview-title">
             <h2 className="text-xl py-3">Reviews</h2>
             <div className="py-3">
-              <TotalReviewsOverview reviews={reviews} />
+              <TotalReviewsOverview reviews={book.reviews} />
             </div>
-            <ReviewCard reviewData={reviews} />
+            <ReviewCard reviewData={book.reviews} />
           </div>
         </div>
       </div>

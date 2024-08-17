@@ -25,9 +25,15 @@
 .image-ul-mobile {
   display: flex;
 }
+.normal-img-container img {
+  height: 200px;
+  width: 150px;
+}
 .normal-img-container {
-  margin: 30px 15px;
+  margin: 30px 0;
   width: 100%;
+  display: flex;
+  justify-content: center;
 }
 .alt-img-container-mobile {
   width: 100%;
@@ -41,6 +47,14 @@
   width: 40px;
   display: flex;
   align-items: center;
+}
+.ratings-mobile-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 0 0.75rem;
 }
 .all-img-container-mobile {
   margin: 20px 10px;
@@ -58,9 +72,8 @@
 }
 .left-section {
   position: fixed;
-  left: 50px;
-  top: 15rem;
-  padding: $base-padding;
+  left: 0;
+  top: 10rem;
   justify-content: center;
   display: flex;
   flex-wrap: wrap;
