@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useFetchData } from '../../utils/DataFetching'
 import PaginationRounded from '../BookPaging'
+import { List } from "antd"
 // const books = [...Array(10)].map((_, i) => ({
 //   isbn13: `isbn13${i}`,
 //   title: `Title ${i}`,
@@ -17,21 +18,30 @@ const BooksPanel = () => {
     const { data: booksPage , loading, error } = useFetchData(`/api/books?page=${page}&limit=${limit}`)
     console.log(booksPage)
 
-
+    // return {
+    //     data,
+    //     totalItems: count,
+    //     currentPage: page,
+    //     totalPages: Math.ceil(count / limit),
+    //   };
   return (
     <div>
-        <h1>Books Page {page}</h1>
-        <PaginationRounded totalItems={booksPage?.total} itemsPerPage={limit} currentPage={page} onPageChange={setPage} />
+        {<h1>Books Page {page}</h1>}
         {error ? (
             <p style={{ color: "red" }}>{error.message}</p>
         ) : loading ? (
             <p>Loading...</p>
-        ) : booksPage ? (
-            <ul>
-                {booksPage.data.map((book) => (
-                    <li key={book.isbn13}>{book.title}</li>
-                ))}
-            </ul>
+        ) : booksPage ? (<>
+        
+            <PaginationRounded totalItems={booksPage?.totalItems} itemsPerPage={limit} currentPage={page} onPageChange={setPage} />
+            <List 
+                dataSource={booksPage.data}
+                renderItem={(item) => (
+                    <List.Item>
+                        {JSON.stringify(item)}
+                    </List.Item>
+                )} />
+        </>
         ) : (
             <p>No books found</p>
         )}

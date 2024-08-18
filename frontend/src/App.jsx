@@ -1,4 +1,3 @@
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./layouts/Home";
 import Navbar from "./components/Navbar";
@@ -9,8 +8,7 @@ import TrendingBooksPage from "./layouts/TrendingBooksPage";
 import RegisterPage from "./components/RegisterPage";
 import ForgotPasswordPage from "./components/ForgotPasswordPage";
 import LoginPage from "./components/LoginPage";
-
-function App() {
+const App = () => {
   return (
     <Router>
       <Navbar />
@@ -40,6 +38,6 @@ function App() {
       </div>
     </Router>
   );
-}
+};
 
 export default App;
