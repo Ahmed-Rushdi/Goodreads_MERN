@@ -37,7 +37,7 @@ function BookNormalComponent({ book }) {
             <div className="border-element">
               <ul className="lite-info-ul">
                 <li className="lite-info-li text-xl">
-                  Author: {book.authorId}
+                  Author: {book.authorId.name || authorId}
                 </li>
                 <li className="lite-info-li">{book.rating}</li>
                 <ReadMore text={book.description} limit={120} />
@@ -47,9 +47,9 @@ function BookNormalComponent({ book }) {
                     return (
                       <Link
                         className="hover:underline mx-2 font-semibold"
-                        to={`/category/${cat}`}
+                        to={`/category/${cat._id}`}
                       >
-                        {cat}{" "}
+                        {cat.name}{" "}
                       </Link>
                     );
                   })}
@@ -67,7 +67,7 @@ function BookNormalComponent({ book }) {
             <div className="product-overview-mobile">
               <div className="overview-title">
                 <h2>About the author</h2>
-                <AuthorCard authorId={book.authorId} />
+                <AuthorCard authorId={book.authorId.id || book.authorId} />
               </div>
             </div>
             <div className="product-overview-mobile">
