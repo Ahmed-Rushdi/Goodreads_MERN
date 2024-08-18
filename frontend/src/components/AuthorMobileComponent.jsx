@@ -1,6 +1,6 @@
-import React from "react";
-import "../Styling/css/components/blogPost.css";
-import "../Styling/css/components/btn.css";
+
+import "../styling/css/components/blogPost.css";
+import "../styling/css/components/btn.css";
 import ReadMore from "./ReadMore";
 import { Link } from "react-router-dom";
 import BooksDisplayCard from "./BooksDisplayCard";
