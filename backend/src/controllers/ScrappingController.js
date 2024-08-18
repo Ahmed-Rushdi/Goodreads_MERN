@@ -1,7 +1,5 @@
-//server must be running and you run this file independently
 const axios = require("axios");
 const cheerio = require("cheerio");
-const fs = require("fs").promises;
 
 function removeSquareBrackets(text) {
   return text.replace(/\[.*?\]/g, "");
@@ -87,45 +85,24 @@ async function fetchAuthorBioAndImage(authorName) {
   }
 }
 
-// Function to fetch and save book data
-async function fetchBookOnline() {
-  const isbns = [
-    "9780451524935",
-    "9780060850525",
-    "9780439139601",
-    "9780261103573",
-    "9780062073488",
-    "9780307743657",
-    "9780061120084",
-    "9780385472579",
-    "9780142437230",
-    "9780679732761",
-  ];
+exports.scrapeBook = async (req, res) => {
+  const { isbn } = req.body;
+  console.log(req.body);
 
-  const allBooks = [];
-
-  for (const isbn of isbns) {
-    try {
-      const book = await fetchBookData(isbn);
-      allBooks.push(book);
-      console.log(`Fetched data for ISBN ${isbn}`);
-    } catch (error) {
-      console.error(`Error fetching data for ISBN ${isbn}:`, error.message);
-    }
+  if (!isbn) {
+    return res.status(400).json({ error: "ISBN is required" });
   }
 
-  return allBooks;
-}
-
-// Function to save the fetched book data to a JSON file
-async function saveBooks() {
   try {
-    const books = await fetchBookOnline();
-    await fs.writeFile("books.json", JSON.stringify(books, null, 2));
-    console.log("Book data saved to books.json");
+    const book = await fetchBookData(isbn);
+    const postResponse = await axios.post(
+      "http://localhost:3000/api/books",
+      book
+    );
+    res.status(postResponse.status).json(postResponse.data);
   } catch (error) {
-    console.error("Error saving book data:", error.message);
+    res
+      .status(500)
+      .json({ error: `Error processing request: ${error.message}` });
   }
-}
-
-saveBooks();
+};
