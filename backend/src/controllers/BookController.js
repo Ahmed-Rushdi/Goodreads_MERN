@@ -18,7 +18,9 @@ const getPaginatedBooks = async (req, res) => {
 
 // * Get all books
 const getAllBooks = async (req, res) => {
-  const books = await Book.find();
+  const books = await Book.find()
+    .populate("authorId", "name")
+    .populate("categories", "name");
   res.send(books);
 };
 // * Get books handler checks for pagination request
@@ -36,7 +38,9 @@ const getBooks = async (req, res) => {
 };
 // * Get specific book
 const getBook = async (req, res) => {
-  const book = await Book.findOne({ isbn13: req.params.isbn13 });
+  const book = await Book.findOne({ isbn13: req.params.isbn13 })
+    .populate("authorId", "name")
+    .populate("categories", "name");
   if (!book) return res.status(404).send("Book not found");
   res.send(book);
 };

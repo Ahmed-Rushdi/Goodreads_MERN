@@ -33,8 +33,22 @@ const getAuthors = async (req, res) => {
 };
 
 const getAuthor = async (req, res) => {
-  const authors = await Author.findOne({ _id: req.params.authorId });
-  res.send(authors);
+  try {
+    const author = await Author.findOne(req.params.id)
+      .populate({
+        path: "books",
+        select: "title isbn13",
+      })
+      .populate("bookCount");
+
+    if (!author) {
+      return res.status(404).send("Author not found");
+    }
+
+    res.send(author);
+  } catch (error) {
+    res.status(500).send("Server error");
+  }
 };
 
 // * POST
