@@ -35,7 +35,9 @@ function BookMobileComponent({ book }) {
             </div>
             <div className="border-element">
               <ul className="lite-info-ul">
-                <li className="lite-info-li text-xl">{book.authorId}</li>
+                <li className="lite-info-li text-xl">
+                  {book.authorId.name || authorId}
+                </li>
                 <li className="lite-info-li">{book.rating}</li>
                 <ReadMore text={book.description} limit={120} />
                 <li className="lite-info-li">
@@ -44,9 +46,9 @@ function BookMobileComponent({ book }) {
                     return (
                       <Link
                         className="hover:underline mx-2 font-semibold"
-                        to={`/category/${cat}`}
+                        to={`/category/${cat._id}`}
                       >
-                        {cat}{" "}
+                        {cat.name}{" "}
                       </Link>
                     );
                   })}
@@ -66,7 +68,7 @@ function BookMobileComponent({ book }) {
         <div className="product-overview-mobile">
           <div className="overview-title">
             <h2>About the author</h2>
-            <AuthorCard authorId={book.authorId} />{" "}
+            <AuthorCard authorId={book.authorId.id || book.authorId} />{" "}
           </div>
         </div>
         <div className="product-overview-mobile">

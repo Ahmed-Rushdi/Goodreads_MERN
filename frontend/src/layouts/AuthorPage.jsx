@@ -8,11 +8,11 @@ export default function AuthorPage() {
   const { id } = useParams();
   const { data, loading, error } = useFetchData(`/api/authors/${id}`);
 
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 599);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 775);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 599);
+      setIsMobile(window.innerWidth <= 775);
     };
 
     window.addEventListener("resize", handleResize);

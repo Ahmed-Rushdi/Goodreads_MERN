@@ -4,16 +4,21 @@ import "../styling/css/components/btn.css";
 import ReadMore from "./ReadMore";
 import { Link } from "react-router-dom";
 import BooksDisplayCard from "./BooksDisplayCard";
+import { useFetchData } from "../utils/DataFetching";
 function AuthorNormalComponent({ author }) {
-  console.log(author);
-  let books = [];
+  const { data, loading, error } = useFetchData(
+    `/api/books/author/${author._id}`
+  );
+  if (!data) {
+    return <div>No Book data available.</div>;
+  }
   return (
     <div>
       <div className="single-product-container">
         <div className="all-img-container">
           <div className="left-section">
             <div className="normal-img-container">
-              <img src={author.image} />
+              <img src={author.image} alt="Author Image" />
             </div>
             <div className="want-to-read">
               <button className="p-2 border hover:bg-gray-200">
@@ -28,12 +33,15 @@ function AuthorNormalComponent({ author }) {
             <div className="border-element">
               <ul className="lite-info-ul">
                 <ReadMore text={author.bio} limit={120} />
-                <li className="lite-info-li">Birth Date {author.birthDate}</li>
+                <li className="lite-info-li">
+                  Birth Date: {author.birthDate.slice(0, 10)}
+                </li>
               </ul>
             </div>
-
             <h2>Books by the author</h2>
-            <BooksDisplayCard data={books} />
+            {data.map((book) => {
+              return <BooksDisplayCard data={book} key={book.isbn13} />;
+            })}{" "}
           </div>
         </div>
       </div>

@@ -4,6 +4,8 @@ const Category = require("../models/Category.model");
 const getTrendingBooks = async (req, res) => {
   try {
     const trendingBooks = await Book.find({})
+      .populate("authorId", "name")
+      .populate("categories", "name")
       .sort({ averageRating: -1, ratingCount: -1 })
       .limit(10);
     res.status(200).json(trendingBooks);

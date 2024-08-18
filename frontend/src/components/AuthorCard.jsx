@@ -2,6 +2,8 @@ import { useFetchData } from "../utils/DataFetching";
 import ReadMore from "./ReadMore";
 
 export default function AuthorCard({ authorId }) {
+  console.log(authorId);
+
   const { data, loading, error } = useFetchData(`/api/authors/${authorId}`);
   if (loading) {
     return <div>Loading...</div>;
@@ -29,13 +31,15 @@ export default function AuthorCard({ authorId }) {
                 {data.name}
               </p>
               <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                60 books
+                {data.bookCount == 1
+                  ? data.bookCount + " Book"
+                  : data.bookCount + " Books"}
               </p>
             </div>
           </div>
           <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
             <p className="text-sm leading-6 text-gray-900">
-              <button>Follow</button>
+              <button className="p-2 border hover:bg-gray-200">Follow</button>
             </p>
           </div>
         </li>
