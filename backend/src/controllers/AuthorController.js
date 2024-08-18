@@ -34,7 +34,7 @@ const getAuthors = async (req, res) => {
 
 const getAuthor = async (req, res) => {
   try {
-    const author = await Author.findOne(req.params.id)
+    const author = await Author.findById(req.params.authorId)
       .populate({
         path: "books",
         select: "title isbn13",
