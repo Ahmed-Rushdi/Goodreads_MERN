@@ -5,7 +5,7 @@ import BasicSpinner from "../BasicSpinner";
 import BaseCard from "../Admin/BaseCard";
 import { delData } from "../../utils/DataDeletion";
 import { toast } from "react-toastify";
-
+import PaginationRounded from "../BookPaging";
 const handleDelete = async (dataId, setDisabled) => {
   setDisabled(true);
   const { data, loading, error } = await delData(`/api/books/${dataId}`);
@@ -18,7 +18,7 @@ const handleDelete = async (dataId, setDisabled) => {
 };
 const BooksPanel = () => {
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(0);
+  const [limit, setLimit] = useState(12);
   const [formVals, setFormVals] = useState({});
   const [formUpdateFlag, setFormUpdateFlag] = useState(false);
   const handleEdit = async (dataId, setDisabled) => {
@@ -40,13 +40,26 @@ const BooksPanel = () => {
   } = useFetchData(`/api/books?page=${page}&limit=${limit}`);
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <BookForm
         formTitle="Book Information"
         values={formVals}
         updateFlag={formUpdateFlag}
         setUpdateFlag={setFormUpdateFlag}
       />
+      <div className="flex flex-col items-center">
+        <PaginationRounded
+          totalItems={booksPage?.totalItems}
+          itemsPerPage={limit}
+          currentPage={page}
+          onPageChange={setPage}
+        />
+        <p className="text-xs text-gray-500">
+          Showing {page * limit - limit + 1}-
+          {Math.min(page * limit, booksPage?.totalItems)} of{" "}
+          {booksPage?.totalItems} total books
+        </p>
+      </div>
       {loading ? (
         <BasicSpinner className="mt-96" />
       ) : error ? (
@@ -60,7 +73,7 @@ const BooksPanel = () => {
               handleDelete={handleDelete}
               handleEdit={handleEdit}
             >
-              <div className="w-[100px] ">
+              <div className="w-[100px] flex-shrink-0">
                 <img
                   src={
                     book.thumbnail == ""
@@ -73,17 +86,20 @@ const BooksPanel = () => {
                   className=""
                 />
               </div>
-              <div className="w-full">
-                <p className="text-buff truncate">
+              <div className="w-full text-xs sm:text-sm flex-shrink">
+                <p className="text-buff line-clamp-1">
                   {book.title} | <i>{book.author}</i>
                 </p>
+                <p>{book.isbn13}</p>
                 <p>
-                  {book.isbn13} | Published:
+                  <span>Published: </span>
                   {" " + book.publishedDate
                     ? new Date(book.publishedDate).toLocaleDateString()
                     : ""}
                 </p>
-                <p className="line-clamp-3">{book.description}</p>
+                <p className="line-clamp-3 text-gray-700 italic">
+                  {book.description}
+                </p>
               </div>
             </BaseCard>
           ))}
