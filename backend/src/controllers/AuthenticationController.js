@@ -66,5 +66,37 @@ const login = async (req, res, next) => {
     .status(200)
     .json({ message: "logged in successfully ", user: existingUser, token });
 };
+// verification of jwt token
+const verification = (req, res, next) => {
+  const cookies = req.headers.cookie;
+  const token = cookies.split("=")[1];
+  if (!token) {
+    res.status(404).json({ message: "token not found" });
+  }
+  jwt.verify(String(token), process.env.JWT_SECRET_KEY, (err, user) => {
+    if (err) {
+      return res.status(400).json({ message: "Invalid token" });
+    }
+    console.log(user.id);
+    req.id = user.id;
+  });
+  next();
+};
 
-module.exports = { signup, login };
+// get user endpoint
+
+const getUser = async (req, res, next) => {
+  const userId = req.id;
+  let user;
+  //return user id except password
+  try {
+    user = await User.findById(userId, "-password");
+  } catch (error) {
+    return new Error(error);
+  }
+  if (!user) {
+    return res.status(404).json({ message: " user was not found !" });
+  }
+  return res.status(200).json({ user });
+};
+module.exports = { signup, login, verification, getUser };
