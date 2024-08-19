@@ -9,6 +9,7 @@ const {
   login,
   verification,
   getUser,
+  refreshToken,
 } = require("../controllers/AuthenticationController");
 
 // sign up route
@@ -23,6 +24,8 @@ router.get("/user", verification, getUser);
 //   // User details are now available in req.user
 //   res.json({ user: req.user });
 // });
+// route to refresh the token
+router.get("/refresh", refreshToken, verification, getUser);
 
 // router.post("/login", async (req, res) => {
 //   const { email, password } = req.body;
