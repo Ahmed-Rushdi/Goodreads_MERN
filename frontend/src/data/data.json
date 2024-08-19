@@ -12,6 +12,8 @@
         "thumbnail": "https://example.com/thumbnail.jpg",
         "language": "en",
         "categories": ["Fiction", "Adventure"],
+        "rating": 4.6,
+        "ratingsCount": 33316,
         "reviews": [
           {
             "user": "JaneSmith",

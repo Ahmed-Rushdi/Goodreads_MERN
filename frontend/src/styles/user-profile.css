@@ -1,5 +1,7 @@
-.user-profile {
-  margin-top: 10rem;
+body {
+    @apply bg-corn-silk;
+    box-sizing: border-box;
+    padding-bottom: 50px;
 }
 .info-shelf {
   display: flex;
