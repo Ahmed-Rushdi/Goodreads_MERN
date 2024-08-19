@@ -32,20 +32,6 @@ const SignUpPage = () => {
 
   const handleSignUp = () => {
     // Final validation on submit
-    const passwordValidationError = validatePassword(password);
-    if (passwordValidationError) {
-      setPasswordError(passwordValidationError);
-      return;
-    }
-    if (password !== repeatPassword) {
-      setRepeatPasswordError("Passwords do not match.");
-      return;
-    }
-    setPasswordError("");
-    setRepeatPasswordError("");
-
-    // Handle sign-up logic here
-    console.log("Sign Up:", { name, email, password, repeatPassword });
   };
 
   return (
@@ -59,7 +45,7 @@ const SignUpPage = () => {
           <span className="span-4 m--in">Sign In</span>
         </div>
       </div>
-      <form className="form sign-up" onSubmit={(e) => e.preventDefault()}>
+      <form className="form sign-up" onClick={handleSignUp}>
         <h2 className="h2-4">Time to be a part of the family,</h2>
 
         <label className="label-4">
@@ -130,7 +116,7 @@ const SignUpPage = () => {
           )}
         </label>
         <div className="bottom-buttons">
-          <button type="button" className="submit-4" onClick={handleSignUp}>
+          <button type="submit" className="submit-4">
             Sign Up
           </button>
           <button

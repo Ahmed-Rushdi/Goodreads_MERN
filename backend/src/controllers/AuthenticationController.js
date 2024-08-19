@@ -50,6 +50,7 @@ const login = async (req, res, next) => {
   if (!comparePassword) {
     return res.status(400).json({ message: " invalid email or password" });
   }
+  // you can use process.env.JWT_SECRET instead of  "midomashakel2"
   const token = jwt.sign({ id: existingUser._id }, "midomashakel2", {
     expiresIn: "30s",
   });
