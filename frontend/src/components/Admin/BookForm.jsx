@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import BaseInput from "./BaseInput";
 import postData from "../../utils/DataPosting";
 import putData from "../../utils/DataUpdating";
@@ -11,10 +11,11 @@ const BookForm = ({
   updateFlag,
   setUpdateFlag,
 }) => {
-  const [formData, setFormData] = useState({ ...values });
+  const [formData, setFormData] = useState({});
   const [disabledFlag, setDisabledFlag] = useState(false);
-  console.log(values);
-  console.log(formData);
+  useEffect(() => {
+    if (values) setFormData(values);
+  }, [values]);
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -114,7 +115,6 @@ const BookForm = ({
         <BaseInput
           type="file"
           name="thumbnail"
-          value={formData.thumbnail ?? ""}
           accept="image/*"
           onChange={handleChange}
           disabled={disabledFlag}
