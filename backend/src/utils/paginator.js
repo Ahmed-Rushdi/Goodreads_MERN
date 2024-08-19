@@ -1,5 +1,5 @@
 const paginateData = async (model, query, page, limit) => {
-  if (isNaN(page) || page < 1 || isNaN(limit) || limit < 1) {
+  if (isNaN(page) || page < 1 || isNaN(limit) || limit < 0) {
     throw new Error("Page and limit must be positive integers.");
   }
   const startIndex = (page - 1) * limit;

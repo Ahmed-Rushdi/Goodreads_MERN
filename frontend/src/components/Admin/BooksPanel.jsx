@@ -1,52 +1,95 @@
-import React, { useEffect } from 'react'
-import { useFetchData } from '../../utils/DataFetching'
-import PaginationRounded from '../BookPaging'
-import { List } from "antd"
-// const books = [...Array(10)].map((_, i) => ({
-//   isbn13: `isbn13${i}`,
-//   title: `Title ${i}`,
-//   author: `Author ${i}`,
-//   categories: [...Array(i)].map((_, j) => `Cat ${j}`),
-//   thumbnail: `https://via.placeholder.com/150`,
-// }))
+import { useState } from "react";
+import { fetchData, useFetchData } from "../../utils/DataFetching";
+import BookForm from "./BookForm";
+import BasicSpinner from "../BasicSpinner";
+import BaseCard from "../Admin/BaseCard";
+import { delData } from "../../utils/DataDeletion";
+import { toast } from "react-toastify";
 
-
-
+const handleDelete = async (dataId, setDisabled) => {
+  setDisabled(true);
+  const { data, loading, error } = await delData(`/api/books/${dataId}`);
+  setDisabled(loading);
+  if (error) {
+    toast.error(error.message + data);
+  } else {
+    toast.success(data);
+  }
+};
 const BooksPanel = () => {
-    const [page, setPage] = React.useState(1)
-    const [limit , setLimit] = React.useState(3)
-    const { data: booksPage , loading, error } = useFetchData(`/api/books?page=${page}&limit=${limit}`)
-    console.log(booksPage)
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(0);
+  const [formVals, setFormVals] = useState({});
+  const [formUpdateFlag, setFormUpdateFlag] = useState(false);
+  const handleEdit = async (dataId, setDisabled) => {
+    setDisabled(true);
+    const { data, error } = await fetchData(`/api/books/${dataId}`);
+    setFormVals(data);
+    setFormUpdateFlag(true);
+    setDisabled(false);
+    if (error) {
+      toast.error(error.message + data);
+    }
+  };
 
-    // return {
-    //     data,
-    //     totalItems: count,
-    //     currentPage: page,
-    //     totalPages: Math.ceil(count / limit),
-    //   };
+  const {
+    data: booksPage,
+    loading,
+    error,
+  } = useFetchData(`/api/books?page=${page}&limit=${limit}`);
+
   return (
     <div>
-        {<h1>Books Page {page}</h1>}
-        {error ? (
-            <p style={{ color: "red" }}>{error.message}</p>
-        ) : loading ? (
-            <p>Loading...</p>
-        ) : booksPage ? (<>
-        
-            <PaginationRounded totalItems={booksPage?.totalItems} itemsPerPage={limit} currentPage={page} onPageChange={setPage} />
-            <List 
-                dataSource={booksPage.data}
-                renderItem={(item) => (
-                    <List.Item>
-                        {JSON.stringify(item)}
-                    </List.Item>
-                )} />
-        </>
-        ) : (
-            <p>No books found</p>
-        )}
+      <BookForm
+        formTitle="Book Information"
+        values={formVals}
+        updateFlag={formUpdateFlag}
+        setUpdateFlag={setFormUpdateFlag}
+      />
+      {loading ? (
+        <BasicSpinner className="mt-96" />
+      ) : error ? (
+        <div>Error: {error.message}</div>
+      ) : (
+        <div className="flex flex-wrap">
+          {booksPage?.data.map((book) => (
+            <BaseCard
+              key={book._id}
+              dataId={book._id}
+              handleDelete={handleDelete}
+              handleEdit={handleEdit}
+            >
+              <div className="w-[100px] ">
+                <img
+                  src={
+                    book.thumbnail == ""
+                      ? "http://localhost:3000/fallback_thumbnail.png"
+                      : book.thumbnail
+                  }
+                  onError={function () {
+                    this.src = "http://localhost:3000/fallback_thumbnail.png";
+                  }}
+                  className=""
+                />
+              </div>
+              <div className="w-full">
+                <p className="text-buff truncate">
+                  {book.title} | <i>{book.author}</i>
+                </p>
+                <p>
+                  {book.isbn13} | Published:
+                  {" " + book.publishedDate
+                    ? new Date(book.publishedDate).toLocaleDateString()
+                    : ""}
+                </p>
+                <p className="line-clamp-3">{book.description}</p>
+              </div>
+            </BaseCard>
+          ))}
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default BooksPanel
+export default BooksPanel;

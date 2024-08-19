@@ -1,11 +1,11 @@
 import { axiosInstance } from "./AxiosInstance";
 import { AxiosError, isAxiosError } from "axios";
-async function postData(url, data) {
+async function putData(url, data) {
   let loading = true;
   let error = null;
   let resData = null;
   try {
-    const response = await axiosInstance.post(url, data);
+    const response = await axiosInstance.put(url, data);
     resData = response?.data;
   } catch (e) {
     if (isAxiosError(e)) {
@@ -19,4 +19,4 @@ async function postData(url, data) {
   return { resData, loading, error };
 }
 
-export default postData;
+export default putData;
