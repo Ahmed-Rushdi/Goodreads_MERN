@@ -20,12 +20,13 @@ router.post("/login", login);
 
 // route to get the user
 router.get("/user", verification, getUser);
+
 // router.get("/auth/getUser", authenticateUser, (req, res) => {
 //   // User details are now available in req.user
 //   res.json({ user: req.user });
 // });
 // route to refresh the token
-router.get("/refresh", refreshToken, verification, getUser);
+// router.get("/refresh", refreshToken, verification, getUser);
 
 // router.post("/login", async (req, res) => {
 //   const { email, password } = req.body;

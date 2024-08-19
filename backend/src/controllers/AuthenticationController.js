@@ -50,47 +50,59 @@ const login = async (req, res, next) => {
   if (!comparePassword) {
     return res.status(400).json({ message: " invalid email or password" });
   }
-  const token = jwt.sign({ id: existingUser.id }, "midomashakel2", {
-    expiresIn: "2hr",
+  const token = jwt.sign({ id: existingUser._id }, "midomashakel2", {
+    expiresIn: "30s",
   });
-
-  // Save jwt in cookies
-  res.cookie("token", token, {
+  res.cookie(String(existingUser._id), token, {
     path: "/",
-    expires: new Date(Date.now() + 1000 * 60 * 120), // 2 hours
+    expires: new Date(Date.now() + 30 * 1000),
     httpOnly: true,
     sameSite: "lax",
   });
+  return res
+    .status(200)
+    .json({ message: "login successfully", user: existingUser, token });
 
-  return res.status(200).json({
-    message: "logged in successfully",
-    user: {
-      id: existingUser.id,
-      name: existingUser.name,
-      email: existingUser.email,
-    },
-    token,
-  });
+  //   // Save jwt in cookies
+  //   res.cookie("token", token, {
+  //     path: "/",
+  //     expires: new Date(Date.now() + 1000 * 60 * 120), // 2 hours
+  //     httpOnly: true,
+  //     sameSite: "lax",
+  //   });
+
+  //   return res.status(200).json({
+  //     message: "logged in successfully",
+  //     user: {
+  //       id: existingUser.id,
+  //       name: existingUser.name,
+  //       email: existingUser.email,
+  //     },
+  //     token,
+  //   });
 };
 
 // verification of jwt token
 const verification = (req, res, next) => {
   const cookies = req.headers.cookie;
   const token = cookies.split("=")[1];
-  if (!token) {
-    return res.status(404).json({ message: "token not found" });
-  }
-  jwt.verify(String(token), "midomashakel2", (err, user) => {
-    if (err) {
-      return res.status(400).json({ message: "Invalid token" });
-    }
+  // this logs the token
+  console.log(token);
 
+  if (!token) {
+    res.status(404).json({ message: " token not found" });
+  }
+  jwt.verify(String(token), "midomashakel2", (error, user) => {
+    if (error) {
+      return res.status(400).json({ message: "invalid token" });
+    }
+    console.log(user.id);
     req.id = user.id;
-    next();
   });
+  next();
 };
 
-// get user endpoint
+// end point to return user data ... if u want to return the token .. pass it from verification function above this ^^
 
 const getUser = async (req, res, next) => {
   const userId = req.id;
@@ -108,34 +120,34 @@ const getUser = async (req, res, next) => {
 };
 
 // refresh token endpoint
-const refreshToken = (req, res, next) => {
-  const cookies = req.headers.cookie;
-  const prevToken = cookies.split("=")[1];
-  if (!prevToken) {
-    return res.status(400).json({ message: "Couldn't find token" });
-  }
-  jwt.verify(String(prevToken), "midomashakel2", (err, user) => {
-    if (err) {
-      console.log(err);
-      return res.status(403).json({ message: "Authentication failed" });
-    }
-    res.clearCookie(`${user.id}`);
-    req.cookies[`${user.id}`] = "";
+// const refreshToken = (req, res, next) => {
+//   const cookies = req.headers.cookie;
+//   const prevToken = cookies.split("=")[1];
+//   if (!prevToken) {
+//     return res.status(400).json({ message: "Couldn't find token" });
+//   }
+//   jwt.verify(String(prevToken), "midomashakel2", (err, user) => {
+//     if (err) {
+//       console.log(err);
+//       return res.status(403).json({ message: "Authentication failed" });
+//     }
+//     res.clearCookie(`${user.id}`);
+//     req.cookies[`${user.id}`] = "";
 
-    const token = jwt.sign({ id: user.id }, "midomashakel2", {
-      expiresIn: "35s",
-    });
-    console.log("Regenerated Token\n", token);
+//     const token = jwt.sign({ id: user.id }, "midomashakel2", {
+//       expiresIn: "35s",
+//     });
+//     console.log("Regenerated Token\n", token);
 
-    res.cookie(String(user.id), token, {
-      path: "/",
-      expires: new Date(Date.now() + 1000 * 30),
-      httpOnly: true,
-      sameSite: "lax",
-    });
+//     res.cookie(String(user.id), token, {
+//       path: "/",
+//       expires: new Date(Date.now() + 1000 * 30),
+//       httpOnly: true,
+//       sameSite: "lax",
+//     });
 
-    req.id = user.id;
-    next();
-  });
-};
-module.exports = { signup, login, verification, getUser, refreshToken };
+//     req.id = user.id;
+//     next();
+//   });
+// };
+module.exports = { signup, login, verification, getUser };
