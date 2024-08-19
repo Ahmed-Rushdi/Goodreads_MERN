@@ -24,6 +24,7 @@ const BooksPanel = () => {
   const handleEdit = async (dataId, setDisabled) => {
     setDisabled(true);
     const { data, error } = await fetchData(`/api/books/${dataId}`);
+    console.log(data);
     setFormVals(data);
     setFormUpdateFlag(true);
     setDisabled(false);
@@ -54,8 +55,8 @@ const BooksPanel = () => {
         <div className="flex flex-wrap">
           {booksPage?.data.map((book) => (
             <BaseCard
-              key={book._id}
-              dataId={book._id}
+              key={book.isbn13}
+              dataId={book.isbn13}
               handleDelete={handleDelete}
               handleEdit={handleEdit}
             >

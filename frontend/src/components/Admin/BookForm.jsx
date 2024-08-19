@@ -13,6 +13,8 @@ const BookForm = ({
 }) => {
   const [formData, setFormData] = useState({ ...values });
   const [disabledFlag, setDisabledFlag] = useState(false);
+  console.log(values);
+  console.log(formData);
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 

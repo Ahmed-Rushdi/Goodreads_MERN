@@ -8,6 +8,8 @@ import TrendingBooksPage from "./layouts/TrendingBooksPage";
 import RegisterPage from "./components/RegisterPage";
 import ForgotPasswordPage from "./components/ForgotPasswordPage";
 import LoginPage from "./components/LoginPage";
+import AdminPage from "./layouts/AdminPage";
+
 const App = () => {
   return (
     <Router>
@@ -34,6 +36,7 @@ const App = () => {
           />
           {/* <Route path="/inquiry" element={<InquiryForm />} />
         <Route path="/about" element={<About />} /> */}
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </div>
     </Router>
