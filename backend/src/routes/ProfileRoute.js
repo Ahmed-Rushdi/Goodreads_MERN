@@ -1,9 +1,10 @@
 const express = require('express');
-const { getAllBooks } = require('../controllers/bookControllers')
+const { getAllBooks } = require('../controllers/UserBooksController');
+
 
 
 const router = express.Router();
 
-router.get('/api/profile', getAllBooks);
+router.get('/', getAllBooks);
 
 module.exports = router;

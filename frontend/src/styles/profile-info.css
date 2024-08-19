@@ -1,0 +1,36 @@
+.user-profile-container {
+    width: 100vw;
+    margin-bottom: 5rem;
+    padding: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+.user-profile-title {
+    margin-bottom: 2rem !important;
+}
+
+.user-profile-avatar {
+    width: 150px !important;
+    height: 150px !important;
+    margin: auto;
+}
+
+.user-profile-avatar img {
+    width: 150px;
+    height: 150px;
+}
+
+.user-profile-edit-icon {
+    margin-top: 0.5rem;
+}
+
+.user-profile-textfield {
+    margin: 1rem 0 !important;
+    width: 20%;
+}
+
+.user-profile-save-button {
+    width: 20%;
+    margin: 1rem 0 !important;
+}

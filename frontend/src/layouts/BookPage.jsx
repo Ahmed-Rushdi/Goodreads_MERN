@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import "../Styling/css/components/blogPost.css";
-import "../Styling/css/components/btn.css";
+import "../styling/css/components/blogPost.css";
+import "../styling/css/components/btn.css";
 import data from "../data/bookExample.json";
 import { useParams } from "react-router-dom";
 import BookNormalComponent from "../components/BookNormalComponent";
