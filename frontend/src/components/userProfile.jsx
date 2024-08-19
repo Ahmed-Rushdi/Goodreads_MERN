@@ -4,9 +4,10 @@ import UserBook from "./UserBook";
 import UserShelf from "./UserShelf";
 import PaginationRounded from "./BookPaging";
 import { useState } from "react";
+import ProfileInfo from "./profileInfo";
 
 const UserProfile = () => {
-  const url = 'http://localhost:8000/books';  // Adjusted path
+  const url = 'http://localhost:3000/api/profile';  // Adjusted path
   const { data: books, isLoading, error } = useFetch(url);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
@@ -27,8 +28,11 @@ const UserProfile = () => {
 
   return (
     <div className="user-profile">
+      <section className="profile-info">
+        <ProfileInfo />
+      </section>
       <section className="info-shelf">
-        <div className="book-status">
+        <div>
           <UserShelf />
         </div>
         <div>
