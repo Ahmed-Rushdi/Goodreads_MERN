@@ -1,12 +1,10 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/User.model");
-const {
-  generateAccessToken,
-  generateRefreshToken,
-  generateToken,
-} = require("./jwt");
+const { serialize } = require("cookie");
 
-const login = async (email, password) => {
+const { generateToken, generateRefreshToken } = require("./jwt");
+
+const login = async (email, password, res) => {
   const user = await User.findOne({ email });
 
   if (!user) {
@@ -24,6 +22,29 @@ const login = async (email, password) => {
 
   user.refreshToken = refreshToken;
   await user.save();
+
+  // Set cookies with JWT and user info
+  res.setHeader("Set-Cookie", [
+    serialize("jwt", accessToken, {
+      httpOnly: true,
+      path: "/",
+      expires: new Date(Date.now() + 3600000),
+    }),
+    serialize("refreshToken", refreshToken, {
+      httpOnly: true,
+      path: "/",
+      expires: new Date(Date.now() + 3600000),
+    }),
+    serialize(
+      "user",
+      JSON.stringify({ id: user._id, name: user.name, email: user.email }),
+      {
+        httpOnly: true,
+        path: "/",
+        expires: new Date(Date.now() + 3600000),
+      }
+    ),
+  ]);
 
   return {
     accessToken,
