@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/login.css";
 
 const LoginPage = () => {
@@ -6,11 +6,12 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
 
     try {
-      const response = await fetch("/api/auth/login", {
+      const response = await fetch("http://localhost:3000/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -18,30 +19,24 @@ const LoginPage = () => {
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await response.json();
-
       if (response.ok) {
-        console.log("Login successful:", data);
-        // Store the tokens in localStorage or cookies if needed
-        localStorage.setItem("accessToken", data.accessToken);
-        localStorage.setItem("refreshToken", data.refreshToken);
-        window.location.href = "/";
-      } else {
-        setError(data.message);
-      }
-    } catch (error) {
-      setError(" error occured why logging in :", error);
-    }
-  };
+        const data = await response.json();
 
-  const handleGmailConnect = () => {
-    // Handle Gmail connect logic here
-    console.log("Connect with Gmail");
+        document.cookie = `token=${data.token}; path=/`;
+
+        // you can navigate to another page here
+        console.log("welcome ");
+      } else {
+        setError("Invalid email or password");
+      }
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+    }
   };
 
   return (
     <div className="cont-1">
-      <form className="form-1 sign-in" onSubmit={handleSubmit}>
+      <form className="form-1 sign-in" onSubmit={handleLogin}>
         <h2>Welcome back,</h2>
         <label>
           <span>Email</span>
@@ -65,7 +60,7 @@ const LoginPage = () => {
         <button type="submit" className="submit-1">
           Sign In
         </button>
-        <button type="button" className="fb-btn-1" onClick={handleGmailConnect}>
+        <button type="button" className="fb-btn-1">
           Connect with <span>Gmail</span>
         </button>
         <button className="sign-up-1">Sign Up</button>

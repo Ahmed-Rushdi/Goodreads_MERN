@@ -1,35 +1,33 @@
 const express = require("express");
-const { login } = require("../utils/login");
 const passport = require("passport");
 const router = express.Router();
 require("dotenv").config();
+const authenticateUser = require("../middlewares/authenticateUser");
+const jwt = require("jsonwebtoken");
+const {
+  signup,
+  login,
+  verification,
+  getUser,
+  refreshToken,
+} = require("../controllers/AuthenticationController");
+
+// sign up route
+router.post("/signup", signup);
 
 // Local login route
-router.post("/login", async (req, res) => {
-  const { email, password } = req.body;
+router.post("/login", login);
 
-  try {
-    const { accessToken, refreshToken, user } = await login(email, password);
+// route to get the user
+router.get("/user", verification, getUser);
 
-    res.cookie("jwt", accessToken, {
-      httpOnly: true,
-      secure: false,
-    });
-    res.cookie("refreshToken", refreshToken, {
-      httpOnly: true,
-      secure: false,
-    });
+// router.get("/auth/getUser", authenticateUser, (req, res) => {
+//   // User details are now available in req.user
+//   res.json({ user: req.user });
+// });
+// route to refresh the token
+// router.get("/refresh", refreshToken, verification, getUser);
 
-    res.status(200).json({
-      message: "Login successful",
-      accessToken,
-      refreshToken,
-      user,
-    });
-  } catch (error) {
-    res.status(401).json({ message: error.message });
-  }
-});
 // router.post("/login", async (req, res) => {
 //   const { email, password } = req.body;
 
@@ -88,9 +86,9 @@ router.get("/logout", (req, res) => {
   }
 });
 
-// Route to get the current logged-in user
-router.get("/current_user", (req, res) => {
-  res.send(req.user);
-});
+// // Route to get the current logged-in user
+// router.get("/current_user", (req, res) => {
+//   res.send(req.user);
+// });
 
 module.exports = router;

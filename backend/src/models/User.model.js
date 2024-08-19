@@ -18,15 +18,5 @@ const userSchema = new Schema({
   googleId: { type: String },
 });
 
-userSchema.pre("save", async function (next) {
-  if (this.isModified("password")) {
-    this.password = await bcrypt.hash(this.password, 10);
-  }
-  next();
-});
-userSchema.methods.comparedPassword = function (possiblePassword) {
-  return bcrypt.compare(possiblePassword, this.password);
-};
-
 const User = model("User", userSchema);
 module.exports = User;

@@ -11,7 +11,7 @@ const profileRoute = require("./routes/ProfileRoute");
 const trendsRoute = require("./routes/TrendsRoute");
 const connectDB = require("./utils/dbConnection");
 const cors = require("cors");
-
+// npm install cookie-parser
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 // const passport = require("./utils/passport");
@@ -54,7 +54,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.use("/api/auth", authenticationRoute);
+app.use("/api", authenticationRoute);
 
 app.use(logger(logging));
 app.use("/api/users", userRoutes);
