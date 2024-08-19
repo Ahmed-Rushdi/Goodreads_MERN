@@ -1,6 +1,6 @@
 // import React from 'react';
 import { Tabs, ConfigProvider } from 'antd';
-import AuthorsAdminPanel from '../components/AuthorsAdminPanel';
+import AuthorsAdminPanel from '../components/Admin/AuthorsPanel';
 const theme = {
   token: {
     colorPrimary: '#D4A373', // Primary color

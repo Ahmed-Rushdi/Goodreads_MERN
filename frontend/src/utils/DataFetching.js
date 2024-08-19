@@ -1,12 +1,10 @@
 import axios, { AxiosError } from "axios";
 import { useState, useEffect } from "react";
-const URL = process.env.BACKEND_URL;
-
-export function useFetchData(url, token) {
+import { axiosInstance } from "../utils/AxiosInstance";
+export function useFetchData(url) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { axiosInstance } = useAxios(token);
 
   useEffect(() => {
     async function getData() {
@@ -26,15 +24,9 @@ export function useFetchData(url, token) {
       }
     }
     getData();
-  }, [url, axiosInstance]);
+  }, [url]);
   return { data, loading, error };
 }
-export function useAxios(token) {
-  const axiosInstance = axios.create({
-    baseURL: `${URL}`,
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return { axiosInstance };
-}
+
+ 
+

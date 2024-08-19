@@ -1,19 +1,39 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import AuthorMobileComponent from "../components/AuthorMobileComponent";
 import AuthorNormalComponent from "../components/AuthorNormalComponent";
-import data from "../data/bookExample.json";
+import { useFetchData } from "../utils/DataFetching";
 
 export default function AuthorPage() {
   const { id } = useParams();
-  const [productsData, setProductsData] = useState(data);
-  const isMobile = window.innerWidth <= 599;
+  const { data, loading, error } = useFetchData(`/api/authors/${id}`);
 
-  return productsData.length > 0 ? (
-    isMobile ? (
-      <AuthorMobileComponent productsData={productsData[0]} />
-    ) : (
-      <AuthorNormalComponent productsData={productsData[0]} />
-    )
-  ) : null;
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 775);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 775);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  if (!data) {
+    return <div>No author data available.</div>;
+  }
+
+  return isMobile ? (
+    <AuthorMobileComponent author={data} />
+  ) : (
+    <AuthorNormalComponent author={data} />
+  );
 }

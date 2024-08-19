@@ -1,27 +1,73 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { useState, useEffect } from "react";
 
 export default function WantToRead({ isbn }) {
-  //handle if not logged in 
-  //if logged in post request using the jwt
-  console.log(isbn);
+  const [activeShelf, setActiveShelf] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const lists = [
     {
       id: 1,
       name: "Want to read",
-      href: "#",
     },
     {
       id: 2,
       name: "Currently Reading",
-      href: "#",
     },
     {
       id: 3,
       name: "Read",
-      href: "#",
     },
   ];
+
+  useEffect(() => {
+    // const jwt = Cookies.get("jwt");
+    const jwt = "2";
+    if (jwt) {
+      setIsLoggedIn(true);
+      checkCurrentShelf(jwt);
+    }
+  }, [isbn]);
+
+  const checkCurrentShelf = async (jwt) => {
+    try {
+      const response = await fetch(`/api/book-shelf?isbn=${isbn}`, {
+        headers: { Authorization: `Bearer ${jwt}` },
+      });
+      const data = await response.json();
+      setActiveShelf(data.shelfName);
+    } catch (error) {
+      console.error("Error checking current shelf:", error);
+    }
+  };
+
+  const handleShelfChange = async (shelfName) => {
+    if (!isLoggedIn) {
+      alert("Please log in to add books to shelves.");
+      return;
+    }
+
+    // const jwt = Cookies.get("jwt");
+    const jwt = "2";
+    try {
+      const response = await fetch("/api/update-shelf", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwt}`,
+        },
+        body: JSON.stringify({ isbn, shelfName }),
+      });
+
+      if (response.ok) {
+        setActiveShelf(shelfName);
+      } else {
+        throw new Error("Failed to update shelf");
+      }
+    } catch (error) {
+      console.error("Error updating shelf:", error);
+    }
+  };
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>

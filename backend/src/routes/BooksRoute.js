@@ -9,6 +9,7 @@ const {
   putBook,
   deleteBook,
 } = require("../controllers/BookController");
+const { scrapeBook } = require("../controllers/ScrappingController");
 
 const router = Router();
 
@@ -25,7 +26,10 @@ router.get("/category/:categoryId", getCategoryBooks);
 router.get("/author/:authorId", getAuthorBooks);
 
 // * Add Book
-router.post("/", userAuth, adminAuth, postBook);
+router.post("/", postBook);
+
+// * Scrape Book
+router.post("/scrape", scrapeBook);
 
 // * Update Book info by ISBN
 // ! ISBN should be immutable

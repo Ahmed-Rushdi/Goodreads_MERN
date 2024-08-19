@@ -1,9 +1,37 @@
 const Category = require("../models/Category.model");
+const { paginateData } = require("../utils/paginator");
 
 // * GET
-const getCategories = async (req, res) => {
+// * Get paginated categories
+const getPaginatedCategories = async (req, res) => {
+  const page = parseInt(req.query.page);
+  const limit = parseInt(req.query.limit);
+  try {
+    const result = await paginateData(Category, {}, page, limit);
+    res.send(result);
+  } catch (error) {
+    res.status(404).send(error);
+  }
+};
+
+// * Get all categories
+const getAllCategories = async (req, res) => {
   const categories = await Category.find();
   res.send(categories);
+};
+
+// * Get categories handler checks for pagination request
+const getCategories = async (req, res) => {
+  try {
+    const { page, limit } = req.query;
+    if (page !== undefined && limit !== undefined) {
+      return getPaginatedCategories(req, res);
+    } else {
+      return getAllCategories(req, res);
+    }
+  } catch (error) {
+    res.status(500).send(error);
+  }
 };
 
 const getCategory = async (req, res) => {

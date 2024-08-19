@@ -4,15 +4,22 @@ import "../styling/css/components/btn.css";
 import ReadMore from "./ReadMore";
 import { Link } from "react-router-dom";
 import BooksDisplayCard from "./BooksDisplayCard";
+import { useFetchData } from "../utils/DataFetching";
 
-function AuthorMobileComponent({ productsData }) {
+function AuthorMobileComponent({ author }) {
+  const { data, loading, error } = useFetchData(
+    `/api/books/author/${author._id}`
+  );
+  if (!data) {
+    return <div>No Book data available.</div>;
+  }
   return (
     <div>
       <div className="single-product-container">
         <div className="all-img-container-mobile">
           <div className="author-info">
             <div className="normal-img-container">
-              <img src={productsData.thumbnail} />
+              <img src={author.image} alt="Author Image" />
             </div>
             <button className="p-2 border hover:bg-gray-200">
               Follow Author
@@ -20,35 +27,13 @@ function AuthorMobileComponent({ productsData }) {
           </div>
           <div className="title">
             <div className="border-element">
-              <h2 className="font-semibold">{productsData.title}</h2>
+              <h2 className="font-semibold">{author.name}</h2>
             </div>
             <div className="border-element">
               <ul className="lite-info-ul">
-                <li className="lite-info-li text-xl">{productsData.author}</li>
-                <li className="lite-info-li">{productsData.rating}</li>
-                <ReadMore text={productsData.description} limit={10} />
+                <ReadMore text={author.bio} limit={120} />
                 <li className="lite-info-li">
-                  Genres{" "}
-                  {productsData.categories.map((cat) => {
-                    return (
-                      <Link
-                        className="hover:underline mx-2 font-semibold"
-                        to={"#"}
-                      >
-                        {cat}{" "}
-                      </Link>
-                    );
-                  })}
-                </li>
-                <li className="lite-info-li my-2">
-                  {productsData.pageCount} page
-                </li>
-                <li className="lite-info-li my-2 ">
-                  <span className="mr-5">First Published</span>
-                  {productsData.publishedDate}
-                </li>
-                <li className="lite-info-li my-2">
-                  <span className="mr-5">ISBN</span> {productsData.isbn13}
+                  Birth Date {author.birthDate.slice(0, 10)}
                 </li>
               </ul>
             </div>
@@ -57,7 +42,9 @@ function AuthorMobileComponent({ productsData }) {
         <div className="product-overview-mobile">
           <div className="overview-title">
             <h2>Books by the author</h2>
-            <BooksDisplayCard data={productsData} />
+            {data.map((book) => {
+              return <BooksDisplayCard data={book} key={book.isbn13} />;
+            })}{" "}
           </div>
         </div>
       </div>

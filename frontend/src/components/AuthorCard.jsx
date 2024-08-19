@@ -1,46 +1,51 @@
+import { useFetchData } from "../utils/DataFetching";
 import ReadMore from "./ReadMore";
 
-const people = [
-  {
-    name: "Leslie Alexander",
-    email: "leslie.alexander@example.com",
-    role: "Co-Founder / CEO",
-    imageUrl:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-    lastSeen: "3h ago",
-    lastSeenDateTime: "2023-01-23T13:23Z",
-  },
-];
+export default function AuthorCard({ authorId }) {
+  console.log(authorId);
 
-export default function AuthorCard() {
+  const { data, loading, error } = useFetchData(`/api/authors/${authorId}`);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  if (!data) {
+    return <div>No author data available.</div>;
+  }
   return (
     <ul role="list" className="divide-y divide-gray-100">
-      {people.map((person) => (
-        <li key={person.email} className="flex justify-between gap-x-6 py-5">
+      {
+        <li key={data.name} className="flex justify-between gap-x-6 py-5">
           <div className="flex min-w-0 gap-x-4">
             <img
-              alt=""
-              src={person.imageUrl}
+              alt="author image"
+              src={data.image}
               className="h-12 w-12 flex-none rounded-full bg-gray-50"
             />
             <div className="min-w-0 flex-auto">
               <p className="text-sm font-semibold leading-6 text-gray-900">
-                {person.name}
+                {data.name}
               </p>
               <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                60 books
+                {data.bookCount == 1
+                  ? data.bookCount + " Book"
+                  : data.bookCount + " Books"}
               </p>
             </div>
           </div>
           <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
             <p className="text-sm leading-6 text-gray-900">
-              <button>Follow</button>
+              <button className="p-2 border hover:bg-gray-200">Follow</button>
             </p>
           </div>
         </li>
-      ))}
+      }
       <div className="author-description text-sm">
-        <ReadMore text={""} limit={120} />
+        <ReadMore text={data.bio} limit={120} />
       </div>
     </ul>
   );

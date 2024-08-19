@@ -1,6 +1,5 @@
 const express = require("express");
 const logger = require("morgan");
-const mongoose = require("mongoose");
 const path = require("path");
 const process = require("process");
 const booksRoute = require("./routes/BooksRoute");
@@ -15,11 +14,10 @@ const cors = require("cors");
 
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
-const passport = require("./utils/passport");
+// const passport = require("./utils/passport");
 require("dotenv").config();
 const authenticationRoute = require("./routes/authenticationRoute");
 const port = process.env.PORT;
-const mongoUri = process.env.MONGODB_URI;
 const logging = process.env.LOGGING;
 const session_secret = process.env.session_secret;
 const app = express();
@@ -56,7 +54,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// app.use("/api/auth", authenticationRoute);
+app.use("/api/auth", authenticationRoute);
 
 app.use(logger(logging));
 app.use("/api/users", userRoutes);
