@@ -1,10 +1,9 @@
 const express = require('express');
-const { getAllBooks } = require('../controllers/UserBooksController');
-
-
+const { getAllBooksByUser } = require('../controllers/UserBooksController');
+const { verification } = require('../controllers/AuthenticationController');
 
 const router = express.Router();
 
-router.get('/', getAllBooks);
+router.get('/', verification, getAllBooksByUser);
 
 module.exports = router;

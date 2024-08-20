@@ -1,43 +1,39 @@
 import { useState, useEffect } from "react";
 
-const useFetch = (url) => {
-
+const useFetch = (url, options = {}) => {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        const abortCont = new AbortController();
 
-        const abortCont  = new AbortController();
-
-        setTimeout(() => {
-
-            fetch (url, {signal: abortCont.signal})
-            .then (res => {
+        const fetchData = async () => {
+            try {
+                const res = await fetch(url, { signal: abortCont.signal, ...options });
                 if (!res.ok) {
-                    throw new Error ("Couldn't fetch data from the JSON file");
+                    const errorText = await res.text();
+                    console.error(`Error ${res.status}: ${errorText}`);
+                    throw new Error(`Error ${res.status}: ${errorText}`);
                 }
-                return res.json();
-            })
-            .then (data => {
+                const data = await res.json();
                 setData(data);
                 setIsLoading(false);
-                setError(null)
-            })
-            .catch (err => {
-              if (err.message === 'AbortError') {
-                console.log('Fetch Aborted');
-              } else {
-                setIsLoading(false)
-                setError(err.message)
-              }
-            })
+            } catch (err) {
+                if (err.name !== "AbortError") {
+                    setIsLoading(false);
+                    setError(err); // Ensure we pass the entire error object
+                }
+            }
+        };
 
-        }, 1000);
+        fetchData();
 
-    }, [url])
+        return () => abortCont.abort();
 
-    return {data, isLoading, error}
-}
- 
+    }, [url, JSON.stringify(options)]);
+
+    return { data, isLoading, error };
+};
+
 export default useFetch;
