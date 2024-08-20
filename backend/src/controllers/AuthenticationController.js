@@ -100,9 +100,11 @@ const verification = (req, res, next) => {
     if (error) {
       return res.status(400).json({ message: "invalid token" });
     }
-    console.log(user.id);
+
     req.id = user.id;
+    req.token = token;
   });
+
   next();
 };
 
@@ -125,8 +127,9 @@ const fetchUserById = async (req, res) => {
 
 const getUser = async (req, res, next) => {
   const userId = req.id;
+
   let user;
-  //return user id except password
+  //return zcvAuser id except password
   try {
     user = await User.findById(userId, "-password");
   } catch (error) {
@@ -135,7 +138,7 @@ const getUser = async (req, res, next) => {
   if (!user) {
     return res.status(404).json({ message: " user was not found !" });
   }
-  return res.status(200).json({ user });
+  return res.status(200).json({ user, token: req.token });
 };
 
 // refresh token endpoint

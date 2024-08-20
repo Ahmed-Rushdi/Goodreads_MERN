@@ -13,9 +13,6 @@ const BookForm = ({
 }) => {
   const [formData, setFormData] = useState({});
   const [disabledFlag, setDisabledFlag] = useState(false);
-  useEffect(() => {
-    if (values) setFormData(values);
-  }, [values]);
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -34,9 +31,16 @@ const BookForm = ({
     setFormData({});
   };
 
+  // * Set form values from parent (used in edit mode)
+  // * scroll to top after update
+  useEffect(() => {
+    if (values) setFormData(values);
+    window.scrollTo(0, 0);
+  }, [values]);
+
   return (
     <form
-      className={`p-5 m-4 bg-white border-buff rounded border sticky top-0 z-10 re${className}`}
+      className={`p-5 m-4 bg-white border-buff rounded border w-full ${className}`}
       onSubmit={handleSubmit}
     >
       <h2 className="text-2xl text-buff">{formTitle}</h2>
@@ -84,7 +88,11 @@ const BookForm = ({
         <BaseInput
           type="date"
           name="publishedDate"
-          value={formData.publishedDate ?? ""}
+          value={
+            formData.publishedDate
+              ? new Date(formData.publishedDate).toISOString().substring(0, 10)
+              : new Date().toISOString().substring(0, 10)
+          }
           onChange={handleChange}
           disabled={disabledFlag}
         />
