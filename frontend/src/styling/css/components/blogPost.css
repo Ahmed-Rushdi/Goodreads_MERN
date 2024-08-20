@@ -168,6 +168,7 @@
   flex-wrap: wrap;
   border: 1px solid #e0e0e0;
   margin: 1.5rem 0;
+  background-color: #fbebe1;
 }
 
 .author-info {
@@ -178,8 +179,7 @@
 }
 
 .overview-title {
-  background-color: #fff;
-  font-weight: 700;
+  background-color: #fbebe1;
   padding: 1.5rem;
   width: 100%;
   margin-bottom: 1.5rem;
@@ -202,4 +202,17 @@
   border-bottom: 1px solid grey;
   margin-bottom: 0.75rem;
   width: 100%;
+}
+
+.reviews-stars {
+  color: rgb(240, 216, 118);
+}
+
+.reviews-bar {
+  background-color: rgb(240, 216, 118);
+  margin: 0 0.75rem;
+}
+
+.reviews-counter-card {
+  background-color: #fdf8f1;
 }

@@ -143,6 +143,7 @@
   flex-wrap: wrap;
   border: $base-border-thickness solid $productBorder;
   margin: $base-margin * 2 0;
+  background-color: #fbebe1;
 }
 .author-info {
   display: flex;
@@ -152,8 +153,7 @@
 }
 
 .overview-title {
-  background-color: #fff;
-  font-weight: 700;
+  background-color: #fbebe1;
   padding: $base-padding * 2;
   width: 100%;
   margin-bottom: $base-margin * 2;
@@ -175,4 +175,15 @@
   border-bottom: $base-border-thickness solid $borderColor;
   margin-bottom: $base-margin;
   width: 100%;
+}
+
+.reviews-stars {
+  color: rgb(240, 216, 118);
+}
+.reviews-bar {
+  background-color: rgb(240, 216, 118);
+  margin: 0 $base-margin;
+}
+.reviews-counter-card {
+  background-color: #fdf8f1;
 }
