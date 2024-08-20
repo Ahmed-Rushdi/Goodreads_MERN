@@ -1,5 +1,5 @@
 import AdminTabs from "../components/Admin/AdminTabs";
-import AuthorsAdminPanel from "../components/Admin/AuthorsPanel";
+import AuthorsPanel from "../components/Admin/AuthorsPanel";
 import BooksPanel from "../components/Admin/BooksPanel";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -13,7 +13,7 @@ const items = [
   {
     key: "1",
     label: "Authors",
-    children: <AuthorsAdminPanel />,
+    children: <AuthorsPanel />,
   },
   {
     key: "2",
