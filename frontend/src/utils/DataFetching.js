@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import { AxiosError, isAxiosError } from "axios";
 import { useState, useEffect } from "react";
 import { axiosInstance } from "../utils/AxiosInstance";
 export function useFetchData(url) {
@@ -14,7 +14,7 @@ export function useFetchData(url) {
         setLoading(false);
         setError(null);
       } catch (error) {
-        if (axios.isAxiosError(error)) {
+        if (isAxiosError(error)) {
           setError(error);
         } else {
           setError(new AxiosError("An unexpected error occurred"));
@@ -28,5 +28,21 @@ export function useFetchData(url) {
   return { data, loading, error };
 }
 
- 
-
+export async function fetchData(url) {
+  let loading = true;
+  let error = null;
+  let data = null;
+  try {
+    const response = await axiosInstance.get(url);
+    data = response?.data;
+  } catch (e) {
+    if (isAxiosError(e)) {
+      error = e;
+    } else {
+      error = new AxiosError("An unexpected error occurred");
+    }
+  } finally {
+    loading = false;
+  }
+  return { data, loading, error };
+}

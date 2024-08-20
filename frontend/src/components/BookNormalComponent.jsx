@@ -9,6 +9,7 @@ import AuthorCard from "./AuthorCard";
 import ReviewCard from "./ReviewCard";
 import reviews from "../data/reviewExample.json";
 import TotalReviewsOverview from "./TotalReviewsOverview";
+import ReviewEditor from "./ReviewEditor";
 function BookNormalComponent({ book }) {
   console.log(book);
 
@@ -57,7 +58,7 @@ function BookNormalComponent({ book }) {
                 <li className="lite-info-li my-2">{book.pageCount} page</li>
                 <li className="lite-info-li my-2 ">
                   <span className="mr-5">First Published</span>
-                  {book.publishedDate}
+                  {book.publishedDate.slice(0, 10)}
                 </li>
                 <li className="lite-info-li my-2">
                   <span className="mr-5">ISBN</span> {book.isbn13}
@@ -74,7 +75,8 @@ function BookNormalComponent({ book }) {
               <div className="overview-title">
                 <h2 className="text-xl py-4">Reviews & Ratings</h2>
                 <div className="py-3">
-                  <TotalReviewsOverview reviews={book.reviews} />
+                  <ReviewEditor />
+                  <TotalReviewsOverview reviews={reviews} />
                 </div>{" "}
                 <ReviewCard reviewData={book.reviews} />
               </div>

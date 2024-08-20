@@ -31,6 +31,9 @@ router.post("/", postBook);
 // * Scrape Book
 router.post("/scrape", scrapeBook);
 
+// * Scrape Book
+router.post("/scrape", scrapeBook);
+
 // * Update Book info by ISBN
 // ! ISBN should be immutable
 router.put("/:isbn13", userAuth, adminAuth, putBook);

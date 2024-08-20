@@ -1,46 +1,39 @@
-// import React from 'react';
-import { Tabs, ConfigProvider } from 'antd';
-import AuthorsAdminPanel from '../components/Admin/AuthorsPanel';
-const theme = {
-  token: {
-    colorPrimary: '#D4A373', // Primary color
-    colorBgContainer: '#CCD5AE', // Background color for containers
-    colorBgLayout: '#E9EDC9', // Background color for layouts
-    colorBgElevated: '#FEFAE0', // Background color for elevated elements (like modals)
-    colorBorder: '#FAEDCD', // Border color
-    colorText: '#000000', // Text color (can also be customized for specific elements)
-    colorLink: '#D4A373', // Link color
-  },
-};
-
+import AdminTabs from "../components/Admin/AdminTabs";
+import AuthorsAdminPanel from "../components/Admin/AuthorsPanel";
+import BooksPanel from "../components/Admin/BooksPanel";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const items = [
   {
-    key: '1',
-    label: <span className="mx-5">Books</span>,
-    className: 'books-tab',
-    // children: <BooksAdminPanel />,
+    key: "0",
+    label: "Books",
+    className: "books-tab",
+    children: <BooksPanel />,
   },
   {
-    key: '2',
-    label: <span className="mx-5">Authors</span>,
+    key: "1",
+    label: "Authors",
     children: <AuthorsAdminPanel />,
   },
   {
-    key: '3',
-    label: <span className="mx-5">Categories</span>,
-    children: 'Content of Tab Pane 3',
+    key: "2",
+    label: "Categories",
+    children: "Content of Tab Pane 3",
+  },
+  {
+    key: "3",
+    label: "Scrape",
+    children: "Check Public Databases for ISBN and automatically add author",
   },
 ];
 
 const AdminPage = () => {
   return (
-    <ConfigProvider
-      theme={theme}
-    >
-      <Tabs defaultActiveKey="1" items={items}/>
-    </ConfigProvider>
+    <div className="p-3">
+      <AdminTabs data={items} />
+      <ToastContainer />
+    </div>
   );
 };
 
 export default AdminPage;
-

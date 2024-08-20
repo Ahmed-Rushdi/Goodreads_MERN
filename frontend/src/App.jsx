@@ -1,4 +1,3 @@
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./layouts/Home";
 import Navbar from "./components/Navbar";
@@ -9,10 +8,9 @@ import TrendingBooksPage from "./layouts/TrendingBooksPage";
 import RegisterPage from "./components/RegisterPage";
 import ForgotPasswordPage from "./components/ForgotPasswordPage";
 import LoginPage from "./components/LoginPage";
+import AdminPage from "./layouts/AdminPage";
 
-function App() {
-
-
+const App = () => {
   return (
     <Router>
       <Navbar />
@@ -38,10 +36,11 @@ function App() {
           />
           {/* <Route path="/inquiry" element={<InquiryForm />} />
         <Route path="/about" element={<About />} /> */}
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </div>
     </Router>
   );
-}
+};
 
 export default App;

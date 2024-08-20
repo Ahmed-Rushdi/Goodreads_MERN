@@ -1,4 +1,3 @@
-
 import "../styling/css/components/blogPost.css";
 import "../styling/css/components/btn.css";
 import ReadMore from "./ReadMore";
@@ -19,7 +18,7 @@ function AuthorMobileComponent({ author }) {
         <div className="all-img-container-mobile">
           <div className="author-info">
             <div className="normal-img-container">
-              <img src={author.image} alt="Author Image" />
+              <img src={author.image} className="border-2" alt="Author Image" />
             </div>
             <button className="p-2 border hover:bg-gray-200">
               Follow Author
@@ -30,12 +29,17 @@ function AuthorMobileComponent({ author }) {
               <h2 className="font-semibold">{author.name}</h2>
             </div>
             <div className="border-element">
-              <ul className="lite-info-ul">
-                <ReadMore text={author.bio} limit={120} />
-                <li className="lite-info-li">
-                  Birth Date {author.birthDate.slice(0, 10)}
-                </li>
-              </ul>
+              {author.bio && (
+                <ul className="lite-info-ul">
+                  <ReadMore text={author.bio} limit={120} />
+                  <li className="lite-info-li">
+                    Birth Date:{" "}
+                    {author.birthDate
+                      ? author.birthDate.slice(0, 10)
+                      : "No Info"}
+                  </li>
+                </ul>
+              )}
             </div>
           </div>
         </div>

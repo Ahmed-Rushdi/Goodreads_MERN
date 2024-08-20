@@ -3,9 +3,6 @@ body {
   box-sizing: border-box;
   padding-bottom: 50px;
 }
-/* .user-profile {
-    margin-top: 10rem;
-} */
 .info-shelf {
   display: flex;
   flex-direction: column;
