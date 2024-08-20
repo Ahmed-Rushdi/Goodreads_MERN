@@ -56,7 +56,7 @@ function BookMobileComponent({ book }) {
                 <li className="lite-info-li my-2">{book.pageCount} page</li>
                 <li className="lite-info-li my-2 ">
                   <span className="mr-5">First Published</span>
-                  {book.publishedDate}
+                  {book.publishedDate.slice(0, 10)}
                 </li>
                 <li className="lite-info-li my-2">
                   <span className="mr-5">ISBN</span> {book.isbn13}

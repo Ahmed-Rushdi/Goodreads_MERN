@@ -15,7 +15,7 @@ const TotalReviewsOverview = ({ reviews }) => {
   const averageRating = totalStars / totalRatings;
 
   return (
-    <div className="max-w-md mx-auto p-4 bg-white rounded-lg shadow-md">
+    <div className="max-w-md mx-auto p-4 bg-white rounded-lg shadow-md reviews-counter-card">
       <div className="flex items-center">
         <div className="flex">
           {Array(5)
@@ -25,7 +25,7 @@ const TotalReviewsOverview = ({ reviews }) => {
                 key={i}
                 className={`h-6 w-6 ${
                   i < Math.round(averageRating)
-                    ? "text-yellow-400"
+                    ? "reviews-stars"
                     : "text-gray-300"
                 }`}
                 fill="currentColor"
@@ -49,9 +49,9 @@ const TotalReviewsOverview = ({ reviews }) => {
           return (
             <div key={starRating} className="flex items-center mb-1">
               <span className="w-16">{starRating} stars</span>
-              <div className="relative w-full bg-gray-200 h-3 rounded-md">
+              <div className="relative w-full  h-3 rounded-md">
                 <div
-                  className="bg-orange-500 h-3 rounded-md"
+                  className="reviews-bar h-3 rounded-md"
                   style={{ width: `${(count / totalRatings) * 100}%` }}
                 ></div>
               </div>

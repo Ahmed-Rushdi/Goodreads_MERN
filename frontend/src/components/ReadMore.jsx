@@ -7,14 +7,18 @@ const ReadMore = ({ text, limit }) => {
     setIsReadMore(!isReadMore);
   };
 
+  const isTextLong = text.length > limit;
+
   return (
     <div className="relative">
       <p className="text-gray-800">
-        {isReadMore ? `${text.slice(0, limit)}...` : text}
+        {isTextLong && isReadMore ? `${text.slice(0, limit)}...` : text}
       </p>
-      <button onClick={toggleReadMore} className=" text-blue-500">
-        {isReadMore ? "Show more" : "Show less"}
-      </button>
+      {isTextLong && (
+        <button onClick={toggleReadMore} className="text-blue-500">
+          {isReadMore ? "Show more" : "Show less"}
+        </button>
+      )}
     </div>
   );
 };

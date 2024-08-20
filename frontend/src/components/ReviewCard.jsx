@@ -2,9 +2,9 @@ import ReadMore from "./ReadMore";
 
 export default function ReviewCard({ reviewData }) {
   return (
-    <ul role="list" className="divide-y divide-gray-100">
+    <ul role="list" className="divide-y divide-gray-100 bg-white-blue">
       {reviewData.map((review) => (
-        <li key={review.email} className="flex justify-between gap-x-6 py-5">
+        <li key={review.userId} className="flex justify-between gap-x-6 py-5">
           <div className="flex min-w-0 gap-x-4">
             <img
               alt=""
@@ -13,17 +13,12 @@ export default function ReviewCard({ reviewData }) {
             />
             <div className="min-w-0 flex-auto">
               <p className="text-sm font-semibold leading-6 text-gray-900">
-                {review.name}
+                {review.userId}
               </p>
-              <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                60 books
+              <p className="mt-1  text-xs leading-5 text-gray-500">
+                <ReadMore text={review.review} limit={120} />
               </p>
             </div>
-          </div>
-          <div className="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-            <p className="text-sm leading-6 text-gray-900">
-              <button>Follow</button>
-            </p>
           </div>
         </li>
       ))}

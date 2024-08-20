@@ -9,6 +9,7 @@ export default {
         beige: "#E9EDC9",
         "corn-silk": "#FEFAE0",
         "papaya-whip": "#FAEDCD",
+        "white-blue": "#fbebe1;",
         buff: "#D4A373",
       },
     },
