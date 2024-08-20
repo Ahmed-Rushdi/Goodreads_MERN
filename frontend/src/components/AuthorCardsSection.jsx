@@ -24,7 +24,7 @@ export default function AuthorCardsSection({ authors }) {
                     {author.name}
                   </h3>
                   <p className="mt-2 text-sm text-gray-500">
-                    {author.bio.slice(0, 80)}...
+                    {author.bio ? author.bio.slice(0, 80) : ""}
                   </p>
                   <p className="mt-2 text-sm text-gray-500">
                     <strong>Average Rating:</strong> {author.averageRating} (
