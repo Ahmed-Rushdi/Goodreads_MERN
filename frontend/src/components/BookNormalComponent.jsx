@@ -78,7 +78,7 @@ function BookNormalComponent({ book }) {
                   <ReviewEditor />
                   <TotalReviewsOverview reviews={reviews} />
                 </div>{" "}
-                <ReviewCard reviewData={reviews} />
+                <ReviewCard reviewData={book.reviews} />
               </div>
             </div>
           </div>

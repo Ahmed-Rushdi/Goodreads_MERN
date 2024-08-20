@@ -26,7 +26,10 @@ router.get("/category/:categoryId", getCategoryBooks);
 router.get("/author/:authorId", getAuthorBooks);
 
 // * Add Book
-router.post("/", userAuth, adminAuth, postBook);
+router.post("/", postBook);
+
+// * Scrape Book
+router.post("/scrape", scrapeBook);
 
 // * Scrape Book
 router.post("/scrape", scrapeBook);

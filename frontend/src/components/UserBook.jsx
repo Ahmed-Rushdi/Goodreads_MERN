@@ -13,7 +13,7 @@ const UserBook = ({ books }) => {
                 {books.map((book) => (
                     <li className='user-book' key={book.isbn13 || Math.random().toString()}>
                         <div className="book-image">
-                            <img src='https://placehold.co/250x400' alt={`${book.title} thumbnail`} />
+                            <img src={book.thumbnail} alt={`${book.title} thumbnail`} />
                             <div className="book-shelf">
                                 <BasicModal />
                             </div>
