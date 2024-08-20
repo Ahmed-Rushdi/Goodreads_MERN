@@ -1,113 +1,52 @@
-import { useState } from "react";
-import { fetchData, useFetchData } from "../../utils/DataFetching";
-import AuthorForm from "./AuthorForm";
-import BasicSpinner from "../BasicSpinner";
-import BaseCard from "../Admin/BaseCard";
-import { delData } from "../../utils/DataDeletion";
-import { toast } from "react-toastify";
-import PaginationRounded from "../BookPaging";
-const handleDelete = async (dataId, setDisabled) => {
-  setDisabled(true);
-  const { data, loading, error } = await delData(`/api/authors/${dataId}`);
-  setDisabled(loading);
-  if (error) {
-    toast.error(error.message + data);
-  } else {
-    toast.success(data);
-  }
-};
-// TODO: implement search functionality
-const AuthorsPanel = () => {
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(12);
-  const [formVals, setFormVals] = useState({});
-  const [formUpdateFlag, setFormUpdateFlag] = useState(false);
-  const handleEdit = async (dataId, setDisabled) => {
-    setDisabled(true);
-    const { data, error } = await fetchData(`/api/authors/${dataId}`);
-    console.log("edit data", data);
-    setFormVals(data);
-    setFormUpdateFlag(true);
-    setDisabled(false);
-    if (error) {
-      toast.error(error.message + data);
-    }
-  };
-
-  const {
-    data: authorsPage,
-    loading,
-    error,
-  } = useFetchData(`/api/authors?page=${page}&limit=${limit}`);
-
+const BaseInput = ({
+  type,
+  name,
+  placeholder,
+  value,
+  onChange,
+  required = false,
+  pattern = null,
+  title = "",
+  ...props
+}) => {
   return (
-    <div className="flex flex-col items-center">
-      <AuthorForm
-        formTitle="Author Information"
-        values={formVals}
-        updateFlag={formUpdateFlag}
-        setUpdateFlag={setFormUpdateFlag}
-      />
-      <div className="flex flex-col items-center">
-        <PaginationRounded
-          totalItems={authorsPage?.totalItems}
-          itemsPerPage={limit}
-          currentPage={page}
-          onPageChange={setPage}
+    <div className="flex flex-col w-fit mx-3 flex-grow">
+      <label
+        htmlFor={`form-${name}`}
+        className="text-sm font-medium leading-6 text-buff"
+      >
+        {name.charAt(0).toUpperCase() + name.slice(1)}
+        {!required && <i> (optional)</i>}
+      </label>
+      {type === "textarea" ? (
+        <textarea
+          name={name}
+          id={`form-${name}`}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          title={title}
+          pattern={pattern}
+          required={required}
+          className="border-2 px-3 py-1.5 shadow-sm placeholder:text-gray-400 border-buff sm:text-sm sm:leading-6 rounded-md"
         />
-        <p className="text-xs text-gray-500">
-          Showing {page * limit - limit + 1}-
-          {Math.min(page * limit, authorsPage?.totalItems)} of{" "}
-          {authorsPage?.totalItems} total authors
-        </p>
-      </div>
-      {loading ? (
-        <BasicSpinner className="mt-96" />
-      ) : error ? (
-        <div>Error: {error.message}</div>
       ) : (
-        <div className="flex flex-wrap">
-          {authorsPage?.data.map((author) => (
-            <BaseCard
-              key={author.isbn13}
-              dataId={author.isbn13}
-              handleDelete={handleDelete}
-              handleEdit={handleEdit}
-            >
-              <div className="w-[100px] flex-shrink-0">
-                <img
-                  src={
-                    author.thumbnail == ""
-                      ? "http://localhost:3000/fallback_thumbnail.png"
-                      : author.thumbnail
-                  }
-                  onError={function () {
-                    this.src = "http://localhost:3000/fallback_thumbnail.png";
-                  }}
-                  className=""
-                />
-              </div>
-              <div className="w-full text-xs sm:text-sm flex-shrink">
-                <p className="text-buff line-clamp-1">
-                  {author.title} | <i>{author.author}</i>
-                </p>
-                <p>{author.isbn13}</p>
-                <p>
-                  <span>Published: </span>
-                  {" " + author.publishedDate
-                    ? new Date(author.publishedDate).toLocaleDateString()
-                    : ""}
-                </p>
-                <p className="line-clamp-3 text-gray-700 italic">
-                  {author.description}
-                </p>
-              </div>
-            </BaseCard>
-          ))}
-        </div>
+        <input
+          type={type}
+          name={name}
+          id={`form-${name}`}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          title={title}
+          pattern={pattern}
+          required={required}
+          {...props}
+          className="border-2 px-3 py-1.5 shadow-sm placeholder:text-gray-400 border-buff sm:text-sm sm:leading-6 rounded-md"
+        />
       )}
     </div>
   );
 };
 
-export default AuthorsPanel;
+export default BaseInput;

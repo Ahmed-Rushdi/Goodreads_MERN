@@ -16,6 +16,7 @@ const AuthorForm = ({
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
+
   const handleSubmit = async () => {
     setDisabledFlag(true);
     const { data, error } = updateFlag
@@ -40,7 +41,7 @@ const AuthorForm = ({
 
   return (
     <form
-      className={`p-5 m-4 bg-white border-buff rounded border ${className}`}
+      className={`p-5 m-4 bg-white border-buff rounded border w-full ${className}`}
       onSubmit={handleSubmit}
     >
       <h2 className="text-2xl text-buff">{formTitle}</h2>
@@ -59,7 +60,11 @@ const AuthorForm = ({
         <BaseInput
           type="date"
           name="birthDate"
-          value={formData.birthDate ?? ""}
+          value={
+            formData.birthDate
+              ? new Date(formData.birthDate).toISOString().substring(0, 10)
+              : new Date().toISOString().substring(0, 10)
+          }
           onChange={handleChange}
           disabled={disabledFlag}
         />

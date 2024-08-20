@@ -25,7 +25,6 @@ const AuthorsPanel = () => {
   const handleEdit = async (dataId, setDisabled) => {
     setDisabled(true);
     const { data, error } = await fetchData(`/api/authors/${dataId}`);
-    console.log("edit data", data);
     setFormVals(data);
     setFormUpdateFlag(true);
     setDisabled(false);
@@ -77,20 +76,13 @@ const AuthorsPanel = () => {
               <div className="w-[100px] flex-shrink-0">
                 <img
                   src={
-                    author.image == ""
-                      ? "http://localhost:3000/fallback_author.png"
-                      : author.image
+                    author.image ?? "http://localhost:3000/fallback_author.jpg"
                   }
-                  onError={function () {
-                    this.src = "http://localhost:3000/fallback_author.png";
-                  }}
                   className=""
                 />
               </div>
               <div className="w-full text-xs sm:text-sm flex-shrink">
-                <p className="text-buff line-clamp-1">
-                  {author.name} | <i>{author.author}</i>
-                </p>
+                <p className="text-buff line-clamp-1">{author.name}</p>
                 <p>
                   <span>Born: </span>
                   {" " + author.birthDate
@@ -98,7 +90,7 @@ const AuthorsPanel = () => {
                     : "N/A"}
                 </p>
                 <p className="line-clamp-3 text-gray-700 italic">
-                  {author.bio}
+                  {author.bio ?? "Bio not available"}
                 </p>
               </div>
             </BaseCard>

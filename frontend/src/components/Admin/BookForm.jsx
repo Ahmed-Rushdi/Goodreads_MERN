@@ -40,7 +40,7 @@ const BookForm = ({
 
   return (
     <form
-      className={`p-5 m-4 bg-white border-buff rounded border ${className}`}
+      className={`p-5 m-4 bg-white border-buff rounded border w-full ${className}`}
       onSubmit={handleSubmit}
     >
       <h2 className="text-2xl text-buff">{formTitle}</h2>
@@ -88,7 +88,11 @@ const BookForm = ({
         <BaseInput
           type="date"
           name="publishedDate"
-          value={formData.publishedDate ?? ""}
+          value={
+            formData.publishedDate
+              ? new Date(formData.publishedDate).toISOString().substring(0, 10)
+              : new Date().toISOString().substring(0, 10)
+          }
           onChange={handleChange}
           disabled={disabledFlag}
         />

@@ -25,7 +25,6 @@ const BooksPanel = () => {
   const handleEdit = async (dataId, setDisabled) => {
     setDisabled(true);
     const { data, error } = await fetchData(`/api/books/${dataId}`);
-    console.log("edit data", data);
     setFormVals(data);
     setFormUpdateFlag(true);
     setDisabled(false);
