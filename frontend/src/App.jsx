@@ -9,6 +9,7 @@ import RegisterPage from "./components/RegisterPage";
 import ForgotPasswordPage from "./components/ForgotPasswordPage";
 import LoginPage from "./components/LoginPage";
 import AdminPage from "./layouts/AdminPage";
+import TrendingCategoriesPage from "./layouts/TrendingCategoriesPage";
 
 const App = () => {
   return (
@@ -20,6 +21,10 @@ const App = () => {
           <Route path="/book/:id" element={<BookPage />} />
           <Route path="/author/:id" element={<AuthorPage />} />
           <Route path="/currently-trending" element={<TrendingBooksPage />} />
+          <Route
+            path="/trending-categories"
+            element={<TrendingCategoriesPage />}
+          />
           <Route path="/registration" element={<RegisterPage />} />
 
           <Route path="/login" element={<LoginPage />} />
