@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 const { ratingValidator, isbnValidator } = require("../utils/validators");
-// ! WARNING: don't call .save() this isn't meant to be a Collection just a Subdocument for Books and Users 
+// ! WARNING: don't call .save() this isn't meant to be a Collection just a Subdocument for Books and Users
 
 const reviewSchema = new Schema(
   {
@@ -27,5 +27,5 @@ const reviewSchema = new Schema(
   },
   { timestamps: true }
 );
-const Review = model("Review", reviewSchema);
-module.exports = Review;
+// const Review = model("Review", reviewSchema);
+module.exports = reviewSchema;

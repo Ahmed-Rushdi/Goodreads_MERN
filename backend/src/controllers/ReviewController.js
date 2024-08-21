@@ -1,4 +1,4 @@
-const Review = require("../models/Review.model");
+// const Review = require("../models/Review.model");
 const Book = require("../models/Book.model");
 const User = require("../models/User.model");
 
@@ -74,7 +74,7 @@ const getAllBookReviews = async (req, res) => {
   res.send(reviews);
 };
 
-// * Get all reviews of specific user with User._id passed as req.user from jwt middleware
+// * Get all reviews of specific user with User._id passed in req.user from jwt middleware
 const getAllUserReviews = async (req, res) => {
   const uid = req.user.id;
   const user = await User.findOne({ _id: uid });
@@ -113,25 +113,25 @@ const getUserReviews = async (req, res) => {
 
 // * Get specific review by isbn13 (from req.params) and user._id (from req.user)
 const getReview = async (req, res) => {
-  const review = await Review.findOne({
-    bookId: req.params.isbn13,
-    userId: req.user.id,
-  });
+  const user = await User.findOne({ _id: req.user.id });
+  if (!user) return res.status(404).send("User not found");
+  const review = user.reviews.find((r) => r.bookId === req.params.isbn13);
   if (!review) return res.status(404).send("Review not found");
   res.send(review);
 };
 
-// * POST
+// * POST: Takes review rating and review string from req.body
 const postReview = async (req, res) => {
   const book = await Book.findOne({ isbn13: req.params.isbn13 });
   if (!book) return res.status(404).send("Book not found");
   const user = await User.findOne({ _id: req.user.id });
   if (!user) return res.status(404).send("User not found");
 
-  const review = new Review(req.body);
-  review.bookId = req.params.isbn13;
-  review.userId = req.user.id;
-
+  const review = {
+    ...req.body,
+    bookId: req.params.isbn13,
+    userId: req.user.id,
+  };
   book.reviews.push(review);
   user.reviews.push(review);
 

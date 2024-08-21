@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 const { isbnValidator } = require("../utils/validators");
-
+const reviewSchema = require("./Review.schema");
 const bookSchema = new Schema({
   isbn13: {
     type: String,
@@ -45,19 +45,27 @@ const bookSchema = new Schema({
     ref: "Category",
     index: true,
   },
-  reviews: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "Review", // Reference to the Review model
-    },
-  ],
+  reviews: [reviewSchema],
   averageRating: {
     type: Number,
-    default: 0,
+    virtual: {
+      get() {
+        const totalRatings = this.reviews.length;
+        if (totalRatings === 0 || !this.reviews) return 0;
+        const totalStars = this.reviews.reduce((acc, review) => {
+          return acc + review.rating;
+        }, 0);
+        return totalStars / totalRatings;
+      },
+    },
   },
   ratingsCount: {
     type: Number,
-    default: 0,
+    virtual: {
+      get() {
+        return this.reviews.length;
+      },
+    },
   },
 });
 
