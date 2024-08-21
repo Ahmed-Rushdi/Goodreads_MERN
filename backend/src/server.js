@@ -21,6 +21,7 @@ const port = process.env.PORT;
 const logging = process.env.LOGGING;
 const session_secret = process.env.session_secret;
 const app = express();
+app.use(cookieParser());
 
 // google session
 
@@ -52,7 +53,6 @@ app.use(
 app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 
 app.use("/api", authenticationRoute);
 
