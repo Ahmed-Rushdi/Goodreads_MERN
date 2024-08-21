@@ -10,6 +10,7 @@ const {
   verification,
   getUser,
   refreshToken,
+  fetchUserById,
 } = require("../controllers/AuthenticationController");
 
 // sign up route
