@@ -54,7 +54,7 @@ const login = async (req, res, next) => {
   const token = jwt.sign({ id: existingUser._id }, "midomashakel2", {
     expiresIn: "3000s",
   });
-  res.cookie(String('token'), token, {
+  res.cookie("token", token, {
     path: "/",
     expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
     httpOnly: true,
@@ -85,43 +85,37 @@ const login = async (req, res, next) => {
 
 // verification of jwt token
 const verification = (req, res, next) => {
-  const cookies = req.headers.cookie;
+  const token = req.cookies.token; // Access token from cookies
 
-  if (!cookies) {
-    return res.status(401).send('No token found, please login!')
-  }
-  const token = cookies.split("=")[1];
-  // this logs the token
+  console.log("Retrieved Token:", token); // Log the token
 
   if (!token) {
-    res.status(404).json({ message: " token not found" });
+    return res.status(401).send("No token found, please login!");
   }
-  jwt.verify(String(token), "midomashakel2", (error, user) => {
+
+  jwt.verify(token, "midomashakel2", (error, user) => {
     if (error) {
-      return res.status(400).json({ message: "invalid token" });
+      return res.status(400).json({ message: "Invalid token" });
     }
 
     req.id = user.id;
     req.token = token;
+    next();
   });
-
-  next();
 };
-
 
 const fetchUserById = async (req, res) => {
-    let user;
-    try {
-        user = await User.findById(req.id, "-password");
-    } catch (error) {
-        throw new Error("Failed to fetch user");
-    }
-    if (!user) {
-        throw new Error("User not found");
-    }
-    return user;
+  let user;
+  try {
+    user = await User.findById(req.id, "-password");
+  } catch (error) {
+    throw new Error("Failed to fetch user");
+  }
+  if (!user) {
+    throw new Error("User not found");
+  }
+  return user;
 };
-
 
 // end point to return user data ... if u want to return the token .. pass it from verification function above this ^^
 
@@ -138,6 +132,7 @@ const getUser = async (req, res, next) => {
   if (!user) {
     return res.status(404).json({ message: " user was not found !" });
   }
+
   return res.status(200).json({ user, token: req.token });
 };
 

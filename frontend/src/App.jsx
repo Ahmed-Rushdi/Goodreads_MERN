@@ -11,6 +11,7 @@ import LoginPage from "./components/LoginPage";
 import AdminPage from "./layouts/AdminPage";
 import TrendingCategoriesPage from "./layouts/TrendingCategoriesPage";
 
+import Test from "./components/Test";
 const App = () => {
   return (
     <Router>
@@ -18,6 +19,7 @@ const App = () => {
       <div className="mt-1.5">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/test" element={<Test />} />
           <Route path="/book/:id" element={<BookPage />} />
           <Route path="/author/:id" element={<AuthorPage />} />
           <Route path="/currently-trending" element={<TrendingBooksPage />} />
@@ -30,6 +32,7 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/test" element={<Test />} />
           {/* <Route path="/contact" element={<Contact />} /> */}
           <Route
             path="/profile"
