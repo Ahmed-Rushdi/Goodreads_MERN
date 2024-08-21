@@ -4,6 +4,7 @@ import postData from "../../utils/DataPosting";
 import putData from "../../utils/DataUpdating";
 import { toast } from "react-toastify";
 import BasicSpinner from "../BasicSpinner";
+import { useFetchData } from "../../utils/DataFetching";
 const BookForm = ({
   className,
   formTitle,
@@ -31,6 +32,18 @@ const BookForm = ({
     setFormData({});
   };
 
+  const handleAddCategory = () =>
+    setFormData({
+      ...formData,
+      categories: [...formData.categories, formData.category],
+    });
+
+  const handleRemoveCategory = (index) =>
+    setFormData({
+      ...formData,
+      categories: formData.categories.filter((_, i) => i !== index),
+    });
+
   // * Set form values from parent (used in edit mode)
   // * scroll to top after update
   useEffect(() => {
@@ -38,6 +51,7 @@ const BookForm = ({
     window.scrollTo(0, 0);
   }, [values]);
 
+  const { data: categories } = useFetchData("/api/categories");
   return (
     <form
       className={`p-5 m-4 bg-white border-buff rounded border w-full ${className}`}
@@ -105,11 +119,14 @@ const BookForm = ({
         />
 
         <BaseInput
-          type="text"
-          name="categories"
-          value={formData.categories ?? ""}
+          type="tags"
+          name="category"
+          value={formData.category ?? ""}
+          mulValues={formData.categories ?? []}
           onChange={handleChange}
-          pattern={"^([a-zA-Z0-9]+,?)*$"}
+          addCategory={handleAddCategory}
+          removeCategory={handleRemoveCategory}
+          catOptions={categories}
           disabled={disabledFlag}
         />
         <BaseInput

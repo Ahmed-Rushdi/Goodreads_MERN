@@ -46,6 +46,7 @@ const BooksPanel = () => {
         values={formVals}
         updateFlag={formUpdateFlag}
         setUpdateFlag={setFormUpdateFlag}
+        className={""}
       />
       <div className="flex flex-col items-center">
         <PaginationRounded
@@ -65,7 +66,7 @@ const BooksPanel = () => {
       ) : error ? (
         <div>Error: {error.message}</div>
       ) : (
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap w-full">
           {booksPage?.data.map((book) => (
             <BaseCard
               key={book.isbn13}

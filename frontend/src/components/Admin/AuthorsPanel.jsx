@@ -38,6 +38,7 @@ const AuthorsPanel = () => {
     loading,
     error,
   } = useFetchData(`/api/authors?page=${page}&limit=${limit}`);
+  console.log(authorsPage);
 
   return (
     <div className="flex flex-col items-center">
@@ -65,7 +66,7 @@ const AuthorsPanel = () => {
       ) : error ? (
         <div>Error: {error.message}</div>
       ) : (
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap w-full">
           {authorsPage?.data.map((author) => (
             <BaseCard
               key={author._id}
