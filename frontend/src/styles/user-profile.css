@@ -1,7 +1,7 @@
 body {
-    @apply bg-corn-silk;
-    box-sizing: border-box;
-    padding-bottom: 50px;
+  @apply bg-corn-silk;
+  box-sizing: border-box;
+  padding-bottom: 50px;
 }
 .info-shelf {
   display: flex;

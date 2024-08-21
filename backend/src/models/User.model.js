@@ -8,6 +8,7 @@ const userSchema = new Schema({
   userRole: { type: String, enum: ["user", "admin"], default: "user" },
   reviews: [{ type: Schema.Types.ObjectId, ref: "Review" }],
   books: [{ type: Schema.Types.ObjectId, ref: "Book" }],
+  read: [{ type: Schema.Types.ObjectId, ref: "Book" }],
   currentlyReading: [{ type: Schema.Types.ObjectId, ref: "Book" }],
   wantToRead: [{ type: Schema.Types.ObjectId, ref: "Book" }],
   following: [{ type: Schema.Types.ObjectId, ref: "User" }],

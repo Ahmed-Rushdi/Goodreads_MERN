@@ -1,27 +1,27 @@
 import AdminTabs from "../components/Admin/AdminTabs";
-import AuthorsAdminPanel from "../components/Admin/AuthorsPanel";
+import AuthorsPanel from "../components/Admin/AuthorsPanel";
 import BooksPanel from "../components/Admin/BooksPanel";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const items = [
   {
-    key: "0",
+    key: 0,
     label: "Books",
     className: "books-tab",
     children: <BooksPanel />,
   },
   {
-    key: "1",
+    key: 1,
     label: "Authors",
-    children: <AuthorsAdminPanel />,
+    children: <AuthorsPanel />,
   },
   {
-    key: "2",
+    key: 2,
     label: "Categories",
     children: "Content of Tab Pane 3",
   },
   {
-    key: "3",
+    key: 3,
     label: "Scrape",
     children: "Check Public Databases for ISBN and automatically add author",
   },

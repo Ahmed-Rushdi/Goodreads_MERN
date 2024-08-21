@@ -52,11 +52,11 @@ const login = async (req, res, next) => {
   }
   // you can use process.env.JWT_SECRET instead of  "midomashakel2"
   const token = jwt.sign({ id: existingUser._id }, "midomashakel2", {
-    expiresIn: "1h",
+    expiresIn: "3000s",
   });
-  res.cookie(String(existingUser._id), token, {
+  res.cookie(String("token"), token, {
     path: "/",
-    expires: new Date(Date.now() + 300 * 1000),
+    expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
     httpOnly: true,
     sameSite: "lax",
   });
@@ -86,6 +86,10 @@ const login = async (req, res, next) => {
 // verification of jwt token
 const verification = (req, res, next) => {
   const cookies = req.headers.cookie;
+
+  if (!cookies) {
+    return res.status(401).send("No token found, please login!");
+  }
   const token = cookies.split("=")[1];
   // this logs the token
 
@@ -101,6 +105,19 @@ const verification = (req, res, next) => {
     req.token = token;
   });
   next();
+};
+
+const fetchUserById = async (req, res) => {
+  let user;
+  try {
+    user = await User.findById(req.id, "-password");
+  } catch (error) {
+    throw new Error("Failed to fetch user");
+  }
+  if (!user) {
+    throw new Error("User not found");
+  }
+  return user;
 };
 
 // end point to return user data ... if u want to return the token .. pass it from verification function above this ^^
@@ -153,4 +170,4 @@ const getUser = async (req, res, next) => {
 //     next();
 //   });
 // };
-module.exports = { signup, login, verification, getUser };
+module.exports = { signup, login, verification, getUser, fetchUserById };
