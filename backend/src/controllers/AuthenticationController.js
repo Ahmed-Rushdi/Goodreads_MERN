@@ -113,6 +113,7 @@ const fetchUserById = async (req, res) => {
     let user;
     try {
         user = await User.findById(req.id, "-password");
+        console.log(user);
     } catch (error) {
         throw new Error("Failed to fetch user");
     }
