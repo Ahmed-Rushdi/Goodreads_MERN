@@ -1,45 +1,28 @@
-import React, { createContext, useState, useEffect } from "react";
+// useUserData.js
+import { useState, useEffect } from "react";
+import useFetch from "./useFetch";
 
-import { UserContext } from "./UserContext";
-
-const ProvideData = ({ children }) => {
-  const [user, setUser] = useState(null);
+const ProvideData = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const fetchUserData = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/api/user", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${"token"}`,
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setUser(data.user);
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-      }
-    } catch (error) {
-      console.error("Error getting user data:", error);
-    }
-  };
+  // Use the custom useFetch hook to fetch user data
+  const {
+    data: user,
+    isLoading,
+    error,
+  } = useFetch("http://localhost:3000/api/user", {
+    credentials: "include",
+  });
 
   useEffect(() => {
-    if (isLoggedIn) {
-      fetchUserData();
+    if (user) {
+      setIsLoggedIn(true);
+    } else {
+      setIsLoggedIn(false);
     }
-  }, [isLoggedIn]);
+  }, [user]);
 
-  return (
-    <UserContext.Provider value={{ user, isLoggedIn, setIsLoggedIn }}>
-      {children}
-    </UserContext.Provider>
-  );
+  return { user, isLoggedIn, setIsLoggedIn, isLoading, error };
 };
 
 export default ProvideData;

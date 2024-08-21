@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../styles/login.css";
 import { useNavigate } from "react-router-dom";
+import ProvideData from "./ProvideData";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -8,6 +9,7 @@ const LoginPage = () => {
   const [error, setError] = useState("");
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();
+  const { setIsLoggedIn } = ProvideData();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -19,12 +21,14 @@ const LoginPage = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
         body: JSON.stringify({ email, password }),
       });
 
       if (response.ok) {
         const data = await response.json();
         console.log(data);
+        setIsLoggedIn(true);
         navigate("/test");
       } else {
         setError("Invalid email or password");

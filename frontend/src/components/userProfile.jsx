@@ -24,7 +24,7 @@ const UserProfile = () => {
   if (error) {
     console.error("Error fetching data:", error);
     return <p>Error: {error.message || "An error occurred while fetching data"}</p>;
-  }
+  } 
 
   const books = data.books.books || []; 
 
