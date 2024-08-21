@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../styles/login.css";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [userName, setUserName] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -21,11 +24,8 @@ const LoginPage = () => {
 
       if (response.ok) {
         const data = await response.json();
-
-        document.cookie = `token=${data.token}; path=/`;
-
-        // you can navigate to another page here
-        console.log("welcome ");
+        console.log(data);
+        navigate("/test");
       } else {
         setError("Invalid email or password");
       }
@@ -65,7 +65,6 @@ const LoginPage = () => {
         </button>
         <button className="sign-up-1">Sign Up</button>
       </form>
-
       <div className="sub-cont">
         <div className="img-1">
           <div className="img__text m--up">
@@ -75,6 +74,8 @@ const LoginPage = () => {
           </div>
         </div>
       </div>
+      {userName && <p>Welcome, {userName}!</p>} {/* Display user's name */}
+      {error && <p>{error}</p>} {/* Display any error */}
     </div>
   );
 };

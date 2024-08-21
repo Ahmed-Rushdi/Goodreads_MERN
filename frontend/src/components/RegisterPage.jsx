@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "../styles/signup.css";
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
+import { useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
   const [name, setName] = useState("");
@@ -12,14 +13,16 @@ const SignUpPage = () => {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [repeatPasswordError, setRepeatPasswordError] = useState("");
+  const navigate = useNavigate();
 
   const validatePassword = (pwd) => {
     const upperCasePattern = /[A-Z]/;
     const specialCharPattern = /[!@#$%^&*(),.?":{}|<>]/;
-    if (pwd.length < 8) return "Must be at least 8 characters long.";
-    if (!upperCasePattern.test(pwd)) return "Including one uppercase letter.";
+    if (pwd.length < 8) return "Password must be at least 8 characters long.";
+    if (!upperCasePattern.test(pwd))
+      return "Password must include at least one uppercase letter.";
     if (!specialCharPattern.test(pwd))
-      return "Including one special character.";
+      return "Password must include at least one special character.";
     return "";
   };
 
@@ -30,8 +33,43 @@ const SignUpPage = () => {
       : "Please enter a valid email address.";
   };
 
-  const handleSignUp = () => {
-    // Final validation on submit
+  const sendRequest = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+
+      const data = await res.json();
+      return data;
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    if (emailError || passwordError || repeatPasswordError) {
+      console.error("Fix validation errors before submitting.");
+      return;
+    }
+
+    const response = await sendRequest();
+    if (response) {
+      console.log("User registered successfully:");
+      navigate("/login");
+    }
   };
 
   return (
@@ -45,7 +83,7 @@ const SignUpPage = () => {
           <span className="span-4 m--in">Sign In</span>
         </div>
       </div>
-      <form className="form sign-up" onClick={handleSignUp}>
+      <form className="form sign-up" onSubmit={handleSignUp}>
         <h2 className="h2-4">Time to be a part of the family,</h2>
 
         <label className="label-4">
@@ -55,8 +93,10 @@ const SignUpPage = () => {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            required
           />
         </label>
+
         <label className="label-4">
           <span>Email</span>
           <input
@@ -68,9 +108,11 @@ const SignUpPage = () => {
               setEmail(newEmail);
               setEmailError(validateEmail(newEmail));
             }}
+            required
           />
           {emailError && <p className="error-message">{emailError}</p>}
         </label>
+
         <label className="password-field">
           <span className="span-4">Password</span>
           <input
@@ -82,6 +124,7 @@ const SignUpPage = () => {
               setPassword(newPassword);
               setPasswordError(validatePassword(newPassword));
             }}
+            required
           />
           <span
             className="eye-icon"
@@ -91,6 +134,7 @@ const SignUpPage = () => {
           </span>
           {passwordError && <p className="error-message">{passwordError}</p>}
         </label>
+
         <label className="password-field">
           <span>Repeat Password</span>
           <input
@@ -104,6 +148,7 @@ const SignUpPage = () => {
                 newRepeatPassword !== password ? "Passwords do not match." : ""
               );
             }}
+            required
           />
           <span
             className="eye-icon"
@@ -115,6 +160,7 @@ const SignUpPage = () => {
             <p className="error-message">{repeatPasswordError}</p>
           )}
         </label>
+
         <div className="bottom-buttons">
           <button type="submit" className="submit-4">
             Sign Up
