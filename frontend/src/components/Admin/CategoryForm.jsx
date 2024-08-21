@@ -16,7 +16,8 @@ const AuthorForm = ({
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setDisabledFlag(true);
     const { data, error } = updateFlag
       ? await putData("/api/categories", formData)
@@ -57,28 +58,10 @@ const AuthorForm = ({
           disabled={disabledFlag}
         />
         <BaseInput
-          type="date"
-          name="birthDate"
-          value={
-            formData.birthDate
-              ? new Date(formData.birthDate).toISOString().substring(0, 10)
-              : new Date().toISOString().substring(0, 10)
-          }
-          onChange={handleChange}
-          disabled={disabledFlag}
-        />
-        <BaseInput
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={handleChange}
-          disabled={disabledFlag}
-        />
-        <BaseInput
           type="textarea"
-          name="bio"
-          placeholder="Biography"
-          value={formData.bio ?? ""}
+          name="description"
+          placeholder="Description"
+          value={formData.description ?? ""}
           onChange={handleChange}
           title="Title is required"
           disabled={disabledFlag}
@@ -86,6 +69,15 @@ const AuthorForm = ({
       </div>
       <br />
       <div className="flex justify-end">
+        <button
+          className="bg-beige hover:bg-beige/50 font-medium py-2 px-4 rounded mr-4"
+          onClick={() => {
+            setFormData({});
+            setUpdateFlag(false);
+          }}
+        >
+          Reset
+        </button>
         <button
           className="bg-beige hover:bg-beige/50 font-medium py-2 px-4 rounded"
           // className="text-buff hover:underline font-medium"

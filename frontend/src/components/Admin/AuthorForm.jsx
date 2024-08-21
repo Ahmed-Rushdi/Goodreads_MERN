@@ -88,6 +88,15 @@ const AuthorForm = ({
       <br />
       <div className="flex justify-end">
         <button
+          className="bg-beige hover:bg-beige/50 font-medium py-2 px-4 rounded mr-4"
+          onClick={() => {
+            setFormData({});
+            setUpdateFlag(false);
+          }}
+        >
+          Reset
+        </button>
+        <button
           className="bg-beige hover:bg-beige/50 font-medium py-2 px-4 rounded"
           // className="text-buff hover:underline font-medium"
           type="submit"

@@ -14,6 +14,8 @@ const BookForm = ({
 }) => {
   const [formData, setFormData] = useState({});
   const [disabledFlag, setDisabledFlag] = useState(false);
+  const { data: categories } = useFetchData("/api/categories");
+
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -32,11 +34,25 @@ const BookForm = ({
     setFormData({});
   };
 
-  const handleAddCategory = () =>
-    setFormData({
-      ...formData,
-      categories: [...formData.categories, formData.category],
-    });
+  const handleAddCategory = () => {
+    const catField = formData.category?.trim();
+    if (!catField) return;
+
+    if (formData.categories?.includes(catField)) {
+      toast.error("Category already exists");
+      return;
+    }
+
+    if (categories?.some((category) => category.name === catField)) {
+      setFormData({
+        ...formData,
+        categories: [...(formData.categories ?? []), catField],
+        category: "",
+      });
+    } else {
+      toast.error("Category does not exist in database. Please add it first.");
+    }
+  };
 
   const handleRemoveCategory = (index) =>
     setFormData({
@@ -51,7 +67,6 @@ const BookForm = ({
     window.scrollTo(0, 0);
   }, [values]);
 
-  const { data: categories } = useFetchData("/api/categories");
   return (
     <form
       className={`p-5 m-4 bg-white border-buff rounded border w-full ${className}`}
@@ -119,17 +134,6 @@ const BookForm = ({
         />
 
         <BaseInput
-          type="tags"
-          name="category"
-          value={formData.category ?? ""}
-          mulValues={formData.categories ?? []}
-          onChange={handleChange}
-          addCategory={handleAddCategory}
-          removeCategory={handleRemoveCategory}
-          catOptions={categories}
-          disabled={disabledFlag}
-        />
-        <BaseInput
           type="text"
           name="language"
           value={formData.language ?? ""}
@@ -145,6 +149,18 @@ const BookForm = ({
           disabled={disabledFlag}
         />
         <BaseInput
+          type="tags"
+          name="category"
+          value={formData.category ?? ""}
+          mulValues={formData.categories ?? []}
+          onChange={handleChange}
+          addCategory={handleAddCategory}
+          removeCategory={handleRemoveCategory}
+          catOptions={categories}
+          disabled={disabledFlag}
+          containerClass={"flex-grow-0"}
+        />
+        <BaseInput
           type="textarea"
           name="description"
           placeholder="Description"
@@ -152,10 +168,20 @@ const BookForm = ({
           onChange={handleChange}
           title="Title is required"
           disabled={disabledFlag}
+          className={"h-24"}
         />
       </div>
       <br />
       <div className="flex justify-end">
+        <button
+          className="bg-beige hover:bg-beige/50 font-medium py-2 px-4 rounded mr-4"
+          onClick={() => {
+            setFormData({});
+            setUpdateFlag(false);
+          }}
+        >
+          Reset
+        </button>
         <button
           className="bg-beige hover:bg-beige/50 font-medium py-2 px-4 rounded"
           // className="text-buff hover:underline font-medium"
