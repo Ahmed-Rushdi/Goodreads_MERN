@@ -21,7 +21,7 @@ function BookMobileComponent({ book }) {
             </div>
             <div className="ratings-mobile-container">
               <div className="want-to-read">
-                <WantToRead />
+                <WantToRead isbn={book.isbn13} />{" "}
               </div>
               <div className="py-3">
                 <Rating id={book.isbn13} />

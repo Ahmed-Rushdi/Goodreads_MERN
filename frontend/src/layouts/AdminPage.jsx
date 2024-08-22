@@ -1,6 +1,7 @@
 import AdminTabs from "../components/Admin/AdminTabs";
 import AuthorsPanel from "../components/Admin/AuthorsPanel";
 import BooksPanel from "../components/Admin/BooksPanel";
+import CategoriesPanel from "../components/Admin/CategoriesPanel";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 const items = [
@@ -18,7 +19,7 @@ const items = [
   {
     key: 2,
     label: "Categories",
-    children: "Content of Tab Pane 3",
+    children: <CategoriesPanel />,
   },
   {
     key: 3,

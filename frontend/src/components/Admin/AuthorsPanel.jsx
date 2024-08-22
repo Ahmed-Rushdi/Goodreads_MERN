@@ -65,7 +65,7 @@ const AuthorsPanel = () => {
       ) : error ? (
         <div>Error: {error.message}</div>
       ) : (
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap w-full">
           {authorsPage?.data.map((author) => (
             <BaseCard
               key={author._id}

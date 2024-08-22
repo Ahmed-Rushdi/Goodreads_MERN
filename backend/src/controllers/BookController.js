@@ -1,37 +1,22 @@
 const Book = require("../models/Book.model");
 const Author = require("../models/Author.model");
 const Category = require("../models/Category.model");
-const { paginateData } = require("../utils/paginator.js");
+const paginateData = require("../utils/Paginator");
+const buildSearchQuery = require("../utils/SearchUtils");
 
 // * GET
-// * Get paginated books
-const getPaginatedBooks = async (req, res) => {
-  const page = parseInt(req.query.page);
-  const limit = parseInt(req.query.limit);
-  try {
-    const result = await paginateData(Book, {}, page, limit);
-    res.send(result);
-  } catch (error) {
-    res.status(404).send(error);
-  }
-};
-
-// * Get all books
-const getAllBooks = async (req, res) => {
-  const books = await Book.find()
-    .populate("authorId", "name")
-    .populate("categories", "name");
-  res.send(books);
-};
-// * Get books handler checks for pagination request
+// * Get books handles pagination and search with req.query {page, limit, q}
 const getBooks = async (req, res) => {
   try {
-    const { page, limit } = req.query;
-    if (page !== undefined && limit !== undefined) {
-      return getPaginatedBooks(req, res);
-    } else {
-      return getAllBooks(req, res);
-    }
+    const { page = 1, limit = 0, q = "" } = req.query;
+    const result = await paginateData(
+      buildSearchQuery(Book, q)
+        .populate("authorId", "name")
+        .populate("categories", "name"),
+      page,
+      limit
+    );
+    res.send(result);
   } catch (error) {
     res.status(500).send(error);
   }
@@ -45,76 +30,35 @@ const getBook = async (req, res) => {
   res.send(book);
 };
 
-// * Get paginated category books
-const getPaginatedCatBooks = async (req, res) => {
-  const page = parseInt(req.query.page);
-  const limit = parseInt(req.query.limit);
-
+// * Get category books handles pagination and search with req.query {page, limit, q}
+const getCategoryBooks = async (req, res) => {
   try {
+    const { page = 1, limit = 0, q = "" } = req.query;
     const result = await paginateData(
-      Book,
-      { categories: req.params.categoryId },
+      buildSearchQuery(Book, q, { categories: req.params.categoryId })
+        .populate("authorId", "name")
+        .populate("categories", "name"),
       page,
       limit
     );
     res.send(result);
-  } catch (error) {
-    res.status(404).send(error);
-  }
-};
-
-// * Get all category books
-const getAllCatBooks = async (req, res) => {
-  const books = await Book.find({ categories: req.params.categoryId });
-  res.send(books);
-};
-// * Get category books handler checks for pagination request
-const getCategoryBooks = async (req, res) => {
-  try {
-    const { page, limit } = req.query;
-    if (page !== undefined && limit !== undefined) {
-      return getPaginatedCatBooks(req, res);
-    } else {
-      return getAllCatBooks(req, res);
-    }
   } catch (error) {
     res.status(500).send(error);
   }
 };
 
-// * Get paginated author books
-const getPaginatedAuthorBooks = async (req, res) => {
-  const page = parseInt(req.query.page);
-  const limit = parseInt(req.query.limit);
-
+// * Get author books handles pagination and search with req.query {page, limit, q}
+const getAuthorBooks = async (req, res) => {
   try {
+    const { page = 1, limit = 0, q = "" } = req.query;
     const result = await paginateData(
-      Book,
-      { authorId: req.params.authorId },
+      buildSearchQuery(Book, q, { authorId: req.params.authorId })
+        .populate("authorId", "name")
+        .populate("categories", "name"),
       page,
       limit
     );
     res.send(result);
-  } catch (error) {
-    res.status(404).send(error);
-  }
-};
-
-// * Get all author books
-const getAllAuthorBooks = async (req, res) => {
-  const books = await Book.find({ authorId: req.params.authorId });
-  res.send(books);
-};
-
-// * Get author books handler checks for pagination request
-const getAuthorBooks = async (req, res) => {
-  try {
-    const { page, limit } = req.query;
-    if (page !== undefined && limit !== undefined) {
-      return getPaginatedAuthorBooks(req, res);
-    } else {
-      return getAllAuthorBooks(req, res);
-    }
   } catch (error) {
     res.status(500).send(error);
   }

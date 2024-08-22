@@ -4,6 +4,7 @@ import postData from "../../utils/DataPosting";
 import putData from "../../utils/DataUpdating";
 import { toast } from "react-toastify";
 import BasicSpinner from "../BasicSpinner";
+import { useFetchData } from "../../utils/DataFetching";
 const BookForm = ({
   className,
   formTitle,
@@ -13,6 +14,8 @@ const BookForm = ({
 }) => {
   const [formData, setFormData] = useState({});
   const [disabledFlag, setDisabledFlag] = useState(false);
+  const { data: categories } = useFetchData("/api/categories");
+
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -30,6 +33,32 @@ const BookForm = ({
     }
     setFormData({});
   };
+
+  const handleAddCategory = () => {
+    const catField = formData.category?.trim();
+    if (!catField) return;
+
+    if (formData.categories?.includes(catField)) {
+      toast.error("Category already exists");
+      return;
+    }
+
+    if (categories?.some((category) => category.name === catField)) {
+      setFormData({
+        ...formData,
+        categories: [...(formData.categories ?? []), catField],
+        category: "",
+      });
+    } else {
+      toast.error("Category does not exist in database. Please add it first.");
+    }
+  };
+
+  const handleRemoveCategory = (index) =>
+    setFormData({
+      ...formData,
+      categories: formData.categories.filter((_, i) => i !== index),
+    });
 
   // * Set form values from parent (used in edit mode)
   // * scroll to top after update
@@ -106,14 +135,6 @@ const BookForm = ({
 
         <BaseInput
           type="text"
-          name="categories"
-          value={formData.categories ?? ""}
-          onChange={handleChange}
-          pattern={"^([a-zA-Z0-9]+,?)*$"}
-          disabled={disabledFlag}
-        />
-        <BaseInput
-          type="text"
           name="language"
           value={formData.language ?? ""}
           onChange={handleChange}
@@ -128,6 +149,18 @@ const BookForm = ({
           disabled={disabledFlag}
         />
         <BaseInput
+          type="tags"
+          name="category"
+          value={formData.category ?? ""}
+          mulValues={formData.categories ?? []}
+          onChange={handleChange}
+          addCategory={handleAddCategory}
+          removeCategory={handleRemoveCategory}
+          catOptions={categories}
+          disabled={disabledFlag}
+          containerClass={"flex-grow-0"}
+        />
+        <BaseInput
           type="textarea"
           name="description"
           placeholder="Description"
@@ -135,10 +168,20 @@ const BookForm = ({
           onChange={handleChange}
           title="Title is required"
           disabled={disabledFlag}
+          className={"h-24"}
         />
       </div>
       <br />
       <div className="flex justify-end">
+        <button
+          className="bg-beige hover:bg-beige/50 font-medium py-2 px-4 rounded mr-4"
+          onClick={() => {
+            setFormData({});
+            setUpdateFlag(false);
+          }}
+        >
+          Reset
+        </button>
         <button
           className="bg-beige hover:bg-beige/50 font-medium py-2 px-4 rounded"
           // className="text-buff hover:underline font-medium"

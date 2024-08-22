@@ -16,12 +16,12 @@ const AuthorForm = ({
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setDisabledFlag(true);
     const { data, error } = updateFlag
-      ? await putData("/api/authors", formData)
-      : await postData("/api/authors", formData);
+      ? await putData("/api/categories", formData)
+      : await postData("/api/categories", formData);
     setUpdateFlag(false);
     setDisabledFlag(false);
     if (error) {
@@ -58,28 +58,10 @@ const AuthorForm = ({
           disabled={disabledFlag}
         />
         <BaseInput
-          type="date"
-          name="birthDate"
-          value={
-            formData.birthDate
-              ? new Date(formData.birthDate).toISOString().substring(0, 10)
-              : new Date().toISOString().substring(0, 10)
-          }
-          onChange={handleChange}
-          disabled={disabledFlag}
-        />
-        <BaseInput
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={handleChange}
-          disabled={disabledFlag}
-        />
-        <BaseInput
           type="textarea"
-          name="bio"
-          placeholder="Biography"
-          value={formData.bio ?? ""}
+          name="description"
+          placeholder="Description"
+          value={formData.description ?? ""}
           onChange={handleChange}
           title="Title is required"
           disabled={disabledFlag}

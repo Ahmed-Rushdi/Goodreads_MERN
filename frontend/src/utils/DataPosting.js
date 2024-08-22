@@ -1,6 +1,7 @@
 import { axiosInstance } from "./AxiosInstance";
 import { AxiosError, isAxiosError } from "axios";
 async function postData(url, data) {
+  console.log("POSTING", url, data);
   let loading = true;
   let error = null;
   let resData = null;
