@@ -68,4 +68,27 @@ const getBookShelf = async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 };
-module.exports = { editShelf, getBookShelf };
+const getAllBooks = async (req, res) => {
+  try {
+    const { shelf } = req.query; // Get the shelf filter from query params
+    let books;
+
+    if (shelf) {
+      // Filter books by shelf
+      books = await Book.find().populate({
+        path: "users",
+        match: { "books.shelf": shelf },
+        select: "books",
+      });
+    } else {
+      // Get all books without filtering
+      books = await Book.find();
+    }
+
+    res.status(200).json({ books });
+  } catch (error) {
+    console.error("Error fetching books:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+module.exports = { editShelf, getBookShelf, getAllBooks };

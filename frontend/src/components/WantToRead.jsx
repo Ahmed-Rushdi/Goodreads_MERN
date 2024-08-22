@@ -32,7 +32,7 @@ export default function WantToRead({ isbn }) {
     }
 
     try {
-      const url = `/api/user/book-shelf/${isbn}`;
+      const url = `/api/user/${isbn}`;
       const data = { shelf: shelfName };
 
       const { resData, loading, error } = await putData(url, data);
