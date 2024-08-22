@@ -1,3 +1,8 @@
+body {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  background: #ededed;
+}
+
 .input-4,
 .button-4 {
   border: none;
@@ -8,14 +13,14 @@
 
 /* Main Container */
 .cont {
-  overflow: hidden;
+  overflow: auto;
   position: relative;
   width: 900px;
-  height: 640px;
+  height: 700px;
   margin: 0 auto 100px;
   background: #fff;
   display: flex;
-  top: 150px;
+  top: 140px;
 }
 
 /* Form Section */
@@ -148,7 +153,7 @@
 }
 
 .submit-4 {
-  margin-top: 30px;
+  margin-top: 20px;
   margin-bottom: 15px;
   background: #d4af7a;
   text-transform: uppercase;
@@ -168,6 +173,7 @@
   color: #6d7d9b;
   width: 150px;
   border-radius: 25px;
+  margin-bottom: 15px;
 }
 
 .fb-btn-4 span {
@@ -216,7 +222,7 @@
   border: 2px solid #d3dae9;
   color: #6d7d9b;
   width: 150px;
-  margin-top: 15px;
+  margin-top: 10px;
   border-radius: 25px;
   border-radius: 25px;
   background-color: #d4af7a;
@@ -244,10 +250,15 @@
     flex-direction: column;
     height: auto;
     width: 100%;
+    justify-content: flex-start;
+    padding: 10px;
   }
+
   .sign-up1 {
     display: block;
+    margin-top: 20px;
   }
+
   .form {
     width: 100%;
     padding: 20px;
@@ -279,7 +290,17 @@
 
   .password-field {
     display: flex;
-    align-items: center;
+    flex-direction: column; /* Ensure the label is above the input */
+    margin-top: 15px;
+  }
+
+  .password-field .label-4 {
+    text-align: left; /* Align label text to the left */
+    margin-bottom: 5px; /* Space between label and input */
+  }
+
+  .password-field .input-4 {
+    margin: 0; /* Remove extra margin */
   }
 
   .eye-icon {
@@ -290,11 +311,21 @@
   .error-message {
     color: red;
     font-size: 0.875rem;
-    margin: 0.25rem 0;
-    position: absolute;
-    width: 100%;
-    left: 0;
-    bottom: -1.5rem;
+    margin-top: 5px; /* Space above the error message */
+    margin-bottom: 10px; /* Space below the error message */
     display: block;
+    text-align: left; /* Align error message text to the left */
+  }
+
+  .submit-4 {
+    margin-top: 20px;
+  }
+
+  .fb-btn-4 {
+    margin-bottom: 20px;
+  }
+
+  .input-4 {
+    margin-top: 10px;
   }
 }

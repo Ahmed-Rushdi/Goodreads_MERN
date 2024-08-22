@@ -27,15 +27,22 @@ const SignUpPage = () => {
     email: "",
     password: "",
     repeatPassword: "",
+    secretQuestion: "",
+    secretAnswer: "",
   });
   const [formErrors, setFormErrors] = useState({
     emailError: "",
     passwordError: "",
     repeatPasswordError: "",
+    secretAnswerError: "",
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
   const navigate = useNavigate();
+
+  const validateSecretAnswer = (answer) => {
+    return answer.length < 1 ? "Secret answer cannot be empty." : "";
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,6 +72,12 @@ const SignUpPage = () => {
           value !== formData.password ? "Passwords do not match." : "",
       }));
     }
+    if (name === "secretAnswer") {
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        secretAnswerError: validateSecretAnswer(value),
+      }));
+    }
   };
 
   const handleSignUp = async (e) => {
@@ -73,7 +86,8 @@ const SignUpPage = () => {
     if (
       formErrors.emailError ||
       formErrors.passwordError ||
-      formErrors.repeatPasswordError
+      formErrors.repeatPasswordError ||
+      formErrors.secretAnswerError
     ) {
       console.error("Fix validation errors before submitting.");
       return;
@@ -83,6 +97,8 @@ const SignUpPage = () => {
       name: formData.name,
       email: formData.email,
       password: formData.password,
+      secretQuestion: formData.secretQuestion,
+      secretAnswer: formData.secretAnswer,
     });
 
     if (error) {
@@ -178,7 +194,32 @@ const SignUpPage = () => {
             <p className="error-message">{formErrors.repeatPasswordError}</p>
           )}
         </label>
+        <label className="label-4">
+          <span>Secret Question</span>
+          <input
+            className="input-4"
+            type="text"
+            name="secretQuestion"
+            value={formData.secretQuestion}
+            onChange={handleChange}
+            required
+          />
+        </label>
 
+        <label className="password-field">
+          <span>Secret Answer</span>
+          <input
+            className="input-4"
+            type="text"
+            name="secretAnswer"
+            value={formData.secretAnswer}
+            onChange={handleChange}
+            required
+          />
+          {formErrors.secretAnswerError && (
+            <p className="error-message">{formErrors.secretAnswerError}</p>
+          )}
+        </label>
         <div className="bottom-buttons">
           <button type="submit" className="submit-4">
             Sign Up

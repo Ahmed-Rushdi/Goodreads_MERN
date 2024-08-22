@@ -110,6 +110,19 @@
   transform: scale(0.98);
 }
 
+/* Buttons */
+button {
+  display: block;
+  width: 260px;
+  height: 36px;
+  border-radius: 30px;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  text-align: center;
+  margin: 10px auto;
+}
+
 .submit-1 {
   background: #d4af7a;
   margin-top: 40px;
@@ -142,6 +155,30 @@
 .fb-btn-1 span {
   font-weight: bold;
   color: #768cb6;
+}
+
+/* Form fields and labels */
+label {
+  display: block;
+  width: 260px;
+  margin: 25px auto 0;
+  text-align: center;
+}
+
+label span {
+  font-size: 12px;
+  color: #cfcfcf;
+  text-transform: uppercase;
+}
+
+input {
+  display: block;
+  width: 100%;
+  margin-top: 5px;
+  padding-bottom: 5px;
+  font-size: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  text-align: center;
 }
 
 /* Forgot password link */

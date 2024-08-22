@@ -10,7 +10,7 @@ import {
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { FaUserCircle } from "react-icons/fa"; // Import profile icon from React Icons
 import useProvideData from "./ProvideData";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
@@ -25,6 +25,26 @@ function classNames(...classes) {
 export default function Navbar() {
   const { user, isLoggedIn } = useProvideData();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/logout", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include", // include credentials
+        body: JSON.stringify({ email: user.email }),
+      });
+      // Redirect to login page
+      console.log("logged out successfuly");
+      navigate("/login");
+    } catch (error) {
+      console.error("Failed to logout", error);
+    }
+  };
+
   return (
     <Disclosure as="nav" className="bg-olive-green sticky z-10 top-0">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -112,12 +132,12 @@ export default function Navbar() {
                     </MenuItem>
                   )}
                   <MenuItem>
-                    <Link
-                      to="/logout"
+                    <button
+                      onClick={handleLogout}
                       className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
                     >
                       Sign out
-                    </Link>
+                    </button>
                   </MenuItem>
                 </MenuItems>
               )}
