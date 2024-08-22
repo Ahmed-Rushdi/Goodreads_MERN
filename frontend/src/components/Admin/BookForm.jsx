@@ -15,19 +15,30 @@ const BookForm = ({
   const [formData, setFormData] = useState({});
   const [disabledFlag, setDisabledFlag] = useState(false);
   const { data: categories } = useFetchData("/api/categories");
-
+  const { data: authors } = useFetchData("/api/authors");
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = async () => {
     setDisabledFlag(true);
+    const formAuthor = formData.author?.trim();
+    const authorId = authors?.data.find((a) => a.name === formAuthor)?._id;
+    if (!authorId) {
+      toast.error("Author does not exist in database. Please add it first.");
+      setDisabledFlag(false);
+      return;
+    }
+    setFormData({
+      ...formData,
+      authorId: authorId,
+    });
     const { data, error } = updateFlag
-      ? await putData("/api/books", formData)
+      ? await putData(`/api/books/${formData._id}`, formData)
       : await postData("/api/books", formData);
     setUpdateFlag(false);
     setDisabledFlag(false);
     if (error) {
-      toast.error(error.message + data);
+      toast.error(error + (data ?? ""));
     } else {
       toast.success(data);
     }
@@ -42,16 +53,19 @@ const BookForm = ({
       toast.error("Category already exists");
       return;
     }
+    const catId = categories?.find(
+      (category) => category.name === catField
+    )?._id;
 
-    if (categories?.some((category) => category.name === catField)) {
-      setFormData({
-        ...formData,
-        categories: [...(formData.categories ?? []), catField],
-        category: "",
-      });
-    } else {
+    if (!catId) {
       toast.error("Category does not exist in database. Please add it first.");
     }
+
+    setFormData({
+      ...formData,
+      categories: [...(formData.categories ?? []), catField],
+      category: "",
+    });
   };
 
   const handleRemoveCategory = (index) =>
@@ -100,7 +114,8 @@ const BookForm = ({
           type="text"
           name="author"
           placeholder="Author"
-          value={formData.author ?? ""}
+          value={formData.authorId?.name ?? ""}
+          listOptions={authors?.data}
           onChange={handleChange}
           title="Author is required"
           required
@@ -156,7 +171,7 @@ const BookForm = ({
           onChange={handleChange}
           addCategory={handleAddCategory}
           removeCategory={handleRemoveCategory}
-          catOptions={categories}
+          listOptions={categories?.data}
           disabled={disabledFlag}
           containerClass={"flex-grow-0"}
         />

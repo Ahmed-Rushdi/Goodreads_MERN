@@ -20,12 +20,12 @@ const AuthorForm = ({
   const handleSubmit = async () => {
     setDisabledFlag(true);
     const { data, error } = updateFlag
-      ? await putData("/api/authors", formData)
+      ? await putData(`/api/authors/${formData._id}`, formData)
       : await postData("/api/authors", formData);
     setUpdateFlag(false);
     setDisabledFlag(false);
     if (error) {
-      toast.error(error.message + data);
+      toast.error(error + (data ?? ""));
     } else {
       toast.success(data);
     }

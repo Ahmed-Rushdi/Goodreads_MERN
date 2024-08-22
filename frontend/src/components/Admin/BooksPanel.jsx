@@ -11,7 +11,7 @@ const handleDelete = async (dataId, setDisabled) => {
   const { data, loading, error } = await delData(`/api/books/${dataId}`);
   setDisabled(loading);
   if (error) {
-    toast.error(error.message + data);
+    toast.error(error + (data ?? ""));
   } else {
     toast.success(data);
   }
@@ -29,7 +29,7 @@ const BooksPanel = () => {
     setFormUpdateFlag(true);
     setDisabled(false);
     if (error) {
-      toast.error(error.message + data);
+      toast.error(error + (data ?? ""));
     }
   };
 
@@ -81,8 +81,10 @@ const BooksPanel = () => {
                       ? "http://localhost:3000/fallback_thumbnail.png"
                       : book.thumbnail
                   }
-                  onError={function () {
-                    this.src = "http://localhost:3000/fallback_thumbnail.png";
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src =
+                      "http://localhost:3000/fallback_thumbnail.png";
                   }}
                   className=""
                 />

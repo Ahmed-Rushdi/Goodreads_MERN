@@ -12,7 +12,7 @@ const handleDelete = async (dataId, setDisabled) => {
   const { data, loading, error } = await delData(`/api/categories/${dataId}`);
   setDisabled(loading);
   if (error) {
-    toast.error(error.message + data);
+    toast.error(error + (data ?? ""));
   } else {
     toast.success(data);
   }
@@ -29,7 +29,7 @@ const CategoriesPanel = () => {
     setFormUpdateFlag(true);
     setDisabled(false);
     if (error) {
-      toast.error(error.message + data);
+      toast.error(error + (data ?? ""));
     }
   };
 

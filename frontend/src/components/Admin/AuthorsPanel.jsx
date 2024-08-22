@@ -12,7 +12,7 @@ const handleDelete = async (dataId, setDisabled) => {
   const { data, loading, error } = await delData(`/api/authors/${dataId}`);
   setDisabled(loading);
   if (error) {
-    toast.error(error.message + data);
+    toast.error(error + (data ?? ""));
   } else {
     toast.success(data);
   }
@@ -29,7 +29,7 @@ const AuthorsPanel = () => {
     setFormUpdateFlag(true);
     setDisabled(false);
     if (error) {
-      toast.error(error.message + data);
+      toast.error(error + (data ?? ""));
     }
   };
 
@@ -78,6 +78,10 @@ const AuthorsPanel = () => {
                   src={
                     author.image ?? "http://localhost:3000/fallback_author.jpg"
                   }
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "http://localhost:3000/fallback_author.jpg";
+                  }}
                   className=""
                 />
               </div>

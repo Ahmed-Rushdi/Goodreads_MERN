@@ -1,5 +1,6 @@
 const Author = require("../models/Author.model");
 const paginateData = require("../utils/Paginator");
+const buildSearchQuery = require("../utils/SearchUtils");
 // * GET
 // * Get authors handles pagination and search with req.query {page, limit, q}
 const getAuthors = async (req, res) => {
@@ -8,6 +9,7 @@ const getAuthors = async (req, res) => {
     const result = await paginateData(buildSearchQuery(Author, q), page, limit);
     res.send(result);
   } catch (error) {
+    console.log(error);
     res.status(500).send(error);
   }
 };
@@ -27,6 +29,7 @@ const getAuthor = async (req, res) => {
 
     res.send(author);
   } catch (error) {
+    console.log(error);
     res.status(500).send("Server error");
   }
 };

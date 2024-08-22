@@ -12,7 +12,7 @@ const paginateData = async (query, page, limit) => {
     data,
     totalItems: count,
     currentPage: page,
-    totalPages: Math.ceil(count / limit),
+    totalPages: limit > 0 ? Math.ceil(count / limit) : 1,
   };
 };
 module.exports = paginateData;

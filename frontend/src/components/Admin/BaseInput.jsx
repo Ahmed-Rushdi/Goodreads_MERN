@@ -10,7 +10,7 @@ const BaseInput = ({
   required = false,
   pattern = null,
   title = "",
-  catOptions = null,
+  listOptions = null,
   className,
   containerClass,
   ...props
@@ -64,11 +64,6 @@ const BaseInput = ({
               +
             </button>
           </div>
-          <datalist id={`form-datalist-${name}`}>
-            {catOptions?.map((cat) => (
-              <option key={cat._id} value={cat.name} />
-            ))}
-          </datalist>
           <div className="border border-buff rounded-md p-3 mt-3 flex flex-wrap">
             {!mulValues?.length && (
               <span className="italic text-sm font-medium text-buff">
@@ -102,10 +97,16 @@ const BaseInput = ({
           title={title}
           pattern={pattern}
           required={required}
+          list={listOptions && `form-datalist-${name}`}
           {...props}
           className={`border-2 px-3 py-1.5 shadow-sm placeholder:text-gray-400 border-buff sm:text-sm sm:leading-6 rounded-md ${className}`}
         />
       )}
+      <datalist id={`form-datalist-${name}`}>
+        {listOptions?.map((cat) => (
+          <option key={cat._id} value={cat.name} />
+        ))}
+      </datalist>
     </div>
   );
 };
