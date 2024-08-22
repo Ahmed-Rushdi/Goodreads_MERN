@@ -15,7 +15,7 @@ const UserBook = ({ books }) => {
                         <div className="book-image">
                             <img src={book.thumbnail} alt={`${book.title} thumbnail`} />
                             <div className="book-shelf">
-                                <BasicModal />
+                                <BasicModal bookId={book._id}/>
                             </div>
                         </div>
                         <div className="book-info">
