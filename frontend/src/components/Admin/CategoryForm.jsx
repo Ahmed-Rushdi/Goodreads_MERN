@@ -20,12 +20,12 @@ const AuthorForm = ({
     e.preventDefault();
     setDisabledFlag(true);
     const { data, error } = updateFlag
-      ? await putData("/api/categories", formData)
+      ? await putData(`/api/categories/${formData._id}`, formData)
       : await postData("/api/categories", formData);
     setUpdateFlag(false);
     setDisabledFlag(false);
     if (error) {
-      toast.error(error.message + data);
+      toast.error(error + (data ?? ""));
     } else {
       toast.success(data);
     }

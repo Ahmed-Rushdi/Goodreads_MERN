@@ -6,13 +6,11 @@ const buildSearchQuery = require("../utils/SearchUtils");
 const getCategories = async (req, res) => {
   try {
     const { page = 1, limit = 0, q = "" } = req.query;
-    console.log("here");
     const result = await paginateData(
       buildSearchQuery(Category, q),
       page,
       limit
     );
-    console.log("not here");
     res.send(result);
   } catch (error) {
     console.log(error);
