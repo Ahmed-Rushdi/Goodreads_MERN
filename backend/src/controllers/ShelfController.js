@@ -5,7 +5,7 @@ const editShelf = async (req, res) => {
   try {
     const { isbn13 } = req.params; // Assuming the ISBN is being passed as a parameter
     const { shelf } = req.body; // The new shelf name (currentlyReading, read, wantToRead)
-    const userId = req.user._id; // Assuming user ID is stored in req.user after authentication
+    const userId = req.user.id; // Assuming user ID is stored in req.user after authentication
 
     // Find the book by ISBN13
     const book = await Book.findOne({ isbn13 });
@@ -70,20 +70,31 @@ const getBookShelf = async (req, res) => {
 };
 const getAllBooks = async (req, res) => {
   try {
+    const userId = req.user.id; // Assuming the user ID is available in req.user.id
     const { shelf } = req.query; // Get the shelf filter from query params
-    let books;
+
+    // Find the user and populate their books
+    const user = await User.findById(userId).populate({
+      path: "books.book",
+      model: "Book",
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    let userBooks = user.books;
 
     if (shelf) {
-      // Filter books by shelf
-      books = await Book.find().populate({
-        path: "users",
-        match: { "books.shelf": shelf },
-        select: "books",
-      });
-    } else {
-      // Get all books without filtering
-      books = await Book.find();
+      // Filter books by shelf if a shelf parameter is provided
+      userBooks = userBooks.filter((book) => book.shelf === shelf);
     }
+
+    // Extract just the book data and shelf information
+    const books = userBooks.map((item) => ({
+      ...item.book.toObject(),
+      shelf: item.shelf,
+    }));
 
     res.status(200).json({ books });
   } catch (error) {
