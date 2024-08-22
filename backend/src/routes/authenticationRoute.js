@@ -11,6 +11,8 @@ const {
   getUser,
   refreshToken,
   fetchUserById,
+
+  logout,
 } = require("../controllers/AuthenticationController");
 
 // sign up route
@@ -21,6 +23,13 @@ router.post("/login", login);
 
 // route to get the user
 router.get("/user", verification, getUser);
+
+// refresh token route
+
+// router.get("/refresh",);
+
+// logout route
+router.post("/logout", logout);
 
 // router.get("/auth/getUser", authenticateUser, (req, res) => {
 //   // User details are now available in req.user
