@@ -1,37 +1,17 @@
 const Author = require("../models/Author.model");
-const { paginateData } = require("../utils/paginator");
+const paginateData = require("../utils/Paginator");
 // * GET
-// * Get paginated authors
-const getAuthorsPaginated = async (req, res) => {
-  const page = parseInt(req.query.page);
-  const limit = parseInt(req.query.limit);
-  try {
-    const result = await paginateData(Author, {}, page, limit);
-    res.send(result);
-  } catch (error) {
-    res.status(404).send(error);
-  }
-};
-
-// * Get all authors
-const getAllAuthors = async (req, res) => {
-  const authors = await Author.find();
-  res.send(authors);
-};
-
+// * Get authors handles pagination and search with req.query {page, limit, q}
 const getAuthors = async (req, res) => {
   try {
-    const { page, limit } = req.query;
-    if (page !== undefined && limit !== undefined) {
-      return getAuthorsPaginated(req, res);
-    } else {
-      return getAllAuthors(req, res);
-    }
+    const { page = 1, limit = 0, q = "" } = req.query;
+    const result = await paginateData(buildSearchQuery(Author, q), page, limit);
+    req.send(result);
   } catch (error) {
     res.status(500).send(error);
   }
 };
-
+// * Get specific author with Author._id passed in req.params
 const getAuthor = async (req, res) => {
   try {
     const author = await Author.findById(req.params.authorId)

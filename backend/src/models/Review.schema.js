@@ -1,6 +1,5 @@
-const { Schema, model } = require("mongoose");
+const { Schema } = require("mongoose");
 const { ratingValidator, isbnValidator } = require("../utils/validators");
-// ! WARNING: don't call .save() this isn't meant to be a Collection just a Subdocument for Books and Users
 
 const reviewSchema = new Schema(
   {

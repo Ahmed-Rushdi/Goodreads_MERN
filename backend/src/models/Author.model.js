@@ -30,6 +30,6 @@ authorSchema.virtual("books", {
   justOne: false,
   options: { select: "title isbn3" },
 });
-
+authorSchema.index({ name: "text" });
 const Author = model("Author", authorSchema);
 module.exports = Author;

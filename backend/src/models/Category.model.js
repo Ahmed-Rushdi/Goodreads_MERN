@@ -8,6 +8,6 @@ const categorySchema = new Schema({
   },
   description: { type: String },
 });
-
+categorySchema.index({ name: "text" });
 const Category = model("Category", categorySchema);
 module.exports = Category;

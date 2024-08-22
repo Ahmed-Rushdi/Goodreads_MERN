@@ -69,5 +69,6 @@ const bookSchema = new Schema({
   },
 });
 
+bookSchema.index({ title: "text" });
 const Book = model("Book", bookSchema);
 module.exports = Book;
