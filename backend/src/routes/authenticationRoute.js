@@ -26,7 +26,7 @@ router.get("/user", verification, getUser);
 
 // refresh token route
 
-// router.get("/refresh",);
+router.get("/refresh", refreshToken);
 
 // logout route
 router.post("/logout", logout);

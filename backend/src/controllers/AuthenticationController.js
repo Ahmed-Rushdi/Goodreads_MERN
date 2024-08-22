@@ -7,7 +7,7 @@ const Cookie = require("cookie-parser");
 
 // logic for signing up
 const signup = async (req, res, next) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, secretQuestion, secretAnswer } = req.body;
   try {
     userExists = await User.findOne({ email: email });
   } catch (error) {
@@ -18,10 +18,14 @@ const signup = async (req, res, next) => {
   }
   // hash password before saving
   const hashedPass = bcrypt.hashSync(password);
+  const hashedSecretAnswer = bcrypt.hashSync(secretAnswer);
+
   const user = new User({
     name: name,
     email: email,
     password: hashedPass,
+    secretQuestion,
+    secretAnswer: hashedSecretAnswer,
   });
   try {
     await user.save();
@@ -53,18 +57,18 @@ const login = async (req, res, next) => {
     const token = jwt.sign(
       { id: existingUser._id },
       process.env.JWT_SECRET || "default_secret",
-      { expiresIn: "30s" }
+      { expiresIn: "1h" }
     );
     // // create a refresh token
-    // const refreshToken = jwt.sign(
-    //   { id: existingUser._id },
-    //   process.env.REFRESH_SECRET || "default_refresh_secret",
-    //   { expiresIn: "7d" }
-    // );
+    const refreshToken = jwt.sign(
+      { id: existingUser._id },
+      process.env.REFRESH_TOKEN_SECRET || "default_refresh_secret",
+      { expiresIn: "2h" }
+    );
 
     // //saving the token in database
-    // existingUser.refreshToken = refreshToken;
-    // await existingUser.save();
+    existingUser.refreshToken = refreshToken;
+    await existingUser.save();
 
     res.cookie("token", token, {
       path: "/",
@@ -73,12 +77,12 @@ const login = async (req, res, next) => {
       sameSite: "lax",
     });
     // set the refresh token as httpOnly as well
-    // res.cookie("refreshToken", refreshToken, {
-    //   path: "/",
-    //   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 day lifetiime
-    //   httpOnly: true,
-    //   sameSite: "lax",
-    // });
+    res.cookie("refreshToken", refreshToken, {
+      path: "/",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 day lifetiime
+      httpOnly: true,
+      sameSite: "lax",
+    });
 
     return res.status(200).json({
       message: "Login successful",
@@ -151,58 +155,58 @@ const getUser = async (req, res, next) => {
 
 // refresh token endpoint
 
-// const refreshToken = async (req, res, next) => {
-//   const refreshToken = req.cookies.refreshToken;
+const refreshToken = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
 
-//   if (!refreshToken) {
-//     return res.status(403).json({ message: " refresh token not found" });
-//   }
-//   try {
-//     const user = jwt.verify(
-//       refreshToken,
-//       process.env.REFRESH_SECRET || "default_refresh_secret"
-//     );
-//     const existingUser = await User.findById(user.id);
+  if (!refreshToken) {
+    return res.status(403).json({ message: " refresh token not found" });
+  }
 
-//     if (!existingUser || existingUser.refreshToken !== refreshToken) {
-//       return res.status(403).json({ message: "Invalid refresh token " });
-//     }
+  jwt.verify(refreshToken, "midomashakel1", async (error, user) => {
+    if (error) {
+      return res.status(400).json({ message: "Invalid token" });
+    }
 
-//     const newAccessToken = jwt.sign(
-//       { id: existingUser._id },
-//       process.env.JWT_SECRET || "default_secret",
-//       { expiresIn: "30s" }
-//     );
-//     res.cookie("token", newAccessToken, {
-//       path: "/",
-//       maxAge: 30 * 1000, // 30 seconds
-//       httpOnly: true,
-//       sameSite: "lax",
-//     });
-//     return res.status(200).json({ token: newAccessToken });
-//   } catch (error) {
-//     console.error(error);
-//     return res
-//       .status(403)
-//       .json({ message: "Invalid refresh token, login again " });
-//   }
-// };
+    const existingUser = await User.findById(user.id);
+    if (!existingUser) {
+      return res.status(400).json({ message: " user not found" });
+    }
+
+    if (existingUser.refreshToken != refreshToken) {
+      return res.status(400).json({ message: "invalid refreshToken" });
+    }
+
+    const newAccessToken = jwt.sign(
+      { id: existingUser._id },
+      process.env.JWT_SECRET || "default_secret",
+      { expiresIn: "30s" }
+    );
+
+    res.cookie("token", newAccessToken, {
+      path: "/",
+      expiresIn: "1h",
+      httpOnly: true,
+      sameSite: "lax",
+    });
+    return res.status(200).json({ message: "refreshed token" });
+  });
+};
 
 // logout endpoint
 
 const logout = async (req, res) => {
-  const { email } = req.body;
+  const { email } = req.body.email;
 
   try {
     const user = await User.findOne({ email: email });
-    if (user) {
-      user.refreshToken = "";
-      await user.save();
-    }
+    // if (user) {
+    //   user.refreshToken = "";
+    //   await user.save();
+    // }
 
     res.clearCookie("token");
-    res.clearCookie("refreshToken");
-
+    // res.clearCookie("refreshToken");
+    console.log("logged out successfuly from the backend !");
     return res.status(200).json({ message: "Logout successful" });
   } catch (error) {
     console.error(error);
@@ -210,12 +214,14 @@ const logout = async (req, res) => {
   }
 };
 
+// verify the secret answer to get directed to the password reset !!!!!
+
 module.exports = {
   signup,
   login,
   verification,
   getUser,
   fetchUserById,
-
+  refreshToken,
   logout,
 };
