@@ -2,29 +2,34 @@ import React, { useState } from "react";
 import "../styles/forgotpassword.css";
 import { FcKey } from "react-icons/fc";
 import icon from "../assets/icons8-forgot-password-96.png";
+import postData from "../utils/DataPosting";
 
 const ForgotPasswordPage = () => {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
   const [message, setMessage] = useState("");
 
-  // Function to handle input changes
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-    validate();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+
+    validate(value, name);
   };
 
-  const handleConfirmPasswordChange = (e) => {
-    setConfirmPassword(e.target.value);
-    validate();
-  };
-
-  // Function to validate
-  const validate = () => {
+  const validate = (value, name) => {
     let validationMessage = "";
-    if (password.length < 6) {
+
+    if (name === "password" && value.length < 6) {
       validationMessage = "Password must be at least 6 characters long";
-    } else if (password !== confirmPassword) {
+    } else if (name === "confirmPassword" && value !== formData.password) {
+      validationMessage = "Passwords do not match";
+    } else if (name === "password" && value !== formData.confirmPassword) {
       validationMessage = "Passwords do not match";
     } else {
       validationMessage = "";
@@ -33,9 +38,29 @@ const ForgotPasswordPage = () => {
     setMessage(validationMessage);
   };
 
-  // Function to handle form submission
+  const handleChangePassword = async () => {
+    if (!message) {
+      const { resData, error } = await postData("/api/reset-password", {
+        email: formData.email,
+        newPassword: formData.password,
+      });
+
+      if (error) {
+        console.error("Password reset failed:", error.message);
+        setMessage("Password reset failed. Please try again.");
+        return;
+      }
+
+      if (resData) {
+        console.log("Password reset successful:", resData);
+        setMessage("Password has been reset successfully!");
+      }
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    handleChangePassword();
   };
 
   return (
@@ -62,14 +87,29 @@ const ForgotPasswordPage = () => {
         </i>
         <input
           className="input-field"
-          type="password"
-          placeholder="Type your new password"
-          value={password}
-          onChange={handlePasswordChange}
+          type="email"
+          placeholder="Enter your email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          required
         />
       </div>
 
-      <span id="pwd-length-1"></span>
+      <div className="input-container">
+        <i className="fa FaKey icon">
+          <FcKey />
+        </i>
+        <input
+          className="input-field"
+          type="password"
+          placeholder="Type your new password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
+      </div>
 
       <div className="input-container">
         <i className="fa FaKey icon">
@@ -79,12 +119,12 @@ const ForgotPasswordPage = () => {
           className="input-field"
           type="password"
           placeholder="Re-type your new password"
-          value={confirmPassword}
-          onChange={handleConfirmPasswordChange}
+          name="confirmPassword"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          required
         />
       </div>
-
-      <span id="pwd-length-2"></span>
 
       <span id="message">{message}</span>
       <button className="btn-2" type="submit">

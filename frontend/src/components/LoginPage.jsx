@@ -3,6 +3,7 @@ import "../styles/login.css";
 import { useNavigate } from "react-router-dom";
 import ProvideData from "./ProvideData";
 import { axiosInstance } from "../utils/AxiosInstance";
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -61,9 +62,9 @@ const LoginPage = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
-        <a className="forgot-pass" href="#">
+        <Link className="forgot-pass" to="/secretQuestion">
           Forgot password?
-        </a>
+        </Link>
         <button type="submit" className="submit-1">
           Sign In
         </button>

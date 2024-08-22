@@ -215,6 +215,57 @@ const logout = async (req, res) => {
 };
 
 // verify the secret answer to get directed to the password reset !!!!!
+// 1- verify the secret answer
+
+const verifySecretAnswer = async (req, res) => {
+  const { email, secretAnswer } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
+    const isAnswerCorrect = bcrypt.compareSync(secretAnswer, user.secretAnswer);
+    if (!isAnswerCorrect) {
+      return res.status(400).json({ message: "Incorrect answer" });
+    }
+
+    // If  answer is correct, proceed to reset password
+    res
+      .status(200)
+      .json({ message: "Answer correct, proceed to reset password" });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "An error occurred during verification" });
+  }
+};
+
+// 2- reset the password
+
+const resetPassword = async (req, res, next) => {
+  const { email, newPassword } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
+    const hashedPass = bcrypt.hashSync(newPassword);
+    user.password = hashedPass;
+    await user.save();
+
+    res.status(200).json({ message: "Password reset successfully" });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ message: "An error occurred during password reset" });
+  }
+};
 
 module.exports = {
   signup,
@@ -224,4 +275,6 @@ module.exports = {
   fetchUserById,
   refreshToken,
   logout,
+  resetPassword,
+  verifySecretAnswer,
 };

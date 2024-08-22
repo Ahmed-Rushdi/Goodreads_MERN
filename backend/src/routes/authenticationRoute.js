@@ -11,7 +11,8 @@ const {
   getUser,
   refreshToken,
   fetchUserById,
-
+  verifySecretAnswer,
+  resetPassword,
   logout,
 } = require("../controllers/AuthenticationController");
 
@@ -31,6 +32,12 @@ router.get("/refresh", refreshToken);
 // logout route
 router.post("/logout", logout);
 
+//verify secret question route
+
+router.post("/verify-secret-answer", verifySecretAnswer);
+
+//reset password route
+router.post("/reset-password", resetPassword);
 // router.get("/auth/getUser", authenticateUser, (req, res) => {
 //   // User details are now available in req.user
 //   res.json({ user: req.user });
@@ -78,23 +85,23 @@ router.get(
 
 // Logout route
 
-router.get("/logout", (req, res) => {
-  if (req.isAuthenticated()) {
-    req.logout((err) => {
-      if (err) {
-        return res.status(500).json({ error: "Logout failed" });
-      }
+// router.get("/logout", (req, res) => {
+//   if (req.isAuthenticated()) {
+//     req.logout((err) => {
+//       if (err) {
+//         return res.status(500).json({ error: "Logout failed" });
+//       }
 
-      res.clearCookie("jwt");
-      res.clearCookie("refreshToken");
+//       res.clearCookie("jwt");
+//       res.clearCookie("refreshToken");
 
-      // Redirect to homepage or wherever
-      res.redirect("/");
-    });
-  } else {
-    res.redirect("/");
-  }
-});
+//       // Redirect to homepage or wherever
+//       res.redirect("/");
+//     });
+//   } else {
+//     res.redirect("/");
+//   }
+// });
 
 // // Route to get the current logged-in user
 // router.get("/current_user", (req, res) => {

@@ -10,6 +10,7 @@ import ForgotPasswordPage from "./components/ForgotPasswordPage";
 import LoginPage from "./components/LoginPage";
 import AdminPage from "./layouts/AdminPage";
 import TrendingCategoriesPage from "./layouts/TrendingCategoriesPage";
+import SecretQuestion from "./components/SecretQuestion";
 
 import Test from "./components/Test";
 import CategoryPage from "./layouts/CategoryPage";
@@ -35,6 +36,7 @@ const App = () => {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/test" element={<Test />} />
+          <Route path="/secretQuestion" element={<SecretQuestion />} />
           {/* <Route path="/contact" element={<Contact />} /> */}
           <Route
             path="/profile"
