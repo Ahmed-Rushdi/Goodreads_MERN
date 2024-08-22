@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../styles/login.css";
 import { useNavigate } from "react-router-dom";
 import ProvideData from "./ProvideData";
+import { axiosInstance } from "../utils/AxiosInstance";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -16,25 +17,27 @@ const LoginPage = () => {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:3000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ email, password }),
+      const response = await axiosInstance.post("/api/login", {
+        email,
+        password,
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        setIsLoggedIn(true);
-        navigate("/test");
-      } else {
-        setError("Invalid email or password");
-      }
+      console.log(response.data);
+      setIsLoggedIn(true);
+      navigate("/test");
     } catch (err) {
-      setError("Something went wrong. Please try again.");
+      if (err.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        setError(err.response.data.message || "Invalid email or password");
+      } else if (err.request) {
+        // The request was made but no response was received
+        setError("No response from server. Please try again.");
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        setError("An error occurred. Please try again.");
+      }
+      console.error(err);
     }
   };
 

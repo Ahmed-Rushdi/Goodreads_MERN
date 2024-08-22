@@ -8,7 +8,7 @@ import putData from "../utils/DataUpdating";
 export default function WantToRead({ isbn }) {
   const { token, isLoggedIn } = useProvideData();
   const { data, loading, error } = useFetchData(
-    `/api/user/book-shelf?isbn=${isbn}`
+    `/api/user-book/book-shelf?isbn=${isbn}`
   );
   const [activeShelf, setActiveShelf] = useState(null);
   console.log(isbn);
@@ -32,7 +32,7 @@ export default function WantToRead({ isbn }) {
     }
 
     try {
-      const url = `/api/user/${isbn}`;
+      const url = `/api/user-book/${isbn}`;
       const data = { shelf: shelfName };
 
       const { resData, loading, error } = await putData(url, data);
