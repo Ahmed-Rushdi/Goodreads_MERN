@@ -1,18 +1,21 @@
 const Category = require("../models/Category.model");
 const paginateData = require("../utils/Paginator");
-
+const buildSearchQuery = require("../utils/SearchUtils");
 // * GET
 // * Get categories handles pagination and search with req.query {page, limit, q}
 const getCategories = async (req, res) => {
   try {
     const { page = 1, limit = 0, q = "" } = req.query;
+    console.log("here");
     const result = await paginateData(
       buildSearchQuery(Category, q),
       page,
       limit
     );
-    req.send(result);
+    console.log("not here");
+    res.send(result);
   } catch (error) {
+    console.log(error);
     res.status(500).send(error);
   }
 };

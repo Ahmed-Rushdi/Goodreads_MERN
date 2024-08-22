@@ -1,5 +1,5 @@
 const buildSearchQuery = (model, textQuery = "", findQuery = {}) => {
-  if (!query) {
+  if (!textQuery) {
     return model.find(findQuery);
   }
   return model.find({ $text: { $search: textQuery }, ...findQuery });

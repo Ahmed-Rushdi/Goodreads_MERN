@@ -16,7 +16,7 @@ const getBooks = async (req, res) => {
       page,
       limit
     );
-    req.send(result);
+    res.send(result);
   } catch (error) {
     res.status(500).send(error);
   }
@@ -41,7 +41,7 @@ const getCategoryBooks = async (req, res) => {
       page,
       limit
     );
-    req.send(result);
+    res.send(result);
   } catch (error) {
     res.status(500).send(error);
   }
@@ -58,7 +58,7 @@ const getAuthorBooks = async (req, res) => {
       page,
       limit
     );
-    req.send(result);
+    res.send(result);
   } catch (error) {
     res.status(500).send(error);
   }
