@@ -7,51 +7,47 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import axios from 'axios';
 import '../styles/user-book.css';
 
-export default function BasicModal({ bookId }) {
+export default function BasicModal({ isbn, onShelfChange }) {
   const [open, setOpen] = React.useState(false);
-  
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-const handleAddToShelf = async (shelf) => {
-  try {
-    console.log("Sending request to add book to shelf:", shelf);
-    
-    const response = await axios.post(
-      'http://localhost:3000/api/profile',
-      { bookId, shelf }, 
-      { withCredentials: true } 
-    );
+  const handleAddToShelf = async (newShelf) => {
+    try {
+      const response = await axios.post(
+        'http://localhost:3000/api/profile',
+        { isbn, shelf: newShelf }, 
+        { withCredentials: true }
+      );
 
-    console.log("Book added to shelf:", response.data);
-    handleClose();
+      console.log("Book added to shelf:", response.data);
+      onShelfChange(isbn, newShelf); // Update the shelf in the parent component
+      handleClose();
 
-  } catch (error) {
-    console.error("Error adding the book to the shelf:", error.message || error);
-  }
-};
-
+    } catch (error) {
+      console.error("Error adding the book to the shelf:", error.message || error);
+    }
+  };
 
   const handleRemoveFromShelf = async () => {
     try {
-      const response = await axios.delete(
-        'http://localhost:3000/api/profile',
-        {
-          data: { bookId }, // Only bookId
-          withCredentials: true // Include cookies in the request
-        }
-      );
+        const response = await axios.post(
+            'http://localhost:3000/api/profile',
+            { isbn, shelf: null }, // Set shelf to null for removal
+            { withCredentials: true }
+        );
 
-      console.log("Book removed from shelf:", response.data);
-      handleClose();
+        console.log("Book removed from shelf:", response.data);
+        onShelfChange(isbn, null); // Clear the shelf in the parent component
+        handleClose();
     } catch (error) {
-      console.error("Error removing the book from the shelf:", error);
+        console.error("Error removing the book from the shelf:", error.message || error);
     }
   };
 
   return (
     <div className='shelf-drop'>
-      <p>{shelf}</p>
       <Button onClick={handleOpen}>Choose a Shelf</Button>
       <Modal
         open={open}
