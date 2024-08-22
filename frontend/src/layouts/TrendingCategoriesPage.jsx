@@ -4,13 +4,38 @@ import CategoryBooksSection from "../components/CategoryBookSection";
 
 function TrendingCategoriesPage() {
   const {
-    data: categories,
-    loading,
-    error,
+    data: trendingCategories,
+    loading: trendingLoading,
+    error: trendingError,
   } = useFetchData("/api/trend/trending-categories");
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error loading categories.</p>;
+  const {
+    data: allCategories,
+    loading: allCategoriesLoading,
+    error: allCategoriesError,
+  } = useFetchData("/api/categories");
+
+  if (trendingLoading || allCategoriesLoading) return <p>Loading...</p>;
+  if (trendingError) return <p>Error loading trending categories.</p>;
+  if (allCategoriesError) return <p>Error loading all categories.</p>;
+
+  // Limit trending categories to the first 10
+  const limitedTrendingCategories = trendingCategories.slice(0, 10);
+
+  // Reduce all categories to map names to their corresponding _id
+  const categoryLinks = allCategories.data.reduce((acc, category) => {
+    acc.push(
+      <li key={category._id}>
+        <a
+          href={`/category/${category._id}`}
+          className="text-blue-500 hover:underline"
+        >
+          {category.name}
+        </a>
+      </li>
+    );
+    return acc;
+  }, []);
 
   return (
     <div className="bg-[#FEFAE0] py-24 sm:py-32">
@@ -25,9 +50,17 @@ function TrendingCategoriesPage() {
           </p>
         </div>
         <div className="mt-12">
-          {categories.map((category) => (
+          {limitedTrendingCategories.map((category) => (
             <CategoryBooksSection key={category._id} category={category} />
           ))}
+        </div>
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+            All Categories
+          </h2>
+          <ul className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {categoryLinks}
+          </ul>
         </div>
       </div>
     </div>
