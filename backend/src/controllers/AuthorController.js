@@ -36,13 +36,15 @@ const getAuthor = async (req, res) => {
 
 // * POST
 const postAuthor = async (req, res) => {
-  try {
-    const author = new Author(req.body);
-    await author.save();
-    res.send("Author created");
-  } catch (error) {
-    res.status(409).send(`An error occurred while creating author: ${error}`);
-  }
+  console.log(req.headers);
+  console.log("req.body", req.body);
+  // try {
+  //   const author = new Author(req.body);
+  //   await author.save();
+  //   res.send("Author created");
+  // } catch (error) {
+  //   res.status(409).send(`An error occurred while creating author: ${error}`);
+  // }
 };
 
 // * PUT

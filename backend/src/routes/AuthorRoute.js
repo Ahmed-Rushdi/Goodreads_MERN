@@ -18,7 +18,8 @@ router.get("/", getAuthors);
 router.get("/:authorId", getAuthor);
 
 // * POST
-router.post("/", userAuth, adminAuth, postAuthor);
+// router.post("/", userAuth, adminAuth, postAuthor);
+router.post("/", postAuthor);
 
 // * PUT
 router.put("/:authorId", userAuth, adminAuth, putAuthor);

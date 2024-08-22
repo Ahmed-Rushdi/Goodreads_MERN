@@ -19,7 +19,8 @@ const BookForm = ({
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setDisabledFlag(true);
     const formAuthor = formData.author?.trim();
     const authorId = authors?.data.find((a) => a.name === formAuthor)?._id;
@@ -83,7 +84,7 @@ const BookForm = ({
 
   return (
     <form
-      className={`p-5 m-4 bg-white border-buff rounded border w-full ${className}`}
+      className={`p-5 m-4 bg-white border-buff rounded border w-full relative ${className}`}
       onSubmit={handleSubmit}
     >
       <h2 className="text-2xl text-buff">{formTitle}</h2>

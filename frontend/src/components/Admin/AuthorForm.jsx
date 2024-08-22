@@ -17,7 +17,8 @@ const AuthorForm = ({
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setDisabledFlag(true);
     const { data, error } = updateFlag
       ? await putData(`/api/authors/${formData._id}`, formData)
@@ -41,7 +42,7 @@ const AuthorForm = ({
 
   return (
     <form
-      className={`p-5 m-4 bg-white border-buff rounded border w-full ${className}`}
+      className={`p-5 m-4 bg-black border-buff rounded border w-full relative  ${className}`}
       onSubmit={handleSubmit}
     >
       <h2 className="text-2xl text-buff">{formTitle}</h2>
