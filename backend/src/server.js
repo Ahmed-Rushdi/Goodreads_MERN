@@ -57,7 +57,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api", authenticationRoute);
 
 app.use(logger(logging));
-app.use("/api/users", userRoutes);
+app.use("/api/user", userRoutes);
 app.use("/api/trend", trendsRoute);
 app.use("/api/books", booksRoute);
 app.use("/api/reviews", reviewsRoute);
