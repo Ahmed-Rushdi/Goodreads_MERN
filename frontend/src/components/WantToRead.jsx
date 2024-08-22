@@ -1,45 +1,29 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import useProvideData from "./ProvideData";
+import { useFetchData } from "../utils/DataFetching";
+import putData from "../utils/DataUpdating";
 
 export default function WantToRead({ isbn }) {
+  const { token, isLoggedIn } = useProvideData();
+  const { data, loading, error } = useFetchData(
+    `/api/user/book-shelf?isbn=${isbn}`
+  );
   const [activeShelf, setActiveShelf] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  console.log(isbn);
+
   const lists = [
-    {
-      id: 1,
-      name: "Want to read",
-    },
-    {
-      id: 2,
-      name: "Currently Reading",
-    },
-    {
-      id: 3,
-      name: "Read",
-    },
+    { id: 1, name: "Want to read", value: "wantToRead" },
+    { id: 2, name: "Currently Reading", value: "currentlyReading" },
+    { id: 3, name: "Read", value: "read" },
   ];
 
   useEffect(() => {
-    // const jwt = Cookies.get("jwt");
-    const jwt = "2";
-    if (jwt) {
-      setIsLoggedIn(true);
-      checkCurrentShelf(jwt);
-    }
-  }, [isbn]);
-
-  const checkCurrentShelf = async (jwt) => {
-    try {
-      const response = await fetch(`/api/book-shelf?isbn=${isbn}`, {
-        headers: { Authorization: `Bearer ${jwt}` },
-      });
-      const data = await response.json();
+    if (data && isLoggedIn) {
       setActiveShelf(data.shelfName);
-    } catch (error) {
-      console.error("Error checking current shelf:", error);
     }
-  };
+  }, [data, isLoggedIn]);
 
   const handleShelfChange = async (shelfName) => {
     if (!isLoggedIn) {
@@ -47,22 +31,18 @@ export default function WantToRead({ isbn }) {
       return;
     }
 
-    // const jwt = Cookies.get("jwt");
-    const jwt = "2";
     try {
-      const response = await fetch("/api/update-shelf", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${jwt}`,
-        },
-        body: JSON.stringify({ isbn, shelfName }),
-      });
+      const url = `/api/user/book-shelf/${isbn}`;
+      const data = { shelf: shelfName };
 
-      if (response.ok) {
-        setActiveShelf(shelfName);
-      } else {
+      const { resData, loading, error } = await putData(url, data);
+
+      if (!loading && error) {
         throw new Error("Failed to update shelf");
+      }
+
+      if (resData) {
+        setActiveShelf(shelfName);
       }
     } catch (error) {
       console.error("Error updating shelf:", error);
@@ -72,7 +52,9 @@ export default function WantToRead({ isbn }) {
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <MenuButton className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-          Want To Read
+          {activeShelf
+            ? lists.find((list) => list.value === activeShelf)?.name
+            : "Select Shelf"}
           <ChevronDownIcon
             aria-hidden="true"
             className="-mr-1 h-5 w-5 text-gray-400"
@@ -85,20 +67,22 @@ export default function WantToRead({ isbn }) {
         className="absolute left-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
       >
         <div className="py-1">
-          {lists.map((list) => {
-            return (
-              <MenuItem key={list.id}>
-                <a
-                  onClick={(e) => {
-                    e.preventDefault;
-                  }}
-                  className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900"
-                >
-                  {list.name}
-                </a>
-              </MenuItem>
-            );
-          })}
+          {lists.map((list) => (
+            <MenuItem key={list.id}>
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleShelfChange(list.value);
+                }}
+                className={`block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100 data-[focus]:text-gray-900 ${
+                  activeShelf === list.value ? "font-bold" : ""
+                }`}
+              >
+                {list.name}
+              </a>
+            </MenuItem>
+          ))}
         </div>
       </MenuItems>
     </Menu>

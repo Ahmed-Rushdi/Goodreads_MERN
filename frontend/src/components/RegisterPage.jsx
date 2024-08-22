@@ -2,73 +2,97 @@ import React, { useState } from "react";
 import "../styles/signup.css";
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
 import { useNavigate } from "react-router-dom";
+import postData from "../utils/DataPosting";
+
+// Validation functions
+const validatePassword = (pwd) => {
+  const upperCasePattern = /[A-Z]/;
+  const specialCharPattern = /[!@#$%^&*(),.?":{}|<>]/;
+  if (pwd.length < 8) return "Password must be at least 8 characters long.";
+  if (!upperCasePattern.test(pwd))
+    return "Password must include at least one uppercase letter.";
+  if (!specialCharPattern.test(pwd))
+    return "Password must include at least one special character.";
+  return "";
+};
+
+const validateEmail = (email) => {
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailPattern.test(email) ? "" : "Please enter a valid email address.";
+};
 
 const SignUpPage = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [repeatPassword, setRepeatPassword] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    repeatPassword: "",
+  });
+  const [formErrors, setFormErrors] = useState({
+    emailError: "",
+    passwordError: "",
+    repeatPasswordError: "",
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const [repeatPasswordError, setRepeatPasswordError] = useState("");
   const navigate = useNavigate();
 
-  const validatePassword = (pwd) => {
-    const upperCasePattern = /[A-Z]/;
-    const specialCharPattern = /[!@#$%^&*(),.?":{}|<>]/;
-    if (pwd.length < 8) return "Password must be at least 8 characters long.";
-    if (!upperCasePattern.test(pwd))
-      return "Password must include at least one uppercase letter.";
-    if (!specialCharPattern.test(pwd))
-      return "Password must include at least one special character.";
-    return "";
-  };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
 
-  const validateEmail = (email) => {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailPattern.test(email)
-      ? ""
-      : "Please enter a valid email address.";
-  };
+    if (name === "email") {
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        emailError: validateEmail(value),
+      }));
+    }
 
-  const sendRequest = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/api/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-        }),
-      });
+    if (name === "password") {
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        passwordError: validatePassword(value),
+      }));
+    }
 
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-
-      const data = await res.json();
-      return data;
-    } catch (err) {
-      console.error(err);
+    if (name === "repeatPassword") {
+      setFormErrors((prevErrors) => ({
+        ...prevErrors,
+        repeatPasswordError:
+          value !== formData.password ? "Passwords do not match." : "",
+      }));
     }
   };
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    if (emailError || passwordError || repeatPasswordError) {
+
+    if (
+      formErrors.emailError ||
+      formErrors.passwordError ||
+      formErrors.repeatPasswordError
+    ) {
       console.error("Fix validation errors before submitting.");
       return;
     }
 
-    const response = await sendRequest();
-    if (response) {
-      console.log("User registered successfully:");
-      navigate("/login");
+    const { resData, loading, error } = await postData("/api/signup", {
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+    });
+
+    if (error) {
+      console.error("Sign up failed:", error.message);
+      return;
+    }
+
+    if (resData) {
+      console.log("User registered successfully:", resData);
+      navigate("/");
     }
   };
 
@@ -91,8 +115,9 @@ const SignUpPage = () => {
           <input
             className="input-4"
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
             required
           />
         </label>
@@ -102,15 +127,14 @@ const SignUpPage = () => {
           <input
             className="input-4"
             type="email"
-            value={email}
-            onChange={(e) => {
-              const newEmail = e.target.value;
-              setEmail(newEmail);
-              setEmailError(validateEmail(newEmail));
-            }}
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
             required
           />
-          {emailError && <p className="error-message">{emailError}</p>}
+          {formErrors.emailError && (
+            <p className="error-message">{formErrors.emailError}</p>
+          )}
         </label>
 
         <label className="password-field">
@@ -118,12 +142,9 @@ const SignUpPage = () => {
           <input
             className="input-4"
             type={showPassword ? "text" : "password"}
-            value={password}
-            onChange={(e) => {
-              const newPassword = e.target.value;
-              setPassword(newPassword);
-              setPasswordError(validatePassword(newPassword));
-            }}
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
             required
           />
           <span
@@ -132,7 +153,9 @@ const SignUpPage = () => {
           >
             {showPassword ? <VscEye /> : <VscEyeClosed />}
           </span>
-          {passwordError && <p className="error-message">{passwordError}</p>}
+          {formErrors.passwordError && (
+            <p className="error-message">{formErrors.passwordError}</p>
+          )}
         </label>
 
         <label className="password-field">
@@ -140,14 +163,9 @@ const SignUpPage = () => {
           <input
             className="input-4"
             type={showRepeatPassword ? "text" : "password"}
-            value={repeatPassword}
-            onChange={(e) => {
-              const newRepeatPassword = e.target.value;
-              setRepeatPassword(newRepeatPassword);
-              setRepeatPasswordError(
-                newRepeatPassword !== password ? "Passwords do not match." : ""
-              );
-            }}
+            name="repeatPassword"
+            value={formData.repeatPassword}
+            onChange={handleChange}
             required
           />
           <span
@@ -156,8 +174,8 @@ const SignUpPage = () => {
           >
             {showRepeatPassword ? <VscEye /> : <VscEyeClosed />}
           </span>
-          {repeatPasswordError && (
-            <p className="error-message">{repeatPasswordError}</p>
+          {formErrors.repeatPasswordError && (
+            <p className="error-message">{formErrors.repeatPasswordError}</p>
           )}
         </label>
 

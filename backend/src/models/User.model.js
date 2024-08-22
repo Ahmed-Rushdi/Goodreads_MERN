@@ -8,10 +8,16 @@ const userSchema = new Schema({
   password: { type: String },
   userRole: { type: String, enum: ["user", "admin"], default: "user" },
   reviews: [reviewSchema],
-  books: [{ type: Schema.Types.ObjectId, ref: "Book" }],
-  read: [{ type: Schema.Types.ObjectId, ref: "Book" }],
-  currentlyReading: [{ type: Schema.Types.ObjectId, ref: "Book" }],
-  wantToRead: [{ type: Schema.Types.ObjectId, ref: "Book" }],
+  books: [
+    {
+      book: { type: Schema.Types.ObjectId, ref: "Book" },
+      shelf: {
+        type: String,
+        enum: ["currentlyReading", "read", "wantToRead"],
+        required: true,
+      },
+    },
+  ],
   following: [{ type: Schema.Types.ObjectId, ref: "User" }],
   followers: [{ type: Schema.Types.ObjectId, ref: "User" }],
   isVerified: { type: Boolean, default: false },

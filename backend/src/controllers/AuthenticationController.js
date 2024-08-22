@@ -33,54 +33,49 @@ const signup = async (req, res, next) => {
 };
 
 // logic for login
-
 const login = async (req, res, next) => {
   const { email, password } = req.body;
-  let existingUser;
+
   try {
-    existingUser = await User.findOne({ email: email });
+    const existingUser = await User.findOne({ email: email });
+    if (!existingUser) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      existingUser.password
+    );
+    if (!isPasswordCorrect) {
+      return res.status(400).json({ message: "Invalid email or password" });
+    }
+
+    const token = jwt.sign(
+      { id: existingUser._id },
+      process.env.JWT_SECRET || "default_secret",
+      { expiresIn: "3000s" }
+    );
+
+    res.cookie("token", token, {
+      path: "/",
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 1 day
+      httpOnly: true,
+      sameSite: "lax",
+    });
+
+    return res.status(200).json({
+      message: "Login successful",
+      user: {
+        id: existingUser._id,
+        name: existingUser.name,
+        email: existingUser.email,
+      },
+      token,
+    });
   } catch (error) {
-    return new Error(error);
+    console.error(error);
+    return res.status(500).json({ message: "An error occurred during login" });
   }
-  if (!existingUser) {
-    return res.status(400).json({ message: "user was not found" });
-  }
-
-  const comparePassword = bcrypt.compareSync(password, existingUser.password);
-  if (!comparePassword) {
-    return res.status(400).json({ message: " invalid email or password" });
-  }
-  // you can use process.env.JWT_SECRET instead of  "midomashakel2"
-  const token = jwt.sign({ id: existingUser._id }, "midomashakel2", {
-    expiresIn: "3000s",
-  });
-  res.cookie("token", token, {
-    path: "/",
-    expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
-    httpOnly: true,
-    sameSite: "lax",
-  });
-  return res
-    .status(200)
-    .json({ message: "login successfully", user: existingUser, token });
-
-  //   // Save jwt in cookies
-  //   res.cookie("token", token, {
-  //     path: "/",
-  //     expires: new Date(Date.now() + 1000 * 60 * 120), // 2 hours
-  //     httpOnly: true,
-  //     sameSite: "lax",
-  //   });
-
-  //   return res.status(200).json({
-  //     message: "logged in successfully",
-  //     user: {
-  //       id: existingUser.id,
-  //       name: existingUser.name,
-  //       email: existingUser.email,
-  //     },
-  //     token,
-  //   });
 };
 
 // verification of jwt token
