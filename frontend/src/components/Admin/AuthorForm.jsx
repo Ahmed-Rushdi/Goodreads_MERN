@@ -28,7 +28,7 @@ const AuthorForm = ({
       : await postData("/api/authors", formData);
     if (error) toast.error(error + (data ?? ""));
     else toast.success(data);
-
+    // * Upload image if one was selected and if the request was successful
     if (formData.imageFile && !error) {
       const fileExt = formData.imageFile.name.split(".").pop();
       const { data: uploadData, error: uploadError } = postData(
@@ -43,6 +43,7 @@ const AuthorForm = ({
       if (uploadError) toast.error(uploadError + (uploadData ?? ""));
       else toast.success(uploadData);
     }
+    setUpdateFlag(false);
     setDisabledFlag(false);
     setFormData({});
   };

@@ -40,13 +40,25 @@ const BookForm = ({
     const { data, error } = updateFlag
       ? await putData(`/api/books/${formData._id}`, formData)
       : await postData("/api/books", formData);
+    if (error) toast.error(error + (data ?? ""));
+    else toast.success(data);
+    // * Upload image if one was selected and if the request was successful
+    if (formData.thumbnailFile && !error) {
+      const fileExt = formData.thumbnailFile.name.split(".").pop();
+      const { data: uploadData, error: uploadError } = postData(
+        "/api/images/book",
+        formData.thumbnailFile,
+        {
+          "x-book-isbn": formData.isbn13,
+          "x-file-type": fileExt,
+          "Content-Type": formData.thumbnailFile.type,
+        }
+      );
+      if (uploadError) toast.error(uploadError + (uploadData ?? ""));
+      else toast.success(uploadData);
+    }
     setUpdateFlag(false);
     setDisabledFlag(false);
-    if (error) {
-      toast.error(error + (data ?? ""));
-    } else {
-      toast.success(data);
-    }
     setFormData({});
   };
 
