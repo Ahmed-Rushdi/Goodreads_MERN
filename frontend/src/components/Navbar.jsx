@@ -11,6 +11,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { FaUserCircle } from "react-icons/fa"; // Import profile icon from React Icons
 import useProvideData from "./ProvideData";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import postData from "../utils/DataPosting";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
@@ -28,20 +29,18 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    try {
-      await fetch("/api/logout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include", // include credentials
-        body: JSON.stringify({ email: user.email }),
-      });
-      // Redirect to login page
-      console.log("logged out successfuly");
+    const { resData, error } = await postData("/api/logout", {
+      email: user.email,
+    });
+
+    if (error) {
+      console.error("Failed to logout:", error.message);
+      return;
+    }
+
+    if (resData) {
+      console.log("Logged out successfully:", resData);
       navigate("/login");
-    } catch (error) {
-      console.error("Failed to logout", error);
     }
   };
 

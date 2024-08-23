@@ -103,6 +103,7 @@ const SignUpPage = () => {
 
     if (error) {
       console.error("Sign up failed:", error.message);
+      alert("User already exists , please login !");
       return;
     }
 
