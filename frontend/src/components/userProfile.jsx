@@ -1,42 +1,44 @@
 import "../styles/user-profile.css";
-import useFetch from "./useFetch";
 import UserBook from "./UserBook";
 import UserShelf from "./UserShelf";
 import PaginationRounded from "./BookPaging";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import ProfileInfo from "./profileInfo";
+import { useFetchData } from "../utils/DataFetching";
 
 const UserProfile = () => {
-  const [selectedShelf, setSelectedShelf] = useState(''); // Default to no filter, show all books
+  const [selectedShelf, setSelectedShelf] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
 
-  const url = selectedShelf ? `http://localhost:3000/api/profile/filter` : `http://localhost:3000/api/profile`;
+  const url = `/api/user-book/books${
+    selectedShelf ? `?shelf=${selectedShelf}` : ""
+  }`;
 
-  const { data, isLoading, error, refetch } = useFetch(url, {
-    method: selectedShelf ? 'POST' : 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: selectedShelf ? JSON.stringify({ returnedShelf: selectedShelf }) : null,
-    credentials: 'include'
-  });
+  const { data, loading, error, refetch } = useFetchData(url);
+
+  const handleShelfChange = useCallback((newShelf) => {
+    setSelectedShelf(newShelf);
+    setCurrentPage(1);
+  }, []);
 
   useEffect(() => {
-    refetch(); // Refetch data when selectedShelf changes
+    refetch();
   }, [selectedShelf, refetch]);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
   };
 
-  if (isLoading) {
+  if (loading) {
     return <p>Loading...</p>;
   }
 
   if (error) {
     console.error("Error fetching data:", error);
-    return <p>Error: {error.message || "An error occurred while fetching data"}</p>;
+    return (
+      <p>Error: {error.message || "An error occurred while fetching data"}</p>
+    );
   }
 
   const books = data?.books || [];
@@ -45,7 +47,10 @@ const UserProfile = () => {
     return <p>No books available</p>;
   }
 
-  const currentBooks = books.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const currentBooks = books.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
     <div className="user-profile">
@@ -54,10 +59,13 @@ const UserProfile = () => {
       </section>
       <section className="info-shelf">
         <div>
-          <UserShelf setSelectedShelf={setSelectedShelf} />
+          <UserShelf
+            setSelectedShelf={handleShelfChange}
+            currentShelf={selectedShelf}
+          />
         </div>
         <div>
-          <UserBook books={currentBooks} />
+          <UserBook key={selectedShelf} books={currentBooks} />
         </div>
         <PaginationRounded
           totalItems={books.length}
