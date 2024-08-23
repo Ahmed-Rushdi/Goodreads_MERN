@@ -10,7 +10,7 @@ const UserBook = ({ books }) => {
   const [shelfState, setShelfState] = useState(() => {
     const initialState = {};
     books.forEach((bookObj) => {
-      initialState[bookObj.isbn13] = bookObj.shelf;
+      initialState[bookObj.book.isbn13] = bookObj.shelf;
     });
     return initialState;
   });
@@ -26,7 +26,7 @@ const UserBook = ({ books }) => {
     // If the book is removed from the shelf, remove it from the list
     if (!newShelf) {
       setBookList((prevList) =>
-        prevList.filter((bookObj) => bookObj.isbn13 !== isbn)
+        prevList.filter((bookObj) => bookObj.book.isbn13 !== isbn)
       );
     }
   };
@@ -36,7 +36,7 @@ const UserBook = ({ books }) => {
       <h1>User Books:</h1>
       <ul>
         {bookList.map((bookObj) => {
-          const book = bookObj;
+          const book = bookObj.book;
           const author = book.authorId;
           const categories = book.categories || [];
           const currentShelf = shelfState[book.isbn13];

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   Box,
   Button,
@@ -11,45 +11,24 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import "../styles/profile-info.css"; // Import the CSS file
-import useProvideData from "./ProvideData";
-export default function UserProfile() {
-  const { user, isLoading, error } = useProvideData();
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
+export default function UserProfile() {
+  const [username, setUsername] = useState("JohnDoe");
+  const [email, setEmail] = useState("johndoe@example.com");
   const [profilePhoto, setProfilePhoto] = useState(
     "https://placehold.co/150x150"
   );
   const [editMode, setEditMode] = useState({ username: false, email: false });
 
-  useEffect(() => {
-    if (user) {
-      setUsername(user.name);
-      setEmail(user.email);
-    }
-  }, [user]);
-
   const handleEditClick = (field) => {
     setEditMode((prev) => ({ ...prev, [field]: !prev[field] }));
   };
 
-  const handleSaveChanges = async () => {
-    try {
-      await axiosInstance.put("/api/user-data", { name: username, email });
-      alert("Changes saved!");
-      setEditMode({ username: false, email: false });
-    } catch (err) {
-      alert("Failed to save changes. Please try again.");
-    }
+  const handleSaveChanges = () => {
+    // Handle save changes logic (e.g., API call)
+    setEditMode({ username: false, email: false });
+    alert("Changes saved!");
   };
-
-  if (isLoading) {
-    return <h2>Loading User Data...</h2>;
-  }
-
-  if (error) {
-    return <h2>{error}</h2>;
-  }
 
   return (
     <Box className="user-profile-container">
