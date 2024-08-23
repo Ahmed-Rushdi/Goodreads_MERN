@@ -6,22 +6,15 @@ import BaseCard from "../Admin/BaseCard";
 import { delData } from "../../utils/DataDeletion";
 import { toast } from "react-toastify";
 import PaginationRounded from "../BookPaging";
-const handleDelete = async (dataId, setDisabled) => {
-  setDisabled(true);
-  const { data, loading, error } = await delData(`/api/books/${dataId}`);
-  setDisabled(loading);
-  if (error) {
-    toast.error(error + (data ?? ""));
-  } else {
-    toast.success(data);
-  }
-};
-// TODO: implement search functionality and fix form data setting with backend populate
+import { API_HOST_URL } from "../../utils/HOST";
+// TODO: implement search functionality
 const BooksPanel = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(12);
   const [formVals, setFormVals] = useState({});
   const [formUpdateFlag, setFormUpdateFlag] = useState(false);
+  const [refreshFlag, setRefreshFlag] = useState(false);
+
   const handleEdit = async (dataId, setDisabled) => {
     setDisabled(true);
     const { data, error } = await fetchData(`/api/books/${dataId}`);
@@ -31,8 +24,20 @@ const BooksPanel = () => {
     if (error) {
       toast.error(error + (data ?? ""));
     }
+    setRefreshFlag(!refreshFlag);
   };
 
+  const handleDelete = async (dataId, setDisabled) => {
+    setDisabled(true);
+    const { data, loading, error } = await delData(`/api/books/${dataId}`);
+    setDisabled(loading);
+    if (error) {
+      toast.error(error + (data ?? ""));
+    } else {
+      toast.success(data);
+    }
+    setRefreshFlag(!refreshFlag);
+  };
   const {
     data: booksPage,
     loading,
@@ -46,7 +51,7 @@ const BooksPanel = () => {
         values={formVals}
         updateFlag={formUpdateFlag}
         setUpdateFlag={setFormUpdateFlag}
-        className={""}
+        refreshFlagState={[refreshFlag, setRefreshFlag]}
       />
       <div className="flex flex-col items-center">
         <PaginationRounded
@@ -77,21 +82,22 @@ const BooksPanel = () => {
               <div className="w-[100px] flex-shrink-0">
                 <img
                   src={
-                    book.thumbnail == ""
-                      ? "http://localhost:3000/fallback_thumbnail.png"
-                      : book.thumbnail
+                    book.thumbnail ?? `${API_HOST_URL}/fallback_thumbnail.png`
                   }
                   onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src =
-                      "http://localhost:3000/fallback_thumbnail.png";
+                    if (e.target.src.startsWith(API_HOST_URL)) {
+                      e.target.onerror = null;
+                      e.target.src = `${API_HOST_URL}/fallback_thumbnail.png`;
+                    } else {
+                      e.target.src = `${API_HOST_URL}/${book.thumbnail}`;
+                    }
                   }}
                   className=""
                 />
               </div>
               <div className="w-full text-xs sm:text-sm flex-shrink">
                 <p className="text-buff line-clamp-1">
-                  {book.title} | <i>{book.author}</i>
+                  {book.title} | <i>{book.authorId.name}</i>
                 </p>
                 <p>{book.isbn13}</p>
                 <p>

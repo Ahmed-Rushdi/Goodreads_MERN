@@ -5,7 +5,6 @@ const path = require("path");
 const process = require("process");
 const connectDB = require("./utils/dbConnection");
 const cors = require("cors");
-// npm install cookie-parser
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 // const passport = require("./utils/passport");
@@ -60,6 +59,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(logger(logging));
 
+// * Use Routes
 app.use("/api/images", imageUploadRoute);
 app.use("/api", authenticationRoute);
 app.use("/api/user-book", userRoutes);
