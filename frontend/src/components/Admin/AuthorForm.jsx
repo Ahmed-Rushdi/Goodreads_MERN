@@ -14,8 +14,11 @@ const AuthorForm = ({
   const [formData, setFormData] = useState({});
   const [disabledFlag, setDisabledFlag] = useState(false);
   const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-
+    setFormData({
+      ...formData,
+      [e.target.name]:
+        e.target.type === "file" ? e.target.files[0] : e.target.value,
+    });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,13 +26,24 @@ const AuthorForm = ({
     const { data, error } = updateFlag
       ? await putData(`/api/authors/${formData._id}`, formData)
       : await postData("/api/authors", formData);
-    setUpdateFlag(false);
-    setDisabledFlag(false);
-    if (error) {
-      toast.error(error + (data ?? ""));
-    } else {
-      toast.success(data);
+    if (error) toast.error(error + (data ?? ""));
+    else toast.success(data);
+
+    if (formData.imageFile && !error) {
+      const fileExt = formData.imageFile.name.split(".").pop();
+      const { data: uploadData, error: uploadError } = postData(
+        "/api/images/author",
+        formData.imageFile,
+        {
+          "x-author-name": formData.name,
+          "x-file-type": fileExt,
+          "Content-Type": formData.imageFile.type,
+        }
+      );
+      if (uploadError) toast.error(uploadError + (uploadData ?? ""));
+      else toast.success(uploadData);
     }
+    setDisabledFlag(false);
     setFormData({});
   };
 
@@ -42,7 +56,7 @@ const AuthorForm = ({
 
   return (
     <form
-      className={`p-5 m-4 bg-black border-buff rounded border w-full relative  ${className}`}
+      className={`p-5 m-4 bg-white border-buff rounded border w-full relative  ${className}`}
       onSubmit={handleSubmit}
     >
       <h2 className="text-2xl text-buff">{formTitle}</h2>
@@ -71,7 +85,7 @@ const AuthorForm = ({
         />
         <BaseInput
           type="file"
-          name="image"
+          name="imageFile"
           accept="image/*"
           onChange={handleChange}
           disabled={disabledFlag}

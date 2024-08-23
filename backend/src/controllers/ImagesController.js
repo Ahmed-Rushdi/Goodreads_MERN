@@ -1,20 +1,29 @@
 const fs = require("fs");
+const Book = require("../models/Book.model");
+const Author = require("../models/Author.model");
 
 const uploadBookCover = async (req, res) => {
-  const fileName = req.headers["x-file-name"];
-  const fileExt = req.headers["x-file-extension"];
+  const bookIsbn = req.headers["x-book-isbn"];
+  const fileExt = req.headers["x-file-type"];
 
-  if (!fileName || !fileExt) {
-    return res.status(400).send("Missing file name or extension");
+  const book = await Book.findOne({ isbn13: bookIsbn });
+  const bookId = book._id;
+
+  if (!bookId) {
+    return res.status(400).send("Missing book info in image upload request");
   }
 
-  const filePath = `../../public/thumbnails/${fileName}.${fileExt}`;
+  const fileName = `${bookId}.${fileExt}`;
+
+  const filePath = `../../public/thumbnails/${fileName}`;
   const fileStream = fs.createWriteStream(filePath);
+
+  console.log(typeof req.body);
 
   req.pipe(fileStream);
 
   req.on("end", () => {
-    console.log(`book image uploaded successfully: ${fileName}.${fileExt}`);
+    console.log(`book image uploaded successfully: ${fileName}`);
     res.send("Book cover uploaded successfully!");
   });
 
@@ -25,20 +34,26 @@ const uploadBookCover = async (req, res) => {
 };
 
 const uploadAuthorImage = async (req, res) => {
-  const fileName = req.headers["x-file-name"];
-  const fileExt = req.headers["x-file-extension"];
+  const authorName = req.headers["x-author-name"];
+  const fileExt = req.headers["x-file-type"];
 
-  if (!fileName || !fileExt) {
-    return res.status(400).send("Missing file name or extension");
+  const author = await Author.findOne({ name: authorName });
+  const authorId = author._id;
+  if (!authorId) {
+    return res.status(400).send("Missing author info in image upload request");
   }
 
-  const filePath = `../../public/thumbnails/${fileName}.${fileExt}`;
+  const fileName = `${authorId}.${fileExt}`;
+
+  const filePath = `./public/author_avatars/${fileName}`;
   const fileStream = fs.createWriteStream(filePath);
+
+  console.log(typeof req.body);
 
   req.pipe(fileStream);
 
   req.on("end", () => {
-    console.log(`author image uploaded successfully: ${fileName}.${fileExt}`);
+    console.log(`author image uploaded successfully: ${fileName}`);
     res.send("Book cover uploaded successfully!");
   });
 

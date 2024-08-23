@@ -81,30 +81,40 @@ const postBook = async (req, res) => {
         return categoryDoc._id;
       })
     );
-
-    await Book.create({
+    const book = new Book({
       ...bookData,
       authorId: authorDoc._id,
       categories: categoryDocs,
     });
+    categories;
+    book.thumbnail = `thumbnails/${book._id}.${
+      req.headers["x-file-type"] ?? "jpg"
+    }`;
+    book.save();
     res.send("Book created");
   } catch (error) {
-    res.status(409).send(`An error occurred while creating book: ${error}`);
+    res
+      .status(409)
+      .send(`An error occurred while creating book: ${error.message}`);
   }
 };
 
 // * PUT
-const putBook = (req, res) => {
-  Book.findOneAndUpdate({ isbn13: req.params.isbn13 }, req.body, { new: true })
-    .then((book) => {
-      if (!book) {
-        return res.status(404).send("Book not found");
-      }
-      res.send("Book updated");
-    })
-    .catch((error) =>
-      res.status(409).send(`An error occurred while updating book: ${error}`)
+const putBook = async (req, res) => {
+  try {
+    const book = await Book.findOneAndUpdate(
+      { isbn13: req.params.isbn13 },
+      req.body,
+      { new: true }
     );
+
+    if (!book) {
+      return res.status(404).send("Book not found");
+    }
+    res.send("Book updated");
+  } catch (error) {
+    res.status(409).send(`An error occurred while updating book: ${error}`);
+  }
 };
 
 // * DELETE

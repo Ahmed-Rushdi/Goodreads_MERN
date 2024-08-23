@@ -17,7 +17,11 @@ const BookForm = ({
   const { data: categories } = useFetchData("/api/categories");
   const { data: authors } = useFetchData("/api/authors");
   const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]:
+        e.target.type === "file" ? e.target.files[0] : e.target.value,
+    });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -159,7 +163,7 @@ const BookForm = ({
         />
         <BaseInput
           type="file"
-          name="thumbnail"
+          name="thumbnailFile"
           accept="image/*"
           onChange={handleChange}
           disabled={disabledFlag}
