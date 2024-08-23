@@ -38,6 +38,9 @@ const getAuthor = async (req, res) => {
 const postAuthor = async (req, res) => {
   try {
     const author = new Author(req.body);
+    author.image = `author_avatars/${author._id}.${
+      req.headers["x-file-type"] ?? "jpg"
+    }`;
     await author.save();
     res.send("Author created");
   } catch (error) {

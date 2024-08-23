@@ -11,15 +11,22 @@ const BookForm = ({
   values = {},
   updateFlag,
   setUpdateFlag,
+  refreshFlagState,
 }) => {
   const [formData, setFormData] = useState({});
   const [disabledFlag, setDisabledFlag] = useState(false);
+  const [refreshFlag, setRefreshFlag] = refreshFlagState;
   const { data: categories } = useFetchData("/api/categories");
   const { data: authors } = useFetchData("/api/authors");
   const handleChange = (e) =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({
+      ...formData,
+      [e.target.name]:
+        e.target.type === "file" ? e.target.files[0] : e.target.value,
+    });
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setDisabledFlag(true);
     const formAuthor = formData.author?.trim();
     const authorId = authors?.data.find((a) => a.name === formAuthor)?._id;
@@ -32,17 +39,32 @@ const BookForm = ({
       ...formData,
       authorId: authorId,
     });
+    const fileExt = formData.thumbnailFile?.name.split(".").pop();
     const { data, error } = updateFlag
       ? await putData(`/api/books/${formData._id}`, formData)
-      : await postData("/api/books", formData);
+      : await postData("/api/books", formData, {
+          "x-file-type": fileExt,
+        });
+    if (error) toast.error(error + (data ?? ""));
+    else toast.success(data);
+    // * Upload image if one was selected and if the request was successful
+    if (formData.thumbnailFile && !error) {
+      const { data: uploadData, error: uploadError } = postData(
+        "/api/images/book",
+        formData.thumbnailFile,
+        {
+          "x-book-isbn": formData.isbn13,
+          "x-file-type": fileExt,
+          "Content-Type": formData.thumbnailFile.type,
+        }
+      );
+      if (uploadError) toast.error(uploadError + (uploadData ?? ""));
+      else toast.success(uploadData);
+    }
     setUpdateFlag(false);
     setDisabledFlag(false);
-    if (error) {
-      toast.error(error + (data ?? ""));
-    } else {
-      toast.success(data);
-    }
     setFormData({});
+    setRefreshFlag(!refreshFlag);
   };
 
   const handleAddCategory = () => {
@@ -53,7 +75,7 @@ const BookForm = ({
       toast.error("Category already exists");
       return;
     }
-    const catId = categories?.find(
+    const catId = categories?.data.find(
       (category) => category.name === catField
     )?._id;
 
@@ -83,7 +105,7 @@ const BookForm = ({
 
   return (
     <form
-      className={`p-5 m-4 bg-white border-buff rounded border w-full ${className}`}
+      className={`p-5 m-4 bg-white border-buff rounded border w-full relative ${className}`}
       onSubmit={handleSubmit}
     >
       <h2 className="text-2xl text-buff">{formTitle}</h2>
@@ -114,7 +136,7 @@ const BookForm = ({
           type="text"
           name="author"
           placeholder="Author"
-          value={formData.authorId?.name ?? ""}
+          value={formData.authorId?.name ?? formData.author ?? ""}
           listOptions={authors?.data}
           onChange={handleChange}
           title="Author is required"
@@ -158,7 +180,7 @@ const BookForm = ({
         />
         <BaseInput
           type="file"
-          name="thumbnail"
+          name="thumbnailFile"
           accept="image/*"
           onChange={handleChange}
           disabled={disabledFlag}

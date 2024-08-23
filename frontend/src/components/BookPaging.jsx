@@ -4,6 +4,7 @@ import Stack from '@mui/material/Stack';
 
 export default function PaginationRounded({ totalItems, itemsPerPage, currentPage, onPageChange }) {
   const count = Math.ceil(totalItems / itemsPerPage);
+  console.log(totalItems);
 
   const handleChange = (event, value) => {
     onPageChange(value);

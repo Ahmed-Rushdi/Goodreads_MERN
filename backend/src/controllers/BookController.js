@@ -68,43 +68,58 @@ const getAuthorBooks = async (req, res) => {
 const postBook = async (req, res) => {
   const { author, categories, ...bookData } = req.body;
   try {
-    let authorDoc = await Author.findOne({ name: author.name });
+    let authorDoc = await Author.findOne(
+      typeof author === "string" ? { name: author } : { name: author.name }
+    );
     if (!authorDoc) {
       authorDoc = await Author.create(author);
     }
-    const categoryDocs = await Promise.all(
-      categories.map(async (categoryName) => {
-        let categoryDoc = await Category.findOne({ name: categoryName });
-        if (!categoryDoc) {
-          categoryDoc = await Category.create({ name: categoryName });
-        }
-        return categoryDoc._id;
-      })
-    );
-
-    await Book.create({
+    const categoryDocs = categories
+      ? await Promise.all(
+          categories.map(async (categoryName) => {
+            let categoryDoc = await Category.findOne({ name: categoryName });
+            if (!categoryDoc) {
+              categoryDoc = await Category.create({ name: categoryName });
+            }
+            return categoryDoc._id;
+          })
+        )
+      : [];
+    const book = new Book({
       ...bookData,
       authorId: authorDoc._id,
       categories: categoryDocs,
     });
+    categories;
+    book.thumbnail = `thumbnails/${book._id}.${
+      req.headers["x-file-type"] ?? "jpg"
+    }`;
+    book.save();
     res.send("Book created");
   } catch (error) {
-    res.status(409).send(`An error occurred while creating book: ${error}`);
+    console.log(error);
+    res
+      .status(409)
+      .send(`An error occurred while creating book: ${error.message}`);
   }
 };
 
 // * PUT
-const putBook = (req, res) => {
-  Book.findOneAndUpdate({ isbn13: req.params.isbn13 }, req.body, { new: true })
-    .then((book) => {
-      if (!book) {
-        return res.status(404).send("Book not found");
-      }
-      res.send("Book updated");
-    })
-    .catch((error) =>
-      res.status(409).send(`An error occurred while updating book: ${error}`)
+const putBook = async (req, res) => {
+  try {
+    const book = await Book.findOneAndUpdate(
+      { isbn13: req.params.isbn13 },
+      req.body,
+      { new: true }
     );
+
+    if (!book) {
+      return res.status(404).send("Book not found");
+    }
+    res.send("Book updated");
+  } catch (error) {
+    res.status(409).send(`An error occurred while updating book: ${error}`);
+  }
 };
 
 // * DELETE

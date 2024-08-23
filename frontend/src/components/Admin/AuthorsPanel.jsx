@@ -6,22 +6,14 @@ import BaseCard from "../Admin/BaseCard";
 import { delData } from "../../utils/DataDeletion";
 import { toast } from "react-toastify";
 import PaginationRounded from "../BookPaging";
+import { API_HOST_URL } from "../../utils/HOST";
 
-const handleDelete = async (dataId, setDisabled) => {
-  setDisabled(true);
-  const { data, loading, error } = await delData(`/api/authors/${dataId}`);
-  setDisabled(loading);
-  if (error) {
-    toast.error(error + (data ?? ""));
-  } else {
-    toast.success(data);
-  }
-};
 const AuthorsPanel = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(12);
   const [formVals, setFormVals] = useState({});
   const [formUpdateFlag, setFormUpdateFlag] = useState(false);
+  const [refreshFlag, setRefreshFlag] = useState(false);
   const handleEdit = async (dataId, setDisabled) => {
     setDisabled(true);
     const { data, error } = await fetchData(`/api/authors/${dataId}`);
@@ -31,13 +23,26 @@ const AuthorsPanel = () => {
     if (error) {
       toast.error(error + (data ?? ""));
     }
+    setRefreshFlag(!refreshFlag);
   };
-
+  const handleDelete = async (dataId, setDisabled) => {
+    setDisabled(true);
+    const { data, loading, error } = await delData(`/api/authors/${dataId}`);
+    setDisabled(loading);
+    if (error) {
+      toast.error(error + (data ?? ""));
+    } else {
+      toast.success(data);
+    }
+    setRefreshFlag(!refreshFlag);
+  };
   const {
     data: authorsPage,
     loading,
     error,
-  } = useFetchData(`/api/authors?page=${page}&limit=${limit}`);
+  } = useFetchData(
+    `/api/authors?page=${page}&limit=${limit}&refresh=${refreshFlag}`
+  );
 
   return (
     <div className="flex flex-col items-center">
@@ -46,6 +51,7 @@ const AuthorsPanel = () => {
         values={formVals}
         updateFlag={formUpdateFlag}
         setUpdateFlag={setFormUpdateFlag}
+        refreshFlagState={[refreshFlag, setRefreshFlag]}
       />
       <div className="flex flex-col items-center">
         <PaginationRounded
@@ -75,12 +81,14 @@ const AuthorsPanel = () => {
             >
               <div className="w-[100px] flex-shrink-0">
                 <img
-                  src={
-                    author.image ?? "http://localhost:3000/fallback_author.jpg"
-                  }
+                  src={author.image ?? `${API_HOST_URL}/fallback_author.jpg`}
                   onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = "http://localhost:3000/fallback_author.jpg";
+                    if (e.target.src.startsWith(API_HOST_URL)) {
+                      e.target.onerror = null;
+                      e.target.src = `${API_HOST_URL}/fallback_author.jpg`;
+                    } else {
+                      e.target.src = `${API_HOST_URL}/${author.image}`;
+                    }
                   }}
                   className=""
                 />

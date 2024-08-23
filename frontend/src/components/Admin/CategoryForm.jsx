@@ -10,9 +10,11 @@ const AuthorForm = ({
   values = {},
   updateFlag,
   setUpdateFlag,
+  refreshFlagState,
 }) => {
   const [formData, setFormData] = useState({});
   const [disabledFlag, setDisabledFlag] = useState(false);
+  const [refreshFlag, setRefreshFlag] = refreshFlagState;
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -30,6 +32,7 @@ const AuthorForm = ({
       toast.success(data);
     }
     setFormData({});
+    setRefreshFlag(!refreshFlag);
   };
 
   // * Set form values from parent (used in edit mode)
@@ -41,7 +44,7 @@ const AuthorForm = ({
 
   return (
     <form
-      className={`p-5 m-4 bg-white border-buff rounded border w-full ${className}`}
+      className={`p-5 m-4 bg-white border-buff rounded border w-full relative ${className}`}
       onSubmit={handleSubmit}
     >
       <h2 className="text-2xl text-buff">{formTitle}</h2>

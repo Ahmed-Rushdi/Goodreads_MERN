@@ -36,9 +36,9 @@ router.post("/scrape", scrapeBook);
 
 // * Update Book info by ISBN
 // ! ISBN should be immutable
-router.put("/:isbn13", userAuth, adminAuth, putBook);
+router.put("/:isbn13", putBook);
 
 // * Delete Book by ISBN
-router.delete("/:isbn13", userAuth, adminAuth, deleteBook);
+router.delete("/:isbn13", deleteBook);
 
 module.exports = router;

@@ -1,7 +1,15 @@
+// * Import Dependencies
 const express = require("express");
 const logger = require("morgan");
 const path = require("path");
 const process = require("process");
+const connectDB = require("./utils/dbConnection");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const session = require("express-session");
+// const passport = require("./utils/passport");
+
+// * Import Routes
 const booksRoute = require("./routes/BooksRoute");
 const reviewsRoute = require("./routes/ReviewsRoute");
 const authorRoute = require("./routes/AuthorRoute");
@@ -9,17 +17,14 @@ const categoriesRoute = require("./routes/CategoriesRoute");
 const userRoutes = require("./routes/UserRoute");
 const profileRoute = require("./routes/ProfileRoute");
 const trendsRoute = require("./routes/TrendsRoute");
-const connectDB = require("./utils/dbConnection");
-const cors = require("cors");
-// npm install cookie-parser
-const cookieParser = require("cookie-parser");
-const session = require("express-session");
-// const passport = require("./utils/passport");
-require("dotenv").config();
 const authenticationRoute = require("./routes/authenticationRoute");
+const imageUploadRoute = require("./routes/ImageUploadRoute");
+
+require("dotenv").config();
 const port = process.env.PORT;
 const logging = process.env.LOGGING;
 const session_secret = process.env.session_secret;
+
 const app = express();
 app.use(cookieParser());
 
@@ -39,9 +44,6 @@ app.use(cookieParser());
 // app.use(passport.initialize());
 // app.use(passport.session());
 
-// * Expose public for thumbnail retrieval (host:port/thumbnails)
-// ? is this the way to do it? IDK.
-
 app.use(
   cors({
     origin: "http://localhost:5173", // Your React frontend URL
@@ -50,13 +52,16 @@ app.use(
   })
 );
 
+// * Expose public for thumbnail retrieval (host:port/thumbnails)
 app.use(express.static(path.join(__dirname, "../public")));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use("/api", authenticationRoute);
-
 app.use(logger(logging));
+
+// * Use Routes
+app.use("/api/images", imageUploadRoute);
+app.use("/api", authenticationRoute);
 app.use("/api/user-book", userRoutes);
 app.use("/api/trend", trendsRoute);
 app.use("/api/books", booksRoute);

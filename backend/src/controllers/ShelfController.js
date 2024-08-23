@@ -71,10 +71,8 @@ const getBookShelf = async (req, res) => {
 };
 const getAllBooks = async (req, res) => {
   try {
-    const userId = req.user.id; // Assuming the user ID is available in req.user.id
-    const { shelf } = req.query; // Get the shelf filter from query params
-
-    // Find the user and populate their books
+    const userId = req.user.id;
+    const { shelf } = req.query;
     const user = await User.findById(userId).populate({
       path: "books.book",
       model: "Book",
