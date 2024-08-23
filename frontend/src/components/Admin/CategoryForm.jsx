@@ -10,9 +10,11 @@ const AuthorForm = ({
   values = {},
   updateFlag,
   setUpdateFlag,
+  refreshFlagState,
 }) => {
   const [formData, setFormData] = useState({});
   const [disabledFlag, setDisabledFlag] = useState(false);
+  const [refreshFlag, setRefreshFlag] = refreshFlagState;
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -30,6 +32,7 @@ const AuthorForm = ({
       toast.success(data);
     }
     setFormData({});
+    setRefreshFlag(!refreshFlag);
   };
 
   // * Set form values from parent (used in edit mode)

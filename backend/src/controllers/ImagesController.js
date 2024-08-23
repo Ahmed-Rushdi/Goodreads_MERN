@@ -5,8 +5,9 @@ const Author = require("../models/Author.model");
 const uploadBookCover = async (req, res) => {
   const bookIsbn = req.headers["x-book-isbn"];
   const fileExt = req.headers["x-file-type"];
-
+  console.log(req.headers);
   const book = await Book.findOne({ isbn13: bookIsbn });
+  console.log(book);
   const bookId = book._id;
 
   if (!bookId) {
@@ -15,7 +16,7 @@ const uploadBookCover = async (req, res) => {
 
   const fileName = `${bookId}.${fileExt}`;
 
-  const filePath = `../../public/thumbnails/${fileName}`;
+  const filePath = `./public/thumbnails/${fileName}`;
   const fileStream = fs.createWriteStream(filePath);
 
   console.log(typeof req.body);

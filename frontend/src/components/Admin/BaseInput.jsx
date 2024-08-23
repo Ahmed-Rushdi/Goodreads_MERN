@@ -60,7 +60,13 @@ const BaseInput = ({
               {...props}
               className={`flex-grow border-2 px-3 py-1.5 shadow-sm placeholder:text-gray-400 border-buff sm:text-sm sm:leading-6 rounded-md ${className}`}
             />
-            <button onClick={addCategory} className="text-buff text-4xl pl-2">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                addCategory();
+              }}
+              className="text-buff text-4xl pl-2"
+            >
               +
             </button>
           </div>

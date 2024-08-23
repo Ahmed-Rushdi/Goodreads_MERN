@@ -10,9 +10,12 @@ const AuthorForm = ({
   values = {},
   updateFlag,
   setUpdateFlag,
+  refreshFlagState,
 }) => {
   const [formData, setFormData] = useState({});
   const [disabledFlag, setDisabledFlag] = useState(false);
+  const [refreshFlag, setRefreshFlag] = refreshFlagState;
+
   const handleChange = (e) =>
     setFormData({
       ...formData,
@@ -23,14 +26,16 @@ const AuthorForm = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     setDisabledFlag(true);
+    const fileExt = formData.imageFile?.name.split(".").pop();
     const { data, error } = updateFlag
       ? await putData(`/api/authors/${formData._id}`, formData)
-      : await postData("/api/authors", formData);
+      : await postData("/api/authors", formData, {
+          "x-file-type": fileExt,
+        });
     if (error) toast.error(error + (data ?? ""));
     else toast.success(data);
     // * Upload image if one was selected and if the request was successful
     if (formData.imageFile && !error) {
-      const fileExt = formData.imageFile.name.split(".").pop();
       const { data: uploadData, error: uploadError } = postData(
         "/api/images/author",
         formData.imageFile,
@@ -46,6 +51,7 @@ const AuthorForm = ({
     setUpdateFlag(false);
     setDisabledFlag(false);
     setFormData({});
+    setRefreshFlag(!refreshFlag);
   };
 
   // * Set form values from parent (used in edit mode)

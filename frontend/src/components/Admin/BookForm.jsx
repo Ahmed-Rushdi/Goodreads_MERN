@@ -11,9 +11,11 @@ const BookForm = ({
   values = {},
   updateFlag,
   setUpdateFlag,
+  refreshFlagState,
 }) => {
   const [formData, setFormData] = useState({});
   const [disabledFlag, setDisabledFlag] = useState(false);
+  const [refreshFlag, setRefreshFlag] = refreshFlagState;
   const { data: categories } = useFetchData("/api/categories");
   const { data: authors } = useFetchData("/api/authors");
   const handleChange = (e) =>
@@ -37,14 +39,16 @@ const BookForm = ({
       ...formData,
       authorId: authorId,
     });
+    const fileExt = formData.thumbnailFile?.name.split(".").pop();
     const { data, error } = updateFlag
       ? await putData(`/api/books/${formData._id}`, formData)
-      : await postData("/api/books", formData);
+      : await postData("/api/books", formData, {
+          "x-file-type": fileExt,
+        });
     if (error) toast.error(error + (data ?? ""));
     else toast.success(data);
     // * Upload image if one was selected and if the request was successful
     if (formData.thumbnailFile && !error) {
-      const fileExt = formData.thumbnailFile.name.split(".").pop();
       const { data: uploadData, error: uploadError } = postData(
         "/api/images/book",
         formData.thumbnailFile,
@@ -60,6 +64,7 @@ const BookForm = ({
     setUpdateFlag(false);
     setDisabledFlag(false);
     setFormData({});
+    setRefreshFlag(!refreshFlag);
   };
 
   const handleAddCategory = () => {
@@ -70,7 +75,7 @@ const BookForm = ({
       toast.error("Category already exists");
       return;
     }
-    const catId = categories?.find(
+    const catId = categories?.data.find(
       (category) => category.name === catField
     )?._id;
 
@@ -131,7 +136,7 @@ const BookForm = ({
           type="text"
           name="author"
           placeholder="Author"
-          value={formData.authorId?.name ?? ""}
+          value={formData.authorId?.name ?? formData.author ?? ""}
           listOptions={authors?.data}
           onChange={handleChange}
           title="Author is required"

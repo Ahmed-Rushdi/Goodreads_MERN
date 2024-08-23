@@ -7,21 +7,14 @@ import { delData } from "../../utils/DataDeletion";
 import { toast } from "react-toastify";
 import PaginationRounded from "../BookPaging";
 
-const handleDelete = async (dataId, setDisabled) => {
-  setDisabled(true);
-  const { data, loading, error } = await delData(`/api/categories/${dataId}`);
-  setDisabled(loading);
-  if (error) {
-    toast.error(error + (data ?? ""));
-  } else {
-    toast.success(data);
-  }
-};
+
 const CategoriesPanel = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(12);
   const [formVals, setFormVals] = useState({});
   const [formUpdateFlag, setFormUpdateFlag] = useState(false);
+  const [refreshFlag, setRefreshFlag] = useState(false);
+
   const handleEdit = async (dataId, setDisabled) => {
     setDisabled(true);
     const { data, error } = await fetchData(`/api/categories/${dataId}`);
@@ -31,8 +24,19 @@ const CategoriesPanel = () => {
     if (error) {
       toast.error(error + (data ?? ""));
     }
+    setRefreshFlag(!refreshFlag);
   };
-
+  const handleDelete = async (dataId, setDisabled) => {
+    setDisabled(true);
+    const { data, loading, error } = await delData(`/api/categories/${dataId}`);
+    setDisabled(loading);
+    if (error) {
+      toast.error(error + (data ?? ""));
+    } else {
+      toast.success(data);
+    }
+    setRefreshFlag(!refreshFlag);
+  };
   const {
     data: categoriesPage,
     loading,
@@ -46,6 +50,7 @@ const CategoriesPanel = () => {
         values={formVals}
         updateFlag={formUpdateFlag}
         setUpdateFlag={setFormUpdateFlag}
+        refreshFlagState={[refreshFlag, setRefreshFlag]}
       />
       <div className="flex flex-col items-center">
         <PaginationRounded

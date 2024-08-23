@@ -68,19 +68,23 @@ const getAuthorBooks = async (req, res) => {
 const postBook = async (req, res) => {
   const { author, categories, ...bookData } = req.body;
   try {
-    let authorDoc = await Author.findOne({ name: author.name });
+    let authorDoc = await Author.findOne(
+      typeof author === "string" ? { name: author } : { name: author.name }
+    );
     if (!authorDoc) {
       authorDoc = await Author.create(author);
     }
-    const categoryDocs = await Promise.all(
-      categories.map(async (categoryName) => {
-        let categoryDoc = await Category.findOne({ name: categoryName });
-        if (!categoryDoc) {
-          categoryDoc = await Category.create({ name: categoryName });
-        }
-        return categoryDoc._id;
-      })
-    );
+    const categoryDocs = categories
+      ? await Promise.all(
+          categories.map(async (categoryName) => {
+            let categoryDoc = await Category.findOne({ name: categoryName });
+            if (!categoryDoc) {
+              categoryDoc = await Category.create({ name: categoryName });
+            }
+            return categoryDoc._id;
+          })
+        )
+      : [];
     const book = new Book({
       ...bookData,
       authorId: authorDoc._id,
@@ -93,6 +97,7 @@ const postBook = async (req, res) => {
     book.save();
     res.send("Book created");
   } catch (error) {
+    console.log(error);
     res
       .status(409)
       .send(`An error occurred while creating book: ${error.message}`);
