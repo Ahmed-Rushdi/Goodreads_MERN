@@ -21,15 +21,15 @@ router.get("/user/", getUserReviews);
 router.get("/user/:isbn13", getReview);
 
 // * Add review to specific book and user
-router.post("/:isbn13", userAuth, postReview);
+router.post("/:isbn13", postReview);
 
 // * Update specific review from book and user
-router.put("/:isbn13", userAuth, putReview);
+router.put("/:isbn13", putReview);
 
 // * Delete specific review from book and current user
-router.delete("/:isbn13", userAuth, deleteReview);
+router.delete("/:isbn13", deleteReview);
 
 // * Delete specific review from book and any user (admin op)
-router.delete("/:isbn13/:userId", userAuth, adminAuth, deleteReview);
+router.delete("/:isbn13/:userId", deleteReview);
 
 module.exports = router;
