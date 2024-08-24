@@ -11,8 +11,6 @@ const TokenRefresher = ({ children }) => {
         await axios.get("http://localhost:3000/api/refresh", {
           withCredentials: true,
         });
-
-        // Set the new token in cookies
       } catch (error) {
         console.error("Failed to refresh token", error);
         // Redirect to login if token refresh fails
