@@ -81,12 +81,18 @@ const AuthorsPanel = () => {
             >
               <div className="w-[100px] flex-shrink-0">
                 <img
+                  // if image is not found, fallback to default
                   src={author.image ?? `${API_HOST_URL}/fallback_author.jpg`}
                   onError={(e) => {
+                    // if src starts with our server hostname (not external image)
+                    // and it returns an error (file not found) we fallback to default
                     if (e.target.src.startsWith(API_HOST_URL)) {
+                      // remove on error event in case the fallback doesn't exist and return an error
                       e.target.onerror = null;
                       e.target.src = `${API_HOST_URL}/fallback_author.jpg`;
                     } else {
+                      // if src doesn't belong to our hostname (external image or relative path from the backend)
+                      // and it returns an error (file not found) we append the hostname in case it is a relative path (otherwise onError will be called again and satisfy the condition above)
                       e.target.src = `${API_HOST_URL}/${author.image}`;
                     }
                   }}
