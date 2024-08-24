@@ -11,6 +11,8 @@ import { FaUserCircle } from "react-icons/fa";
 import useProvideData from "./ProvideData";
 import { Link, useLocation } from "react-router-dom";
 import SearchBar from "./Search/SearchBar";
+import { useNavigate } from "react-router-dom";
+import postData from "../utils/DataPosting";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
@@ -25,6 +27,23 @@ function classNames(...classes) {
 export default function Navbar() {
   const { user, isLoggedIn, isLoading } = useProvideData();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    const { resData, error } = await postData("/api/logout", {
+      email: user.email,
+    });
+
+    if (error) {
+      console.error("Failed to logout:", error.message);
+      return;
+    }
+
+    if (resData) {
+      console.log("Logged out successfully:", resData);
+      navigate("/login");
+    }
+  };
 
   useEffect(() => {
     // This will trigger a re-render when `isLoggedIn` changes
@@ -118,12 +137,12 @@ export default function Navbar() {
                     </MenuItem>
                   )}
                   <MenuItem>
-                    <Link
-                      to="/logout"
+                    <button
+                      onClick={handleLogout}
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
                       Sign out
-                    </Link>
+                    </button>
                   </MenuItem>
                 </Menu.Items>
               )}

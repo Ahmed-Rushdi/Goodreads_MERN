@@ -11,6 +11,9 @@ const {
   getUser,
   refreshToken,
   fetchUserById,
+  verifySecretAnswer,
+  resetPassword,
+  logout,
 } = require("../controllers/AuthenticationController");
 
 // sign up route
@@ -21,6 +24,69 @@ router.post("/login", login);
 
 // route to get the user
 router.get("/user", verification, getUser);
+
+// refresh token route
+
+router.get("/refresh", refreshToken);
+
+// logout route
+router.post("/logout", logout);
+
+//verify secret question route
+
+router.post("/verify-secret-answer", verifySecretAnswer);
+
+//reset password route
+router.post("/reset-password", resetPassword);
+
+// Google OAuth route
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+// Callback route for Google to redirect to
+router.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "/login", // Redirect back to login on failure
+  }),
+  async (req, res) => {
+    // Generate JWT and refresh token
+    const token = jwt.sign(
+      { id: req.user._id },
+      process.env.JWT_SECRET || "default_secret",
+      { expiresIn: "1h" }
+    );
+
+    const refreshToken = jwt.sign(
+      { id: req.user._id },
+      process.env.REFRESH_TOKEN_SECRET || "default_refresh_secret",
+      { expiresIn: "2h" }
+    );
+
+    // Save the refresh token in the database
+    req.user.refreshToken = refreshToken;
+    await req.user.save();
+
+    // Set cookies for token and refresh token
+    res.cookie("token", token, {
+      path: "/",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+      httpOnly: true,
+      sameSite: "lax",
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      path: "/",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      httpOnly: true,
+      sameSite: "lax",
+    });
+
+    res.redirect("/"); // Redirect to the desired route after successful login
+  }
+);
 
 // router.get("/auth/getUser", authenticateUser, (req, res) => {
 //   // User details are now available in req.user
@@ -48,48 +114,4 @@ router.get("/user", verification, getUser);
 //     res.status(401).json({ message: error.message });
 //   }
 // });
-
-// Google OAuth route
-router.get(
-  "/google",
-  passport.authenticate("google", {
-    scope: ["email"],
-  })
-);
-
-// Google OAuth callback route
-router.get(
-  "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/" }),
-  (req, res) => {
-    // Redirect to a secure route or homepage
-    res.redirect("/api/auth/current_user");
-  }
-);
-
-// Logout route
-
-router.get("/logout", (req, res) => {
-  if (req.isAuthenticated()) {
-    req.logout((err) => {
-      if (err) {
-        return res.status(500).json({ error: "Logout failed" });
-      }
-
-      res.clearCookie("jwt");
-      res.clearCookie("refreshToken");
-
-      // Redirect to homepage or wherever
-      res.redirect("/");
-    });
-  } else {
-    res.redirect("/");
-  }
-});
-
-// // Route to get the current logged-in user
-// router.get("/current_user", (req, res) => {
-//   res.send(req.user);
-// });
-
 module.exports = router;

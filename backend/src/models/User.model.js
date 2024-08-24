@@ -24,6 +24,8 @@ const userSchema = new Schema({
   verificationToken: { type: String },
   refreshToken: { type: String },
   googleId: { type: String },
+  secretQuestion: { type: String, required: true },
+  secretAnswer: { type: String, required: true },
 });
 
 const User = model("User", userSchema);

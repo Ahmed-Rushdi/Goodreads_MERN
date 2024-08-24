@@ -6,7 +6,7 @@ const process = require("process");
 const connectDB = require("./utils/dbConnection");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
+// const session = require("express-session");
 // const passport = require("./utils/passport");
 
 // * Import Routes
@@ -24,12 +24,12 @@ const adminPanelInitRoute = require("./routes/AdminPanelInitRoute");
 require("dotenv").config();
 const port = process.env.PORT;
 const logging = process.env.LOGGING;
-const session_secret = process.env.session_secret;
+// const session_secret = process.env.session_secret;
 
 const app = express();
 app.use(cookieParser());
 
-// google session
+// google session /////
 
 // app.use(
 //   session({

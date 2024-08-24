@@ -11,13 +11,18 @@ import ForgotPasswordPage from "./components/ForgotPasswordPage";
 import LoginPage from "./components/LoginPage";
 import AdminPage from "./layouts/AdminPage";
 import TrendingCategoriesPage from "./layouts/TrendingCategoriesPage";
+import SecretQuestion from "./components/SecretQuestion";
+import TokenRefresher from "./components/TokenRefresher";
+// import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import Test from "./components/Test";
 import CategoryPage from "./layouts/CategoryPage";
 import SearchResultsPage from "./layouts/SearchResultsPage";
+
 const App = () => {
   return (
     <Router>
+      <TokenRefresher />
       <Navbar />
       <div className="mt-1.5">
         <Routes>
@@ -38,6 +43,7 @@ const App = () => {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />
           <Route path="/test" element={<Test />} />
+          <Route path="/secretQuestion" element={<SecretQuestion />} />
           {/* <Route path="/contact" element={<Contact />} /> */}
           <Route
             path="/profile"
@@ -53,6 +59,7 @@ const App = () => {
         </Routes>
       </div>
       <ToastContainer />
+      <TokenRefresher />
     </Router>
   );
 };
