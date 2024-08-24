@@ -7,7 +7,8 @@ import { delData } from "../../utils/DataDeletion";
 import { toast } from "react-toastify";
 import PaginationRounded from "../BookPaging";
 import { API_HOST_URL } from "../../utils/HOST";
-
+// TODO: * implement search functionality
+// TODO: * implement variable limit for pagination
 const AuthorsPanel = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(12);

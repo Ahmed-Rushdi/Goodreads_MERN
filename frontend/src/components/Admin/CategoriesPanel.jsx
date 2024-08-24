@@ -7,6 +7,8 @@ import { delData } from "../../utils/DataDeletion";
 import { toast } from "react-toastify";
 import PaginationRounded from "../BookPaging";
 
+// TODO: * implement search functionality
+// TODO: * implement variable limit for pagination
 
 const CategoriesPanel = () => {
   const [page, setPage] = useState(1);
