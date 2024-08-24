@@ -11,7 +11,7 @@ import { FaUserCircle } from "react-icons/fa";
 import useProvideData from "./ProvideData";
 import { Link, useLocation } from "react-router-dom";
 import SearchBar from "./Search/SearchBar";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import postData from "../utils/DataPosting";
 
 const navigation = [

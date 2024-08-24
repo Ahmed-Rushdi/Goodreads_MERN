@@ -24,7 +24,7 @@ const useProvideData = () => {
     fetchUserData();
   }, []);
 
-  return { user, isLoggedIn, isLoading, error };
+  return { user, isLoggedIn, setIsLoggedIn, isLoading, error };
 };
 
 export default useProvideData;
