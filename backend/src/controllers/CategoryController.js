@@ -5,9 +5,9 @@ const buildSearchQuery = require("../utils/SearchUtils");
 // * Get categories handles pagination and search with req.query {page, limit, q}
 const getCategories = async (req, res) => {
   try {
-    const { page = 1, limit = 0, q = "" } = req.query;
+    const { page = 1, limit = 0, query = "" } = req.query;
     const result = await paginateData(
-      buildSearchQuery(Category, q),
+      buildSearchQuery(Category, query),
       page,
       limit
     );

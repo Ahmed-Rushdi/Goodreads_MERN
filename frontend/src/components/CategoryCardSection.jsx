@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import MainCard from "./MainCard";
 
 export default function CategoryCardsSection({ categories }) {
   return (
@@ -14,21 +15,7 @@ export default function CategoryCardsSection({ categories }) {
         </div>
         <div className="mx-auto mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {categories.map((category) => (
-            <article
-              key={category._id}
-              className="flex flex-col overflow-hidden rounded-lg shadow-lg bg-white border border-gray-200 hover:shadow-xl transition-shadow duration-300"
-            >
-              <Link to={`/category/${category._id}`} className="block">
-                <div className="flex flex-1 flex-col p-4">
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    {category.name}
-                  </h3>
-                  <p className="mt-2 text-sm text-gray-500">
-                    <strong>Book Count:</strong> {category.bookCount}
-                  </p>
-                </div>
-              </Link>
-            </article>
+            <MainCard key={category._id} type="category" data={category} />
           ))}
         </div>
       </div>

@@ -13,6 +13,7 @@ import TrendingCategoriesPage from "./layouts/TrendingCategoriesPage";
 
 import Test from "./components/Test";
 import CategoryPage from "./layouts/CategoryPage";
+import SearchResultsPage from "./layouts/SearchResultsPage";
 const App = () => {
   return (
     <Router>
@@ -30,6 +31,7 @@ const App = () => {
           />
           <Route path="/registration" element={<RegisterPage />} />
           <Route path="/category/:categoryId" element={<CategoryPage />} />
+          <Route path="/search-results" element={<SearchResultsPage />} />
 
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />

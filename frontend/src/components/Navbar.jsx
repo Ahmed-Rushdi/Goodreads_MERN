@@ -10,6 +10,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { FaUserCircle } from "react-icons/fa";
 import useProvideData from "./ProvideData";
 import { Link, useLocation } from "react-router-dom";
+import SearchBar from "./Search/SearchBar";
 
 const navigation = [
   { name: "Home", href: "/", current: true },
@@ -80,6 +81,9 @@ export default function Navbar() {
                 ))}
               </div>
             </div>
+          </div>
+          <div className="navbar-search">
+            <SearchBar />
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <Menu as="div" className="relative ml-3">

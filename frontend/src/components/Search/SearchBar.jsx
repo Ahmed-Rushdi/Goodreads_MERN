@@ -1,31 +1,20 @@
 import { useState } from "react";
-import { axiosInstance } from "../../utils/AxiosInstance";
-const SearchBar = ({ setSearchResults, setLoading, urls, className }) => {
+import { useNavigate } from "react-router-dom";
+
+const SearchBar = () => {
   const [searchField, setSearchField] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmitSearch = async () => {
-    setLoading(true);
-    const response = urls.map((url) => {
-      const data = axiosInstance.get(url);
-      return data;
-    });
+  const handleSubmitSearch = (e) => {
+    e.preventDefault();
 
-    const results = await Promise.all(response);
-    setSearchResults(
-      urls.reduce(
-        (acc, url, index) => ({
-          ...acc,
-          [url]: results[index],
-        }),
-        {}
-      )
-    );
-    setLoading(false);
+    navigate(`/search-results?query=${encodeURIComponent(searchField)}`);
   };
+
   return (
     <form onSubmit={handleSubmitSearch}>
       <input
-        className={`rounded-full border border-buff px-3 py-1.5 ${className}`}
+        className={`rounded-full border border-buff px-3 py-1.5 `}
         onChange={(e) => setSearchField(e.target.value)}
         value={searchField}
         type="text"

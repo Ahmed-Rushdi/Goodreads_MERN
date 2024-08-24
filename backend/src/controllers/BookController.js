@@ -8,9 +8,9 @@ const buildSearchQuery = require("../utils/SearchUtils");
 // * Get books handles pagination and search with req.query {page, limit, q}
 const getBooks = async (req, res) => {
   try {
-    const { page = 1, limit = 0, q = "" } = req.query;
+    const { page = 1, limit = 0, query = "" } = req.query;
     const result = await paginateData(
-      buildSearchQuery(Book, q)
+      buildSearchQuery(Book, query)
         .populate("authorId", "name")
         .populate("categories", "name"),
       page,
