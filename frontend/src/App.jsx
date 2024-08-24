@@ -11,12 +11,16 @@ import LoginPage from "./components/LoginPage";
 import AdminPage from "./layouts/AdminPage";
 import TrendingCategoriesPage from "./layouts/TrendingCategoriesPage";
 import SecretQuestion from "./components/SecretQuestion";
+import TokenRefresher from "./components/TokenRefresher";
+// import { GoogleOAuthProvider } from "@react-oauth/google";
 
 import Test from "./components/Test";
 import CategoryPage from "./layouts/CategoryPage";
+
 const App = () => {
   return (
     <Router>
+      <TokenRefresher />
       <Navbar />
       <div className="mt-1.5">
         <Routes>
@@ -51,6 +55,7 @@ const App = () => {
           <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </div>
+      <TokenRefresher />
     </Router>
   );
 };

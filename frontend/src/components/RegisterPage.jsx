@@ -114,21 +114,21 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="cont">
+    <div className=" cont">
       <div className="img">
         <div className="img__text m--in">
           <h2 className="h2-4">An old friend?</h2>
           <p>If you already have an account, just sign in!</p>
         </div>
         <div className="img__btn">
-          <span className="span-4 m--in">Sign In</span>
+          <span className="login-span span-4 m--in">Sign In</span>
         </div>
       </div>
       <form className="form sign-up" onSubmit={handleSignUp}>
         <h2 className="h2-4">Time to be a part of the family,</h2>
 
-        <label className="label-4">
-          <span className="span-4">Name</span>
+        <label className="login-label label-4">
+          <span className="login-span span-4">Name</span>
           <input
             className="input-4"
             type="text"
@@ -139,8 +139,8 @@ const SignUpPage = () => {
           />
         </label>
 
-        <label className="label-4">
-          <span>Email</span>
+        <label className="login-label label-4">
+          <span className="login-span">Email</span>
           <input
             className="input-4"
             type="email"
@@ -154,8 +154,8 @@ const SignUpPage = () => {
           )}
         </label>
 
-        <label className="password-field">
-          <span className="span-4">Password</span>
+        <label className="login-label password-field">
+          <span className="login-span span-4">Password</span>
           <input
             className="input-4"
             type={showPassword ? "text" : "password"}
@@ -165,7 +165,7 @@ const SignUpPage = () => {
             required
           />
           <span
-            className="eye-icon"
+            className="login-span eye-icon"
             onClick={() => setShowPassword(!showPassword)}
           >
             {showPassword ? <VscEye /> : <VscEyeClosed />}
@@ -175,8 +175,8 @@ const SignUpPage = () => {
           )}
         </label>
 
-        <label className="password-field">
-          <span>Repeat Password</span>
+        <label className="login-label password-field">
+          <span className="login-span">Repeat Password</span>
           <input
             className="input-4"
             type={showRepeatPassword ? "text" : "password"}
@@ -186,7 +186,7 @@ const SignUpPage = () => {
             required
           />
           <span
-            className="eye-icon"
+            className="login-span eye-icon"
             onClick={() => setShowRepeatPassword(!showRepeatPassword)}
           >
             {showRepeatPassword ? <VscEye /> : <VscEyeClosed />}
@@ -195,8 +195,8 @@ const SignUpPage = () => {
             <p className="error-message">{formErrors.repeatPasswordError}</p>
           )}
         </label>
-        <label className="label-4">
-          <span>Secret Question</span>
+        <label className="login-label label-4">
+          <span className="login-span">Secret Question</span>
           <input
             className="input-4"
             type="text"
@@ -207,8 +207,8 @@ const SignUpPage = () => {
           />
         </label>
 
-        <label className="password-field">
-          <span>Secret Answer</span>
+        <label className="login-label password-field">
+          <span className="login-span">Secret Answer</span>
           <input
             className="input-4"
             type="text"
@@ -221,8 +221,8 @@ const SignUpPage = () => {
             <p className="error-message">{formErrors.secretAnswerError}</p>
           )}
         </label>
-        <div className="bottom-buttons">
-          <button type="submit" className="submit-4">
+        <div className="login-button bottom-buttons">
+          <button type="submit" className="login-button submit-4">
             Sign Up
           </button>
           <button
@@ -232,7 +232,7 @@ const SignUpPage = () => {
           >
             Join with <span>Gmail</span>
           </button>
-          <button className="sign-up1">Sign In</button>
+          <button className=" sign-up1">Sign In</button>
         </div>
       </form>
     </div>

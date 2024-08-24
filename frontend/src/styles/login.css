@@ -111,7 +111,7 @@
 }
 
 /* Buttons */
-button {
+.login-button {
   display: block;
   width: 260px;
   height: 36px;
@@ -152,26 +152,26 @@ button {
   transform: translateY(4px);
 }
 
-.fb-btn-1 span {
+.fb-btn-1 .login-span {
   font-weight: bold;
   color: #768cb6;
 }
 
 /* Form fields and labels */
-label {
+.login-label {
   display: block;
   width: 260px;
   margin: 25px auto 0;
   text-align: center;
 }
 
-label span {
+.login-label .login-span {
   font-size: 12px;
   color: #cfcfcf;
   text-transform: uppercase;
 }
 
-input {
+.login-input {
   display: block;
   width: 100%;
   margin-top: 5px;

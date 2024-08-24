@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../styles/login.css";
 import { useNavigate } from "react-router-dom";
 import ProvideData from "./ProvideData";
+import { GoogleLogin } from "@react-oauth/google";
 import { axiosInstance } from "../utils/AxiosInstance";
 import { Link } from "react-router-dom";
 
@@ -41,22 +42,25 @@ const LoginPage = () => {
       console.error(err);
     }
   };
+  //handle google auth
 
   return (
     <div className="cont-1">
       <form className="form-1 sign-in" onSubmit={handleLogin}>
         <h2>Welcome back,</h2>
-        <label>
-          <span>Email</span>
+        <label className="login-label">
+          <span className="login-span">Email</span>
           <input
+            className="login-input"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </label>
-        <label>
-          <span>Password</span>
+        <label className="login-label">
+          <span className="login-span">Password</span>
           <input
+            className="login-input"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -65,20 +69,23 @@ const LoginPage = () => {
         <Link className="forgot-pass" to="/secretQuestion">
           Forgot password?
         </Link>
-        <button type="submit" className="submit-1">
+        <button type="submit" className="login-button submit-1">
           Sign In
         </button>
-        <button type="button" className="fb-btn-1">
-          Connect with <span>Gmail</span>
-        </button>
-        <button className="sign-up-1">Sign Up</button>
+        <div className="google-login">
+          {/* <GoogleLogin
+            // onSuccess={handleGoogleAuth}
+            onError={() => setError("Google login failed.")}
+          /> */}
+        </div>
+        <button className="login-button sign-up-1">Sign Up</button>
       </form>
       <div className="sub-cont">
         <div className="img-1">
           <div className="img__text m--up">
             <h1 className="new-here">New here?</h1>
             <h2>Sign up now!</h2>
-            <button className="sign-up-btn-1">Sign Up</button>
+            <button className="login-button sign-up-btn-1">Sign Up</button>
           </div>
         </div>
       </div>
