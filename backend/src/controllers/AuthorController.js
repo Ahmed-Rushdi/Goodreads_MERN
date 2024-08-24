@@ -5,8 +5,12 @@ const buildSearchQuery = require("../utils/SearchUtils");
 // * Get authors handles pagination and search with req.query {page, limit, q}
 const getAuthors = async (req, res) => {
   try {
-    const { page = 1, limit = 0, q = "" } = req.query;
-    const result = await paginateData(buildSearchQuery(Author, q), page, limit);
+    const { page = 1, limit = 0, query = "" } = req.query;
+    const result = await paginateData(
+      buildSearchQuery(Author, query),
+      page,
+      limit
+    );
     res.send(result);
   } catch (error) {
     console.log(error);
