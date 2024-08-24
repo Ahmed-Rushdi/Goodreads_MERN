@@ -43,7 +43,7 @@ function AuthorNormalComponent({ author }) {
               )}
             </div>
             <h2>Books by the author</h2>
-            {data.map((book) => {
+            {data.data.map((book) => {
               return <BooksDisplayCard data={book} key={book.isbn13} />;
             })}{" "}
           </div>
