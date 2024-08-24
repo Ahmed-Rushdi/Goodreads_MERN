@@ -26,16 +26,16 @@ router.get("/category/:categoryId", getCategoryBooks);
 router.get("/author/:authorId", getAuthorBooks);
 
 // * Add Book
-router.post("/", postBook);
+router.post("/", userAuth, adminAuth, postBook);
 
 // * Scrape Book
 router.post("/scrape", scrapeBook);
 
 // * Update Book info by ISBN
 // ! ISBN should be immutable
-router.put("/:isbn13", putBook);
+router.put("/:isbn13", userAuth, adminAuth, putBook);
 
 // * Delete Book by ISBN
-router.delete("/:isbn13", deleteBook);
+router.delete("/:isbn13", userAuth, adminAuth, deleteBook);
 
 module.exports = router;

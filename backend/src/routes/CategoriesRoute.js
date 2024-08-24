@@ -17,12 +17,12 @@ router.get("/", getCategories);
 router.get("/:categoryId", getCategory);
 
 // * POST
-router.post("/", postCategory);
+router.post("/", userAuth, adminAuth, postCategory);
 
 // * PUT
-router.put("/:categoryId", putCategory);
+router.put("/:categoryId", userAuth, adminAuth, putCategory);
 
 // * DELETE
-router.delete("/:categoryId", deleteCategory);
+router.delete("/:categoryId", userAuth, adminAuth, deleteCategory);
 
 module.exports = router;

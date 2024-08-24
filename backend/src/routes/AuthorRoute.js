@@ -19,12 +19,12 @@ router.get("/:authorId", getAuthor);
 
 // * POST
 // router.post("/", userAuth, adminAuth, postAuthor);
-router.post("/", postAuthor);
+router.post("/", userAuth, adminAuth, postAuthor);
 
 // * PUT
-router.put("/:authorId", putAuthor);
+router.put("/:authorId", userAuth, adminAuth, putAuthor);
 
 // * DELETE
-router.delete("/:authorId", deleteAuthor);
+router.delete("/:authorId", userAuth, adminAuth, deleteAuthor);
 
 module.exports = router;
