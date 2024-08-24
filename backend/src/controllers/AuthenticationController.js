@@ -57,7 +57,7 @@ const login = async (req, res, next) => {
     const token = jwt.sign(
       { id: existingUser._id },
       process.env.JWT_SECRET || "default_secret",
-      { expiresIn: "1h" }
+      { expiresIn: "25s" }
     );
     // // create a refresh token
     const refreshToken = jwt.sign(
@@ -199,10 +199,10 @@ const logout = async (req, res) => {
 
   try {
     const user = await User.findOne({ email: email });
-    // if (user) {
-    //   user.refreshToken = "";
-    //   await user.save();
-    // }
+    if (user) {
+      user.refreshToken = "";
+      await user.save();
+    }
 
     res.clearCookie("token");
     // res.clearCookie("refreshToken");
