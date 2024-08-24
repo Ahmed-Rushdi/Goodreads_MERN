@@ -6,13 +6,12 @@ const useProvideData = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [token, setToken] = useState(null);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await axiosInstance.get("/api/user");
         setUser(response.data.user);
-        setToken(response.data.token);
         setIsLoggedIn(true);
       } catch (err) {
         setError(err.response?.data?.message || "An error occurred");
@@ -25,7 +24,7 @@ const useProvideData = () => {
     fetchUserData();
   }, []);
 
-  return { user, token, isLoggedIn, setIsLoggedIn, isLoading, error };
+  return { user, isLoggedIn, isLoading, error };
 };
 
 export default useProvideData;

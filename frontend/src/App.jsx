@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import Home from "./layouts/Home";
 import Navbar from "./components/Navbar";
 import BookPage from "./layouts/BookPage";
@@ -16,6 +17,7 @@ import TokenRefresher from "./components/TokenRefresher";
 
 import Test from "./components/Test";
 import CategoryPage from "./layouts/CategoryPage";
+import SearchResultsPage from "./layouts/SearchResultsPage";
 
 const App = () => {
   return (
@@ -35,6 +37,7 @@ const App = () => {
           />
           <Route path="/registration" element={<RegisterPage />} />
           <Route path="/category/:categoryId" element={<CategoryPage />} />
+          <Route path="/search-results" element={<SearchResultsPage />} />
 
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -55,6 +58,7 @@ const App = () => {
           <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </div>
+      <ToastContainer />
       <TokenRefresher />
     </Router>
   );

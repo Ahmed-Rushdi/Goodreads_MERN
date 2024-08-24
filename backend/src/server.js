@@ -19,6 +19,7 @@ const profileRoute = require("./routes/ProfileRoute");
 const trendsRoute = require("./routes/TrendsRoute");
 const authenticationRoute = require("./routes/authenticationRoute");
 const imageUploadRoute = require("./routes/ImageUploadRoute");
+const adminPanelInitRoute = require("./routes/AdminPanelInitRoute");
 
 require("dotenv").config();
 const port = process.env.PORT;
@@ -69,6 +70,7 @@ app.use("/api/reviews", reviewsRoute);
 app.use("/api/authors", authorRoute);
 app.use("/api/categories", categoriesRoute);
 app.use("/api/profile", profileRoute);
+app.use("/api/admin", adminPanelInitRoute);
 
 const startServer = async () => {
   try {
