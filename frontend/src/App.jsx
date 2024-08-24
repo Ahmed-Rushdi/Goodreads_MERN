@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import Home from "./layouts/Home";
 import Navbar from "./components/Navbar";
 import BookPage from "./layouts/BookPage";
@@ -51,6 +52,7 @@ const App = () => {
           <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </div>
+      <ToastContainer />
     </Router>
   );
 };
