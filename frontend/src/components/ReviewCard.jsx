@@ -1,6 +1,9 @@
 import ReadMore from "./ReadMore";
 
 export default function ReviewCard({ reviewData }) {
+  console.log(reviewData);
+
+  // reviewData.review.length == 0 ?
   return (
     <ul role="list" className="divide-y divide-gray-100 bg-white-blue">
       {reviewData.map((review) => (

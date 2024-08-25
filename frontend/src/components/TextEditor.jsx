@@ -8,17 +8,17 @@ export default function TextEditor({ setPostData, postData }) {
   useEffect(() => {
     if (quill == null) return;
     if (postData == null) {
-      quill.root.innerHTML = "";
+      quill.root.innerText = "";
       return;
     }
-    if (quill.root.innerHTML === postData) return;
-    quill.root.innerHTML = postData;
+    if (quill.root.innerText === postData) return;
+    quill.root.innerText = postData;
   }, [quill, postData]);
 
   useEffect(() => {
     if (quill == null) return;
     quill.on("text-change", () => {
-      setPostData(quill.root.innerHTML);
+      setPostData(quill.root.innerText);
     });
   }, [quill]);
 
@@ -32,7 +32,7 @@ export default function TextEditor({ setPostData, postData }) {
 
   const wrapperRef = useCallback((wrapper) => {
     if (wrapper == null) return;
-    wrapper.innerHTML = "";
+    wrapper.innerText = "";
     const editor = document.createElement("div");
     wrapper.append(editor);
     const q = new Quill(editor, {

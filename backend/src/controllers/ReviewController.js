@@ -171,6 +171,8 @@ const putReview = async (req, res) => {
 
     res.send("Review Updated");
   } catch (error) {
+    console.log(error);
+
     res.status(500).send(`an error occurred while updating review: ${error}`);
   }
 };
