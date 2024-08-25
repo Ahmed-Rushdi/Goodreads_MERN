@@ -77,6 +77,13 @@ router.get(
       sameSite: "lax",
     });
 
+    res.cookie("tokenExists", true, {
+      path: "/",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+      httpOnly: false,
+      sameSite: "lax",
+    });
+
     res.cookie("refreshToken", refreshToken, {
       path: "/",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days

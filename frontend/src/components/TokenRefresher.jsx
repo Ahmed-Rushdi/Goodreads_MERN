@@ -8,14 +8,15 @@ const TokenRefresher = ({ children }) => {
 
   useEffect(() => {
     const refreshAccessToken = async () => {
-      if (!Cookies.get("token")) return;
+     
+      if (!Cookies.get("tokenExists")) return;
       try {
         await axios.get("http://localhost:3000/api/refresh", {
           withCredentials: true,
         });
       } catch (error) {
         console.error("Failed to refresh token", error);
-        Cookies.remove("token");
+        Cookies.remove("tokenExists");
         // Redirect to login if token refresh fails
         navigate("/login");
       }

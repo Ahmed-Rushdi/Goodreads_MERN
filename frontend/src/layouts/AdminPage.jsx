@@ -41,10 +41,10 @@ const AdminPage = () => {
       </div>
     );
   } else if (error) {
-    toast.error(error.message || "An error occurred. Please try again later.");
+    // toast.error(error.response.data);
     return <Navigate to="/" />;
   }
-  toast.success(data);
+  // toast.success(data);
   return (
     <div className="p-3">
       <AdminTabs data={items} />

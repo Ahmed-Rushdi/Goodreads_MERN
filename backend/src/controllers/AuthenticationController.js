@@ -76,6 +76,14 @@ const login = async (req, res, next) => {
       httpOnly: true,
       sameSite: "lax",
     });
+
+    res.cookie("tokenExists", true, {
+      path: "/",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+      httpOnly: false,
+      sameSite: "lax",
+    });
+
     // set the refresh token as httpOnly as well
     res.cookie("refreshToken", refreshToken, {
       path: "/",
@@ -184,10 +192,18 @@ const refreshToken = async (req, res) => {
 
     res.cookie("token", newAccessToken, {
       path: "/",
-      expiresIn: "1h",
+      maxAge: 60 * 60 * 1000,
       httpOnly: true,
       sameSite: "lax",
     });
+
+    res.cookie("tokenExists", true, {
+      path: "/",
+      maxAge: 60 * 60 * 1000,
+      httpOnly: false,
+      sameSite: "lax",
+    });
+
     return res.status(200).json({ message: "refreshed token" });
   });
 };

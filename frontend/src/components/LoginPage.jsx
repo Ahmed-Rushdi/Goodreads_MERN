@@ -85,7 +85,12 @@ const LoginPage = () => {
           <div className="img__text m--up">
             <h1 className="new-here">New here?</h1>
             <h2>Sign up now!</h2>
-            <button className="login-button sign-up-btn-1">Sign Up</button>
+            <button
+              className="login-button sign-up-btn-1"
+              onClick={() => navigate("/register")}
+            >
+              Sign Up
+            </button>
           </div>
         </div>
       </div>
