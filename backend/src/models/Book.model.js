@@ -50,7 +50,9 @@ const bookSchema = new Schema({
     type: Number,
     virtual: {
       get() {
-        const totalRatings = this.reviews.length;
+        const totalRatings = this.reviews.filter(
+          (review) => review.rating > 0
+        ).length;
         if (totalRatings === 0 || !this.reviews) return 0;
         const totalStars = this.reviews.reduce((acc, review) => {
           return acc + review.rating;
@@ -63,7 +65,7 @@ const bookSchema = new Schema({
     type: Number,
     virtual: {
       get() {
-        return this.reviews.length;
+        return this.reviews.filter((review) => review.rating > 0).length;
       },
     },
   },
