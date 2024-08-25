@@ -15,6 +15,7 @@ const reviewSchema = new Schema(
     },
     rating: {
       type: Number,
+      default: 0,
       validate: {
         validator: ratingValidator,
         message: (props) =>
@@ -22,7 +23,10 @@ const reviewSchema = new Schema(
       },
       required: true,
     },
-    review: String,
+    review: {
+      type: String,
+      default: "",
+    },
   },
   { timestamps: true }
 );
