@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Disclosure,
   Menu,
@@ -13,12 +13,7 @@ import { Link, useLocation } from "react-router-dom";
 import SearchBar from "./Search/SearchBar";
 import { useNavigate } from "react-router-dom";
 import postData from "../utils/DataPosting";
-
-const navigation = [
-  { name: "Home", href: "/", current: true },
-  { name: "My Books", href: "/profile", current: false },
-  { name: "Browse", href: "/trending-categories", current: false },
-];
+import MobileSearchBar from "./Search/MobileSearchBar";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -28,7 +23,15 @@ export default function Navbar() {
   const { user, isLoggedIn, isLoading } = useProvideData();
   const location = useLocation();
   const navigate = useNavigate();
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 775);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 775);
+    };
 
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   const handleLogout = async () => {
     const { resData, error } = await postData("/api/logout", {
       email: user.email,
@@ -52,6 +55,15 @@ export default function Navbar() {
   if (isLoading) {
     return null; // Or a loading spinner, depending on your design
   }
+  const navigation = [
+    { name: "Home", href: "/", current: true },
+    {
+      name: "My Books",
+      href: `${isLoggedIn ? "/profile" : "/login"}`,
+      current: false,
+    },
+    { name: "Browse", href: "/trending-categories", current: false },
+  ];
 
   return (
     <Disclosure as="nav" className="bg-olive-green sticky z-10 top-0">
@@ -102,18 +114,19 @@ export default function Navbar() {
             </div>
           </div>
           <div className="navbar-search">
-            <SearchBar />
+            {" "}
+            {isMobile ? <MobileSearchBar /> : <SearchBar />}
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <Menu as="div" className="relative ml-3">
               <div>
                 <Link to={isLoggedIn ? "/profile" : "/login"}>
-                  <MenuButton className="relative flex items-center text-sm text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                  <button className="relative flex items-center text-sm text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                     <FaUserCircle className="h-8 w-8" aria-hidden="true" />
                     <span className="ml-2">
                       {isLoggedIn ? "Profile" : "Log in"}
                     </span>
-                  </MenuButton>
+                  </button>
                 </Link>
               </div>
               {isLoggedIn && (

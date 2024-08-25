@@ -31,7 +31,7 @@ export default function MainCard({ type, data }) {
               ))}
             </div>
             <Link to={`/book/${data.isbn13}`}>
-              <h3 className="mt-2 text-lg font-semibold text-gray-900">
+              <h3 className="mt-2 text-lg font-semibold text-dark-grey">
                 {data.title}
               </h3>
             </Link>
@@ -59,7 +59,9 @@ export default function MainCard({ type, data }) {
       >
         <Link to={`/author/${data._id}`} className="block">
           <div className="flex flex-1 flex-col p-4">
-            <h3 className="text-lg font-semibold text-gray-900">{data.name}</h3>
+            <h3 className="text-lg font-semibold text-dark-grey">
+              {data.name}
+            </h3>
             <p className="mt-2 text-sm text-gray-500">
               {data.bio ? data.bio.slice(0, 80) : ""}
             </p>
@@ -79,7 +81,9 @@ export default function MainCard({ type, data }) {
       >
         <Link to={`/category/${data._id}`} className="block">
           <div className="flex flex-1 flex-col p-4">
-            <h3 className="text-lg font-semibold text-gray-900">{data.name}</h3>
+            <h3 className="text-lg font-semibold text-dark-grey">
+              {data.name}
+            </h3>
             <p className="mt-2 text-sm text-gray-500">
               <strong>Book Count:</strong> {data.bookCount}
             </p>

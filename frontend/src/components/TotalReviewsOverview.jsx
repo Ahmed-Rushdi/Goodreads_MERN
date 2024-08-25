@@ -15,7 +15,7 @@ const TotalReviewsOverview = ({ reviews }) => {
   const averageRating = totalStars / totalRatings;
 
   return (
-    <div className="max-w-md mx-auto p-4 bg-white rounded-lg shadow-md reviews-counter-card">
+    <div className="max-w-md mx-auto p-4 bg-corn-silk rounded-lg shadow-md reviews-counter-card">
       <div className="flex items-center">
         <div className="flex">
           {Array(5)

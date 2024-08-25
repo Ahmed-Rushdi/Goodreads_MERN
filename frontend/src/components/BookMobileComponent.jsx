@@ -7,10 +7,14 @@ import { Link } from "react-router-dom";
 import Rating from "./Rating";
 import AuthorCard from "./AuthorCard";
 import ReviewCard from "./ReviewCard";
-import reviews from "../data/reviewExample.json";
 import TotalReviewsOverview from "./TotalReviewsOverview";
+import { useFetchData } from "../utils/DataFetching";
+import ReviewEditor from "./ReviewEditor";
 
 function BookMobileComponent({ book }) {
+  const { data, loading, error } = useFetchData(
+    `/api/reviews/book/${book.isbn13}`
+  );
   return (
     <div>
       <div className="single-product-container">
@@ -75,7 +79,8 @@ function BookMobileComponent({ book }) {
           <div className="overview-title">
             <h2 className="text-xl py-3">Reviews</h2>
             <div className="py-3">
-              <TotalReviewsOverview reviews={book.reviews} />
+              <ReviewEditor isbn13={book.isbn13} />
+              <TotalReviewsOverview reviews={data} />
             </div>
             <ReviewCard reviewData={book.reviews} />
           </div>

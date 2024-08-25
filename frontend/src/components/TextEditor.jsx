@@ -46,5 +46,5 @@ export default function TextEditor({ setPostData, postData }) {
     setQuill(q);
   }, []);
 
-  return <div id="container" className=" bg-white" ref={wrapperRef}></div>;
+  return <div id="container" className=" bg-corn-silk" ref={wrapperRef}></div>;
 }
