@@ -19,10 +19,9 @@ const getBookPaginatedReviews = async (req, res) => {
   const startIndex = (page - 1) * limit;
   const isbn13 = req.params.isbn13;
 
-  const book = await Book.findOne({ isbn13 }).populate(
-    "reviews.userId",
-    "name"
-  );
+  const book = await Book.findOne({ isbn13 })
+    .populate("reviews.userId", "name")
+    .populate("reviews.bookId", "title");
   if (!book) return res.status(404).send("Book not found");
 
   const paginatedReviews = book.reviews.slice(startIndex, startIndex + limit);
@@ -77,10 +76,9 @@ const getUserPaginatedReviews = async (req, res) => {
 // * Get all reviews of specific book with isbn13 passed as query param
 const getAllBookReviews = async (req, res) => {
   const isbn = req.params.isbn13;
-  const book = await Book.findOne({ isbn13: isbn }).populate(
-    "reviews.userId",
-    "name"
-  );
+  const book = await Book.findOne({ isbn13: isbn })
+    .populate("reviews.userId", "name")
+    .populate("reviews.bookId", "title");
   if (!book) return res.status(404).send("Book not found");
   const reviews = book.reviews;
   res.send(reviews);
@@ -89,10 +87,9 @@ const getAllBookReviews = async (req, res) => {
 // * Get all reviews of specific user with User._id passed in req.user from jwt middleware
 const getAllUserReviews = async (req, res) => {
   const uid = req.user.id;
-  const user = await User.findOne({ _id: uid }).populate(
-    "reviews.bookId",
-    "title"
-  );
+  const user = await User.findOne({ _id: uid })
+    .populate("reviews.userId", "name")
+    .populate("reviews.bookId", "title");
   if (!user) return res.status(404).send("User not found");
   const reviews = user.reviews;
   res.send(reviews);
