@@ -55,10 +55,10 @@ const postAuthor = async (req, res) => {
 // * PUT
 const putAuthor = async (req, res) => {
   try {
-    const author = await Author.findOneAndUpdate(
-      { _id: req.params.authorId },
-      req.body
-    );
+    const author = await Author.findOne({ _id: req.params.authorId });
+    if (!author) return postAuthor(req, res);
+    author = { ...author, ...req.body };
+    await author.save();
     res.send("Author updated");
   } catch (error) {
     res.status(409).send(`An error occurred while updating author: ${error}`);

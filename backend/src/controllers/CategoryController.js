@@ -37,10 +37,10 @@ const postCategory = async (req, res) => {
 // * PUT
 const putCategory = async (req, res) => {
   try {
-    const category = await Category.findOneAndUpdate(
-      { _id: req.params.categoryId },
-      req.body
-    );
+    const category = await Category.findOne({ _id: req.params.categoryId });
+    if (!category) return postCategory(req, res);
+    category = { ...category, ...req.body };
+    await category.save();
     res.send("Category updated");
   } catch (error) {
     res.status(409).send(`An error occurred while updating category: ${error}`);

@@ -107,15 +107,10 @@ const postBook = async (req, res) => {
 // * PUT
 const putBook = async (req, res) => {
   try {
-    const book = await Book.findOneAndUpdate(
-      { isbn13: req.params.isbn13 },
-      req.body,
-      { new: true }
-    );
-
-    if (!book) {
-      return res.status(404).send("Book not found");
-    }
+    const book = await Book.findOne({ isbn13: req.params.isbn13 });
+    if (!book) return await postBook(req, res);
+    book = { ...book, ...req.body };
+    await book.save();
     res.send("Book updated");
   } catch (error) {
     res.status(409).send(`An error occurred while updating book: ${error}`);

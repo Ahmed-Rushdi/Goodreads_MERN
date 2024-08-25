@@ -124,7 +124,7 @@ const getReview = async (req, res) => {
 const postReview = async (req, res) => {
   const book = await Book.findOne({ isbn13: req.params.isbn13 });
   if (!book) return res.status(404).send("Book not found");
-  const user = await User.findOne({ _id: req.user.id });
+  const user = await User.findById({ _id: req.user.id });
   if (!user) return res.status(404).send("User not found");
 
   const review = {
@@ -145,10 +145,10 @@ const putReview = async (req, res) => {
   try {
     const book = await Book.findOne({ isbn13: req.params.isbn13 });
     if (!book) return res.status(404).send("Book not found");
-    const user = await User.findOne({ _id: req.user.id });
+    const user = await User.findById({ _id: req.user.id });
     if (!user) return res.status(404).send("User not found");
     const review = user.reviews.find((r) => r.bookId === req.params.isbn13);
-    if (!review) return res.status(404).send("Review not found");
+    if (!review) return await postReview(req, res);
 
     book.reviews.pull(review);
     user.reviews.pull(review);
