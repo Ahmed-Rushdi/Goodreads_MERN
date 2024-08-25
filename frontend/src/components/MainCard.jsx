@@ -36,7 +36,9 @@ export default function MainCard({ type, data }) {
               </h3>
             </Link>
             <p className="mt-2 text-sm text-gray-500">
-              {data.description.slice(0, 80)}...
+              {data.description
+                ? `${data.description.slice(0, 80)}...`
+                : "No description available."}
             </p>
           </div>
           <div className="mt-4 flex items-center">

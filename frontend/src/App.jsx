@@ -22,44 +22,44 @@ import SearchResultsPage from "./layouts/SearchResultsPage";
 const App = () => {
   return (
     <Router>
-      <TokenRefresher />
-      <Navbar />
-      <div className="mt-1.5">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/test" element={<Test />} />
-          <Route path="/book/:id" element={<BookPage />} />
-          <Route path="/author/:id" element={<AuthorPage />} />
-          <Route path="/currently-trending" element={<TrendingBooksPage />} />
-          <Route
-            path="/trending-categories"
-            element={<TrendingCategoriesPage />}
-          />
-          <Route path="/registration" element={<RegisterPage />} />
-          <Route path="/category/:categoryId" element={<CategoryPage />} />
-          <Route path="/search-results" element={<SearchResultsPage />} />
+      <TokenRefresher>
+        <Navbar />
+        <div className="mt-1.5">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/test" element={<Test />} />
+            <Route path="/book/:id" element={<BookPage />} />
+            <Route path="/author/:id" element={<AuthorPage />} />
+            <Route path="/currently-trending" element={<TrendingBooksPage />} />
+            <Route
+              path="/trending-categories"
+              element={<TrendingCategoriesPage />}
+            />
+            <Route path="/registration" element={<RegisterPage />} />
+            <Route path="/category/:categoryId" element={<CategoryPage />} />
+            <Route path="/search-results" element={<SearchResultsPage />} />
 
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="/test" element={<Test />} />
-          <Route path="/secretQuestion" element={<SecretQuestion />} />
-          {/* <Route path="/contact" element={<Contact />} /> */}
-          <Route
-            path="/profile"
-            element={
-              // <RequireAuth loginPath="/login">
-              <UserProfile />
-              // </RequireAuth>
-            }
-          />
-          {/* <Route path="/inquiry" element={<InquiryForm />} />
-        <Route path="/about" element={<About />} /> */}
-          <Route path="/admin" element={<AdminPage />} />
-        </Routes>
-      </div>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/test" element={<Test />} />
+            <Route path="/secretQuestion" element={<SecretQuestion />} />
+            {/* <Route path="/contact" element={<Contact />} /> */}
+            <Route
+              path="/profile"
+              element={
+                // <RequireAuth loginPath="/login">
+                <UserProfile />
+                // </RequireAuth>
+              }
+            />
+            {/* <Route path="/inquiry" element={<InquiryForm />} />
+          <Route path="/about" element={<About />} /> */}
+            <Route path="/admin" element={<AdminPage />} />
+          </Routes>
+        </div>
+      </TokenRefresher>
       <ToastContainer />
-      <TokenRefresher />
     </Router>
   );
 };
