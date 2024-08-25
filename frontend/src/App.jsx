@@ -18,13 +18,24 @@ import TokenRefresher from "./components/TokenRefresher";
 import Test from "./components/Test";
 import CategoryPage from "./layouts/CategoryPage";
 import SearchResultsPage from "./layouts/SearchResultsPage";
+import { useEffect, useState } from "react";
 
 const App = () => {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 775);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 775);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
   return (
     <Router>
       <TokenRefresher>
         <Navbar />
-        <div className="mt-1.5">
+        <div className={isMobile ? "mt-20" : "mt-1.5"}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/test" element={<Test />} />

@@ -7,11 +7,14 @@ import { Link } from "react-router-dom";
 import Rating from "./Rating";
 import AuthorCard from "./AuthorCard";
 import ReviewCard from "./ReviewCard";
-import reviews from "../data/reviewExample.json";
 import TotalReviewsOverview from "./TotalReviewsOverview";
 import ReviewEditor from "./ReviewEditor";
+import { useFetchData } from "../utils/DataFetching";
+
 function BookNormalComponent({ book }) {
-  console.log(book);
+  const { data, loading, error } = useFetchData(
+    `/api/reviews/book/${book.isbn13}`
+  );
 
   return (
     <div>
@@ -75,8 +78,8 @@ function BookNormalComponent({ book }) {
               <div className="overview-title">
                 <h2 className="text-xl py-4">Reviews & Ratings</h2>
                 <div className="py-3">
-                  <ReviewEditor />
-                  <TotalReviewsOverview reviews={reviews} />
+                  <ReviewEditor isbn13={book.isbn13} />
+                  <TotalReviewsOverview reviews={data} />
                 </div>{" "}
                 <ReviewCard reviewData={book.reviews} />
               </div>

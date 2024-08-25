@@ -18,7 +18,7 @@ export default function AuthorCard({ authorId }) {
     return <div>No author data available.</div>;
   }
   return (
-    <ul role="list" className="divide-y divide-gray-100 bg-white-blue">
+    <ul role="list" className="divide-y divide-gray-300  bg-warm-neutral">
       {
         <li key={data.name} className="flex justify-between gap-x-6 py-5">
           <div className="flex min-w-0 gap-x-4">
@@ -49,7 +49,7 @@ export default function AuthorCard({ authorId }) {
           </div>
         </li>
       }
-      <div className="author-description text-sm">
+      <div className="author-description text-sm py-3">
         <ReadMore text={data.bio} limit={120} />
       </div>
     </ul>

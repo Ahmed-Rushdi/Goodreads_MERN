@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import TextEditor from "./TextEditor";
 import postData from "../utils/DataPosting";
 
-function ReviewEditor() {
+function ReviewEditor({ isbn13 }) {
   const [formData, setFormData] = useState("");
   const [notification, setNotification] = useState({
     show: false,
@@ -14,9 +14,12 @@ function ReviewEditor() {
     e.preventDefault();
 
     if (formData.trim()) {
-      const { resData, loading, error } = await postData("", {
-        review: formData,
-      });
+      const { resData, loading, error } = await postData(
+        `/api/reviews/${isbn13}`,
+        {
+          review: formData,
+        }
+      );
 
       if (!loading) {
         if (resData) {
