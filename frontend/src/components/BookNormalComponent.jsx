@@ -29,7 +29,7 @@ function BookNormalComponent({ book }) {
                 <WantToRead isbn={book.isbn13} />
               </div>
               <div className="py-3">
-                <Rating id={book.isbn13} />
+                <Rating isbn={book.isbn13} />
               </div>
               <h3 className="ml-2">Rate This Book</h3>
             </div>
