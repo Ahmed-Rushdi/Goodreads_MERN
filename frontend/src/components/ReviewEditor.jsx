@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import TextEditor from "./TextEditor";
-import postData from "../utils/DataPosting";
+import putData from "../utils/DataUpdating";
 
 function ReviewEditor({ isbn13 }) {
   const [formData, setFormData] = useState("");
@@ -14,7 +14,7 @@ function ReviewEditor({ isbn13 }) {
     e.preventDefault();
 
     if (formData.trim()) {
-      const { resData, loading, error } = await postData(
+      const { resData, loading, error } = await putData(
         `/api/reviews/${isbn13}`,
         {
           review: formData,

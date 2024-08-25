@@ -121,12 +121,12 @@ export default function Navbar() {
             <Menu as="div" className="relative ml-3">
               <div>
                 <Link to={isLoggedIn ? "/profile" : "/login"}>
-                  <button className="relative flex items-center text-sm text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                  <MenuButton className="relative flex items-center text-sm text-gray-300 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                     <FaUserCircle className="h-8 w-8" aria-hidden="true" />
                     <span className="ml-2">
                       {isLoggedIn ? "Profile" : "Log in"}
                     </span>
-                  </button>
+                  </MenuButton>
                 </Link>
               </div>
               {isLoggedIn && (
