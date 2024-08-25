@@ -1,4 +1,7 @@
 // const Review = require("../models/Review.model");
+const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Types;
+
 const Book = require("../models/Book.model");
 const User = require("../models/User.model");
 
@@ -129,11 +132,15 @@ const postReview = async (req, res) => {
 
   const review = {
     ...req.body,
-    bookId: req.params.isbn13,
+    bookId: book._id,
     userId: req.user.id,
   };
-  book.reviews.push(review);
-  user.reviews.push(review);
+  try {
+    book.reviews.push(review);
+    user.reviews.push(review);
+  } catch (error) {
+    console.log(error);
+  }
 
   await Promise.all([book.save(), user.save()]);
 
@@ -147,7 +154,7 @@ const putReview = async (req, res) => {
     if (!book) return res.status(404).send("Book not found");
     const user = await User.findById({ _id: req.user.id });
     if (!user) return res.status(404).send("User not found");
-    const review = user.reviews.find((r) => r.bookId === req.params.isbn13);
+    const review = user.reviews.find((r) => r.bookId === book._id);
     if (!review) return await postReview(req, res);
 
     book.reviews.pull(review);
