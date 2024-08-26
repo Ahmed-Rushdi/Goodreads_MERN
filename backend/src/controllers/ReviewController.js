@@ -125,15 +125,32 @@ const getUserReviews = async (req, res) => {
 
 // * Get specific review by isbn13 (from req.params) and user._id (from req.user)
 const getReview = async (req, res) => {
-  const user = await User.findOne({ _id: req.user.id })
-    .populate("reviews.userId", "name")
-    .populate("reviews.bookId", "title");
-  if (!user) return res.status(404).send("User not found");
-  const review = user.reviews.find((r) => r.bookId === req.params.isbn13);
-  if (!review) return res.status(404).send("Review not found");
-  res.send(review);
-};
+  try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).send("User not authenticated");
+    }
+    const user = await User.findById(req.user.id);
 
+    const review = user.reviews.find((r) => {
+      console.log("Current review bookId:", r.bookId);
+      console.log("Comparing with book _id:", req.params.isbn13);
+
+      return r.bookId === req.params.isbn13;
+    });
+    if (!review) {
+      console.log("Review not found for ISBN13:", req.params.isbn13);
+      return res.status(404).send("Review not found");
+    }
+
+    console.log("Review found:", review);
+    res.send(review);
+  } catch (error) {
+    console.error("Error in getReview:", error);
+    res
+      .status(500)
+      .send(`An error occurred while fetching the review: ${error.message}`);
+  }
+};
 // * POST: Takes review rating and review string from req.body
 const postReview = async (req, res) => {
   try {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../styling/css/components/blogPost.css";
 import "../styling/css/components/btn.css";
 import WantToRead from "./WantToRead";
@@ -8,27 +8,54 @@ import Rating from "./Rating";
 import AuthorCard from "./AuthorCard";
 import ReviewCard from "./ReviewCard";
 import TotalReviewsOverview from "./TotalReviewsOverview";
-import { useFetchData } from "../utils/DataFetching";
 import ReviewEditor from "./ReviewEditor";
+import { useFetchData } from "../utils/DataFetching";
+import { useAuth } from "../contexts/AuthenticationContext";
+import MyReviewCard from "./myReviewCard";
 
 function BookMobileComponent({ book }) {
   const { data, loading, error } = useFetchData(
     `/api/reviews/book/${book.isbn13}`
   );
+  const { isLoggedIn, user } = useAuth();
+  const [isEditing, setIsEditing] = useState(false);
+  const [myReviewData, setMyReviewData] = useState("");
+  const reviewEditorRef = useRef(null);
+
+  const { data: myReview, loading: myReviewLoading } = useFetchData(
+    isLoggedIn ? `/api/reviews/user/${book._id}` : null
+  );
+
+  useEffect(() => {
+    if (myReview?.review) {
+      setMyReviewData(myReview.review);
+    }
+  }, [myReview]);
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+    if (reviewEditorRef.current && reviewEditorRef.current.focus) {
+      reviewEditorRef.current.focus();
+    }
+  };
+
+  if (loading || myReviewLoading) return <div>Loading...</div>;
+  if (error) return <div>Error loading reviews</div>;
+
   return (
     <div>
       <div className="single-product-container">
         <div className="all-img-container-mobile">
           <div className="">
             <div className="normal-img-container">
-              <img src={book.thumbnail} />
+              <img src={book.thumbnail} alt={book.title} />
             </div>
             <div className="ratings-mobile-container">
               <div className="want-to-read">
-                <WantToRead isbn={book.isbn13} />{" "}
+                <WantToRead isbn={book.isbn13} />
               </div>
               <div className="py-3">
-                <Rating isbn={book.isbn13} />
+                <Rating isbn={book._id} />
               </div>
               <h3>Rate This Book</h3>
             </div>
@@ -40,25 +67,24 @@ function BookMobileComponent({ book }) {
             <div className="border-element">
               <ul className="lite-info-ul">
                 <li className="lite-info-li text-xl">
-                  {book.authorId.name || authorId}
+                  Author: {book.authorId.name || "Unknown"}
                 </li>
                 <li className="lite-info-li">{book.rating}</li>
                 <ReadMore text={book.description} limit={120} />
                 <li className="lite-info-li">
                   Genres{" "}
-                  {book.categories.map((cat) => {
-                    return (
-                      <Link
-                        className="hover:underline mx-2 font-semibold"
-                        to={`/category/${cat._id}`}
-                      >
-                        {cat.name}{" "}
-                      </Link>
-                    );
-                  })}
+                  {book.categories.map((cat) => (
+                    <Link
+                      key={cat._id}
+                      className="hover:underline mx-2 font-semibold"
+                      to={`/category/${cat._id}`}
+                    >
+                      {cat.name}
+                    </Link>
+                  ))}
                 </li>
                 <li className="lite-info-li my-2">{book.pageCount} page</li>
-                <li className="lite-info-li my-2 ">
+                <li className="lite-info-li my-2">
                   <span className="mr-5">First Published</span>
                   {book.publishedDate.slice(0, 10)}
                 </li>
@@ -72,14 +98,26 @@ function BookMobileComponent({ book }) {
         <div className="product-overview-mobile">
           <div className="overview-title">
             <h2>About the author</h2>
-            <AuthorCard authorId={book.authorId.id || book.authorId} />{" "}
+            <AuthorCard authorId={book.authorId.id || book.authorId} />
           </div>
         </div>
         <div className="product-overview-mobile">
           <div className="overview-title">
             <h2 className="text-xl py-3">Reviews</h2>
             <div className="py-3">
-              <ReviewEditor isbn13={book.isbn13} />
+              {!myReviewLoading && myReview?.review && !isEditing ? (
+                <MyReviewCard
+                  review={myReviewData}
+                  onEditClick={handleEditClick}
+                />
+              ) : (
+                <ReviewEditor
+                  isbn13={book.isbn13}
+                  initialReview={myReview?.review || ""}
+                  ref={reviewEditorRef}
+                  onSave={() => setIsEditing(false)}
+                />
+              )}
               <TotalReviewsOverview reviews={data} />
             </div>
             <ReviewCard reviewData={book.reviews} />

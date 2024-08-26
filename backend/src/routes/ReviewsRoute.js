@@ -18,10 +18,10 @@ router.get("/book/:isbn13", getBookReviews);
 router.get("/user/", getUserReviews);
 
 // * Get specific review by isbn13 (from req.params) and user._id (from req.user)
-router.get("/user/:isbn13", getReview);
+router.get("/user/:isbn13", userAuth, getReview);
 
 // * Add review to specific book and current user
-router.post("/:isbn13", userAuth,  postReview);
+router.post("/:isbn13", userAuth, postReview);
 
 // * Update specific review from book and user
 router.put("/:isbn13", userAuth, putReview);

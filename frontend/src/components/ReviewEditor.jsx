@@ -1,14 +1,29 @@
-import React, { useState } from "react";
+import React, {
+  useState,
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+} from "react";
 import TextEditor from "./TextEditor";
 import putData from "../utils/DataUpdating";
 
-function ReviewEditor({ isbn13 }) {
-  const [formData, setFormData] = useState("");
+const ReviewEditor = forwardRef(({ isbn13, initialReview, onSave }, ref) => {
+  const [formData, setFormData] = useState(initialReview);
   const [notification, setNotification] = useState({
     show: false,
     message: "",
     type: "",
   });
+
+  const textEditorRef = useRef(null);
+
+  useImperativeHandle(ref, () => ({
+    focus: () => {
+      if (textEditorRef.current && textEditorRef.current.focus) {
+        textEditorRef.current.focus();
+      }
+    },
+  }));
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -46,7 +61,11 @@ function ReviewEditor({ isbn13 }) {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <TextEditor postData={formData} setPostData={setFormData} />
+        <TextEditor
+          setPostData={setFormData}
+          postData={formData}
+          ref={textEditorRef}
+        />
         <button type="submit" className="p-2 mb-8 mt-2 hover:bg-gray-100">
           Submit Review
         </button>
@@ -63,6 +82,6 @@ function ReviewEditor({ isbn13 }) {
       )}
     </div>
   );
-}
+});
 
 export default ReviewEditor;

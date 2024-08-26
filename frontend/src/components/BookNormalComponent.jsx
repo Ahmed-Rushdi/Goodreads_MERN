@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "../styling/css/components/blogPost.css";
 import "../styling/css/components/btn.css";
 import WantToRead from "./WantToRead";
@@ -10,12 +10,35 @@ import ReviewCard from "./ReviewCard";
 import TotalReviewsOverview from "./TotalReviewsOverview";
 import ReviewEditor from "./ReviewEditor";
 import { useFetchData } from "../utils/DataFetching";
+import { useAuth } from "../contexts/AuthenticationContext";
+import MyReviewCard from "./myReviewCard";
 
 function BookNormalComponent({ book }) {
   const { data, loading, error } = useFetchData(
     `/api/reviews/book/${book.isbn13}`
   );
+  const [isEditing, setIsEditing] = useState(false);
+  const [myReviewData, setMyReviewData] = useState("");
+  const { isLoggedIn, user } = useAuth();
+  const { data: myReview, loading: myReviewLoading } = useFetchData(
+    isLoggedIn ? `/api/reviews/user/${book._id}` : null
+  );
+  useEffect(() => {
+    if (myReview?.review) {
+      setMyReviewData(myReview.review);
+    }
+  }, [myReview]);
 
+  const reviewEditorRef = useRef(null);
+
+  const handleEditClick = () => {
+    setIsEditing(true);
+    // Focus on the ReviewEditor
+    if (reviewEditorRef.current && reviewEditorRef.current.focus) {
+      reviewEditorRef.current.focus();
+    }
+  };
+  console.log(myReview);
   return (
     <div>
       <div className="single-product-container">
@@ -29,7 +52,7 @@ function BookNormalComponent({ book }) {
                 <WantToRead isbn={book.isbn13} />
               </div>
               <div className="py-3">
-                <Rating isbn={book.isbn13} />
+                <Rating isbn={book._id} />
               </div>
               <h3 className="ml-2">Rate This Book</h3>
             </div>
@@ -78,7 +101,19 @@ function BookNormalComponent({ book }) {
               <div className="overview-title">
                 <h2 className="text-xl py-4">Reviews & Ratings</h2>
                 <div className="py-3">
-                  <ReviewEditor isbn13={book.isbn13} />
+                  {!myReviewLoading && myReview?.review && !isEditing ? (
+                    <MyReviewCard
+                      review={myReviewData}
+                      onEditClick={handleEditClick}
+                    />
+                  ) : (
+                    <ReviewEditor
+                      isbn13={book.isbn13}
+                      initialReview={myReview?.review || ""}
+                      ref={reviewEditorRef}
+                      onSave={() => setIsEditing(false)}
+                    />
+                  )}
                   <TotalReviewsOverview reviews={data} />
                 </div>{" "}
                 <ReviewCard reviewData={book.reviews} />
