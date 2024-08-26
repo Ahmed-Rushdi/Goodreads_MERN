@@ -1,8 +1,12 @@
+import BasicSpinner from "./BasicSpinner";
 import ReadMore from "./ReadMore";
+import ReviewReadMore from "./ReviewReadMore";
 
-export default function ReviewCard({ reviewData }) {
+export default function ReviewCard({ isloading, reviewData }) {
   console.log(reviewData);
-
+  if (isloading) {
+    return <BasicSpinner />;
+  }
   return (
     <ul role="list" className="divide-y divide-gray-100 bg-warm-neutral">
       {reviewData
@@ -17,10 +21,10 @@ export default function ReviewCard({ reviewData }) {
               />
               <div className="min-w-0 flex-auto">
                 <p className="text-sm font-semibold leading-6 text-gray-900">
-                  {review.userId}
+                  {review.userId.name}
                 </p>
                 <p className="mt-1 text-xs leading-5 text-gray-500">
-                  <ReadMore text={review.review} limit={120} />
+                  <ReviewReadMore html={review.review} limit={120} />
                 </p>
               </div>
             </div>

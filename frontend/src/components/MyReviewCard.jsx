@@ -1,6 +1,7 @@
 import React from "react";
 import ReadMore from "./ReadMore";
 import { useAuth } from "../contexts/AuthenticationContext";
+import ReviewReadMore from "./ReviewReadMore";
 
 export default function MyReviewCard({ review, onEditClick }) {
   const { user } = useAuth();
@@ -15,7 +16,7 @@ export default function MyReviewCard({ review, onEditClick }) {
             {user.name}
           </p>
           <p className="mt-1 text-xs leading-5 text-gray-500">
-            <ReadMore text={review} limit={120} />
+            <ReviewReadMore html={review} limit={120} />
           </p>
         </div>
         <button

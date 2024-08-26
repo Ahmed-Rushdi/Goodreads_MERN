@@ -116,7 +116,7 @@ function BookNormalComponent({ book }) {
                   )}
                   <TotalReviewsOverview reviews={data} />
                 </div>{" "}
-                <ReviewCard reviewData={book.reviews} />
+                <ReviewCard isloading={loading} reviewData={data} />
               </div>
             </div>
           </div>
