@@ -45,7 +45,7 @@ const TotalReviewsOverview = ({ reviews }) => {
 
       <div className="mt-4">
         {ratingCounts.map((count, index) => {
-          const starRating = 5 - index;
+          const starRating = index + 1;
           return (
             <div key={starRating} className="flex items-center mb-1">
               <span className="w-16">{starRating} stars</span>

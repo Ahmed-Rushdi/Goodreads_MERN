@@ -1,26 +1,39 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
+
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
 
-export default function TextEditor({ setPostData, postData }) {
+const TextEditor = forwardRef(({ setPostData, postData }, ref) => {
   const [quill, setQuill] = useState();
+  const editorRef = useRef(null);
 
+  useImperativeHandle(ref, () => ({
+    focus: () => {
+      if (quill) {
+        quill.focus();
+      }
+    },
+  }));
   useEffect(() => {
-    if (quill == null) return;
-    if (postData == null) {
-      quill.root.innerText = "";
-      return;
+    if (quill == null || editorRef.current == null) return;
+
+    // Set the initial content from postData
+    if (postData !== null && quill.root.innerHTML !== postData) {
+      quill.root.innerHTML = postData;
     }
-    if (quill.root.innerText === postData) return;
-    quill.root.innerText = postData;
-  }, [quill, postData]);
 
-  useEffect(() => {
-    if (quill == null) return;
+    // Update postData on text change
     quill.on("text-change", () => {
-      setPostData(quill.root.innerText);
+      setPostData(quill.root.innerHTML);
     });
-  }, [quill]);
+  }, [quill, postData, setPostData]);
 
   const TOOLBAR_OPTIONS = [
     [{ header: [1, 2, 3, false] }],
@@ -30,21 +43,38 @@ export default function TextEditor({ setPostData, postData }) {
     ["clean"],
   ];
 
-  const wrapperRef = useCallback((wrapper) => {
-    if (wrapper == null) return;
-    wrapper.innerText = "";
-    const editor = document.createElement("div");
-    wrapper.append(editor);
-    const q = new Quill(editor, {
-      theme: "snow",
-      modules: {
-        toolbar: TOOLBAR_OPTIONS,
-      },
-      placeholder: "Write your review here...",
-    });
+  const wrapperRef = useCallback(
+    (wrapper) => {
+      if (wrapper == null) return;
 
-    setQuill(q);
-  }, []);
+      if (editorRef.current) {
+        // Clear previous editor instance if any
+        editorRef.current.innerHTML = "";
+      }
 
-  return <div id="container" className=" bg-corn-silk" ref={wrapperRef}></div>;
-}
+      const editor = document.createElement("div");
+      wrapper.appendChild(editor);
+      editorRef.current = editor;
+
+      const q = new Quill(editor, {
+        theme: "snow",
+        modules: {
+          toolbar: TOOLBAR_OPTIONS,
+        },
+        placeholder: "Write your review here...",
+      });
+
+      setQuill(q);
+
+      // Pass the Quill instance through the ref
+      if (ref) {
+        ref.current = q;
+      }
+    },
+    [ref]
+  );
+
+  return <div id="container" className="bg-corn-silk" ref={wrapperRef}></div>;
+});
+
+export default TextEditor;

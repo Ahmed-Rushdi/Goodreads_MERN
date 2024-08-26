@@ -11,10 +11,13 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import "../styles/profile-info.css"; // Import the CSS file
+import { useAuth } from "../contexts/AuthenticationContext";
 
 export default function UserProfile() {
-  const [username, setUsername] = useState("JohnDoe");
-  const [email, setEmail] = useState("johndoe@example.com");
+  const { user } = useAuth();
+  console.log(user);
+  const [username, setUsername] = useState(user.name);
+  const [email, setEmail] = useState(user.email);
   const [profilePhoto, setProfilePhoto] = useState(
     "https://placehold.co/150x150"
   );

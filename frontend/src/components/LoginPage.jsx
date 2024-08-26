@@ -1,46 +1,20 @@
 import React, { useState } from "react";
 import "../styles/login.css";
 import { useNavigate } from "react-router-dom";
-import ProvideData from "./ProvideData";
 import { GoogleLogin } from "@react-oauth/google";
-import { axiosInstance } from "../utils/AxiosInstance";
 import { Link } from "react-router-dom";
+import { useAuth } from "../contexts/AuthenticationContext";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [userName, setUserName] = useState("");
   const navigate = useNavigate();
-  const { setIsLoggedIn } = ProvideData();
+  const { user, isLoggedIn, isLoading, error, login } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError("");
-
-    try {
-      const response = await axiosInstance.post("/api/login", {
-        email,
-        password,
-      });
-
-      console.log(response.data);
-      setIsLoggedIn(true);
-      navigate("/test");
-    } catch (err) {
-      if (err.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        setError(err.response.data.message || "Invalid email or password");
-      } else if (err.request) {
-        // The request was made but no response was received
-        setError("No response from server. Please try again.");
-      } else {
-        // Something happened in setting up the request that triggered an Error
-        setError("An error occurred. Please try again.");
-      }
-      console.error(err);
-    }
+    login(email, password);
   };
   //handle google auth
 

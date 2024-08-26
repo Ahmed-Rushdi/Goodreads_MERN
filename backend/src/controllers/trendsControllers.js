@@ -1,21 +1,31 @@
 const Book = require("../models/Book.model");
 const Author = require("../models/Author.model");
 const Category = require("../models/Category.model");
+const paginateData = require("../utils/Paginator");
 const getTrendingBooks = async (req, res) => {
   try {
-    const trendingBooks = await Book.find({})
+    const { page = 1, limit = 10 } = req.query;
+    const query = Book.find({})
       .populate("authorId", "name")
       .populate("categories", "name")
-      .sort({ averageRating: -1, ratingCount: -1 })
-      .limit(10);
-    res.status(200).json(trendingBooks);
+      .sort({ averageRating: -1, ratingCount: -1 });
+
+    const paginatedBooks = await paginateData(
+      query,
+      parseInt(page),
+      parseInt(limit)
+    );
+
+    res.status(200).json(paginatedBooks);
   } catch (error) {
-    res.status(500).json({ message: "Error fetching trending books ", error });
+    res.status(500).json({ message: "Error fetching trending books", error });
   }
 };
 const getTrendingAuthors = async (req, res) => {
   try {
-    const trendingAuthors = await Author.aggregate([
+    const { page = 1, limit = 10 } = req.query;
+
+    const query = Author.aggregate([
       {
         $lookup: {
           from: "books",
@@ -40,19 +50,26 @@ const getTrendingAuthors = async (req, res) => {
       {
         $sort: { totalRatings: -1, averageRating: -1 },
       },
-      {
-        $limit: 10,
-      },
     ]);
 
-    res.status(200).json(trendingAuthors);
+    const paginatedAuthors = await paginateData(
+      query,
+      parseInt(page),
+      parseInt(limit)
+    );
+
+    res.status(200).json(paginatedAuthors);
   } catch (error) {
+    console.error("Error fetching trending authors:", error);
     res.status(500).json({ message: "Error fetching trending authors", error });
   }
 };
+
 const getTrendingCategories = async (req, res) => {
   try {
-    const trendingCategories = await Category.aggregate([
+    const { page = 1, limit = 10 } = req.query;
+
+    const query = Category.aggregate([
       {
         $lookup: {
           from: "books",
@@ -70,9 +87,6 @@ const getTrendingCategories = async (req, res) => {
         $sort: { bookCount: -1 },
       },
       {
-        $limit: 10,
-      },
-      {
         $project: {
           _id: 1,
           name: 1,
@@ -82,13 +96,21 @@ const getTrendingCategories = async (req, res) => {
       },
     ]);
 
-    res.status(200).json(trendingCategories);
+    const paginatedCategories = await paginateData(
+      query,
+      parseInt(page),
+      parseInt(limit)
+    );
+
+    res.status(200).json(paginatedCategories);
   } catch (error) {
+    console.error("Error fetching trending categories:", error);
     res
       .status(500)
-      .json({ message: "Error fetching trending categories ", error });
+      .json({ message: "Error fetching trending categories", error });
   }
 };
+
 module.exports = {
   getTrendingBooks,
   getTrendingAuthors,

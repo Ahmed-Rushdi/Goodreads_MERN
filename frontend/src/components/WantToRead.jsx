@@ -1,12 +1,12 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { useEffect, useState } from "react";
-import useProvideData from "./ProvideData";
+import { useAuth } from "../contexts/AuthenticationContext";
 import { useFetchData } from "../utils/DataFetching";
 import putData from "../utils/DataUpdating";
 
 export default function WantToRead({ isbn }) {
-  const { token, isLoggedIn } = useProvideData();
+  const { user, isLoggedIn } = useAuth();
   const { data, loading, error } = useFetchData(
     `/api/user-book/book-shelf?isbn=${isbn}`
   );
