@@ -11,9 +11,7 @@ const UserProfile = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
 
-  const url = selectedShelf
-    ? `http://localhost:3000/api/profile/filter`
-    : `http://localhost:3000/api/profile`;
+  const url = selectedShelf ? `/api/profile/filter` : `/api/profile`;
 
   const { data, isLoading, error, refetch } = useFetch(url, {
     method: selectedShelf ? "POST" : "GET",

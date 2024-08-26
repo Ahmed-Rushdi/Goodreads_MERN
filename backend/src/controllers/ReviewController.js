@@ -136,55 +136,111 @@ const getReview = async (req, res) => {
 
 // * POST: Takes review rating and review string from req.body
 const postReview = async (req, res) => {
-  const book = await Book.findOne({ isbn13: req.params.isbn13 });
-  if (!book) return res.status(404).send("Book not found");
-  const user = await User.findById({ _id: req.user.id });
-  if (!user) return res.status(404).send("User not found");
-
-  const review = {
-    ...req.body,
-    bookId: book._id,
-    userId: req.user.id,
-  };
   try {
-    book.reviews.push(review);
-    user.reviews.push(review);
+    const { isbn13 } = req.params;
+    const { rating, review } = req.body;
+    const userId = req.user.id;
+
+    // Check if the book exists
+    const book = await Book.findOne({ isbn13 });
+    if (!book) return res.status(404).send("Book not found");
+
+    // Check if the user already reviewed this book
+    const existingReview = book.reviews.find(
+      (r) => r.userId.toString() === userId
+    );
+
+    if (existingReview) {
+      return res.status(400).send("User has already reviewed this book");
+    }
+
+    // Create a new review
+    const newReview = {
+      userId,
+      bookId: book._id,
+      rating,
+      review,
+    };
+
+    book.reviews.push(newReview);
+    await book.save();
+
+    res.status(201).send("Review Added");
   } catch (error) {
-    console.log(error);
+    console.error("Error in postReview:", error);
+    res.status(500).send(`Error adding review: ${error.message}`);
   }
-
-  await Promise.all([book.save(), user.save()]);
-
-  res.send("Review Added");
 };
 
-// * PUT
 const putReview = async (req, res) => {
   try {
+    console.log("PUT Review request received");
+    console.log("ISBN13:", req.params.isbn13);
+    console.log("User ID:", req.user.id);
+    console.log("Request Body:", req.body);
+
     const book = await Book.findOne({ isbn13: req.params.isbn13 });
     if (!book) return res.status(404).send("Book not found");
-    const user = await User.findById({ _id: req.user.id });
+
+    console.log("Book found:", book._id);
+
+    const user = await User.findById(req.user.id);
     if (!user) return res.status(404).send("User not found");
-    const review = user.reviews.find((r) => r.bookId === book._id);
-    if (!review) return await postReview(req, res);
 
-    book.reviews.pull(review);
-    user.reviews.pull(review);
+    console.log("User found:", user._id);
 
-    const newReview = {
-      ...review,
-      ...req.body,
+    // Search for review using ISBN13
+    let review = user.reviews.find(
+      (r) => r.bookId.isbn13 === req.params.isbn13
+    );
+
+    if (!review) {
+      // If not found in user's reviews, search in book's reviews
+      review = book.reviews.find((r) => r.userId.toString() === req.user.id);
+    }
+
+    console.log("Found review:", review);
+
+    if (!review) {
+      console.log("Review not found, calling postReview");
+      return await postReview(req, res);
+    }
+
+    // Check if at least one of rating or review is provided
+    if (req.body.rating === undefined && req.body.review === undefined) {
+      return res
+        .status(400)
+        .send("Either rating or review must be provided for update");
+    }
+
+    // Remove the old review from both book and user
+    book.reviews = book.reviews.filter(
+      (r) => r.userId.toString() !== req.user.id
+    );
+    user.reviews = user.reviews.filter(
+      (r) => r.bookId.toString() !== book._id.toString()
+    );
+
+    // Create updated review
+    const updatedReview = {
+      userId: req.user.id,
+      bookId: book._id,
+      rating: req.body.rating !== undefined ? req.body.rating : review.rating,
+      review: req.body.review !== undefined ? req.body.review : review.review,
     };
-    book.reviews.push(newReview);
-    user.reviews.push(newReview);
+
+    // Add updated review to both book and user
+    book.reviews.push(updatedReview);
+    user.reviews.push(updatedReview);
 
     await Promise.all([book.save(), user.save()]);
 
     res.send("Review Updated");
   } catch (error) {
-    console.log(error);
-
-    res.status(500).send(`an error occurred while updating review: ${error}`);
+    console.error("Error in putReview:", error);
+    res
+      .status(500)
+      .send(`An error occurred while updating the review: ${error.message}`);
   }
 };
 

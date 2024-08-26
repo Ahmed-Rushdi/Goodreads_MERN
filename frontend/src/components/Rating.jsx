@@ -42,8 +42,6 @@ const Rating = ({ isbn }) => {
           <path d="M12 17.27L18.18 21l-1.45-6.36L22 9.27l-6.36-.55L12 2 8.36 8.72 2 9.27l4.27 5.37L4.82 21z" />
         </svg>
       ))}
-      {loading && <p>Saving...</p>}
-      {error && <p className="text-red-500">Error: {error.message}</p>}
     </div>
   );
 };

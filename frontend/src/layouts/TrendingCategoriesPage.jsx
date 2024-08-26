@@ -19,8 +19,7 @@ function TrendingCategoriesPage() {
   if (trendingError) return <p>Error loading trending categories.</p>;
   if (allCategoriesError) return <p>Error loading all categories.</p>;
 
-  // Limit trending categories to the first 10
-  const limitedTrendingCategories = trendingCategories.slice(0, 10);
+  const limitedTrendingCategories = trendingCategories.data;
 
   // Reduce all categories to map names to their corresponding _id
   const categoryLinks = allCategories.data.reduce((acc, category) => {

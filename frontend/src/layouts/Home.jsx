@@ -10,17 +10,17 @@ function Home() {
     data: books,
     loading: booksLoading,
     error: booksError,
-  } = useFetchData("/api/trend/trending-books");
+  } = useFetchData("/api/trend/trending-books?page=1&limit=10");
   const {
     data: authors,
     loading: authorsLoading,
     error: authorsError,
-  } = useFetchData("/api/trend/trending-authors");
+  } = useFetchData("/api/trend/trending-authors?page=1&limit=8");
   const {
     data: categories,
     loading: categoriesLoading,
     error: categoriesError,
-  } = useFetchData("/api/trend/trending-categories");
+  } = useFetchData("/api/trend/trending-categories?page=1&limit=5");
 
   if (booksLoading || authorsLoading || categoriesLoading)
     return <p>Loading...</p>;
@@ -32,17 +32,17 @@ function Home() {
       <HomeHeroSection />
       <div className="bg-corn-silk py-12">
         <div className="container mx-auto px-4">
-          <HomeCardsSection books={books} />
+          <HomeCardsSection books={books.data} />
         </div>
       </div>
       <div className="bg-light-cream py-12">
         <div className="container mx-auto px-4">
-          <AuthorCardsSection authors={authors} />
+          <AuthorCardsSection authors={authors.data} />
         </div>
       </div>
       <div className="bg-corn-silk py-12">
         <div className="container mx-auto px-4">
-          <CategoryCardsSection categories={categories} />
+          <CategoryCardsSection categories={categories.data} />
         </div>
       </div>
     </div>
