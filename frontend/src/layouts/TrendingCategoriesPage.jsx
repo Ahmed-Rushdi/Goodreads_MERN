@@ -1,6 +1,7 @@
 import React from "react";
 import { useFetchData } from "../utils/DataFetching";
 import CategoryBooksSection from "../components/CategoryBookSection";
+import BasicSpinner from "../components/BasicSpinner";
 
 function TrendingCategoriesPage() {
   const {
@@ -15,7 +16,7 @@ function TrendingCategoriesPage() {
     error: allCategoriesError,
   } = useFetchData("/api/categories");
 
-  if (trendingLoading || allCategoriesLoading) return <p>Loading...</p>;
+  if (trendingLoading || allCategoriesLoading) return <BasicSpinner />;
   if (trendingError) return <p>Error loading trending categories.</p>;
   if (allCategoriesError) return <p>Error loading all categories.</p>;
 

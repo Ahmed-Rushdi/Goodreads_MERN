@@ -2,6 +2,7 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { useFetchData } from "../utils/DataFetching";
 import BooksDisplayCard from "../components/BooksDisplayCard";
+import BasicSpinner from "../components/BasicSpinner";
 
 function CategoryPage() {
   const { categoryId } = useParams();
@@ -9,7 +10,7 @@ function CategoryPage() {
     `/api/books/category/${categoryId}`
   );
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <BasicSpinner />;
   if (error) return <p>Error loading books.</p>;
 
   return (

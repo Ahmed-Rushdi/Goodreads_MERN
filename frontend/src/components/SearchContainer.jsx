@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import SearchBar from "./SearchBar"; // Adjust the import path based on your project structure
+import BasicSpinner from "./BasicSpinner";
 
 const SearchContainer = () => {
   const [searchResults, setSearchResults] = useState({});
@@ -10,11 +11,10 @@ const SearchContainer = () => {
       <SearchBar
         setSearchResults={setSearchResults}
         setLoading={setLoading}
-        urls={["/api/books"]} // Replace with your actual API endpoints
+        urls={["/api/books"]}
         className="search-bar-class"
       />
-      {loading && <p>Loading...</p>}
-      {/* Optionally, you can display some search info or history here */}
+      {loading && <BasicSpinner />}
     </div>
   );
 };

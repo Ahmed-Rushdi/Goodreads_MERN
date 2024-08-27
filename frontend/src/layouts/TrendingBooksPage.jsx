@@ -3,6 +3,7 @@ import BooksDisplayCard from "../components/BooksDisplayCard";
 import { useFetchData } from "../utils/DataFetching";
 import QueryPagination from "../components/QueryPagination";
 import { useLocation } from "react-router-dom";
+import BasicSpinner from "../components/BasicSpinner";
 
 function TrendingBooksPage() {
   const location = useLocation();
@@ -15,7 +16,11 @@ function TrendingBooksPage() {
   );
 
   if (loading) {
-    return <div className="px-24 py-10">Loading...</div>;
+    return (
+      <div className="px-24 py-10">
+        <BasicSpinner />
+      </div>
+    );
   }
 
   if (error) {
