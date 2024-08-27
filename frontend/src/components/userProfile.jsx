@@ -8,24 +8,23 @@ import ProfileInfo from "./profileInfo";
 import BasicSpinner from "./BasicSpinner";
 
 const UserProfile = () => {
-  const [selectedShelf, setSelectedShelf] = useState(""); // Default to no filter, show all books
+  const [selectedShelf, setSelectedShelf] = useState(''); // Default to no filter, show all books
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
 
-  const url = selectedShelf ? `/api/profile/filter` : `/api/profile`;
+  const url = selectedShelf ? `http://localhost:3000/api/profile/filter` : `http://localhost:3000/api/profile`;
 
   const { data, isLoading, error, refetch } = useFetch(url, {
-    method: selectedShelf ? "POST" : "GET",
+    method: selectedShelf ? 'POST' : 'GET',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
-    body: selectedShelf
-      ? JSON.stringify({ returnedShelf: selectedShelf })
-      : null,
-    credentials: "include",
+    body: selectedShelf ? JSON.stringify({ returnedShelf: selectedShelf }) : null,
+    credentials: 'include'
   });
 
   useEffect(() => {
+    console.log(`Fetching data for shelf: ${selectedShelf} with URL: ${url}`); // Debugging log
     refetch(); // Refetch data when selectedShelf changes
   }, [selectedShelf, refetch]);
 
@@ -39,9 +38,7 @@ const UserProfile = () => {
 
   if (error) {
     console.error("Error fetching data:", error);
-    return (
-      <p>Error: {error.message || "An error occurred while fetching data"}</p>
-    );
+    return <p>Error: {error.message || "An error occurred while fetching data"}</p>;
   }
 
   const books = data?.books || [];
@@ -50,10 +47,7 @@ const UserProfile = () => {
     return <p>No books available</p>;
   }
 
-  const currentBooks = books.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const currentBooks = books.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
   return (
     <div className="user-profile">

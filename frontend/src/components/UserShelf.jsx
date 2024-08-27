@@ -4,6 +4,7 @@ import "../styles/user-shelf.css";
 
 const UserShelf = ({ setSelectedShelf }) => {
   const handleShelfClick = (shelf) => {
+    console.log(`Shelf selected: ${shelf}`); // Debugging log
     setSelectedShelf(shelf);
   };
 
@@ -11,6 +12,7 @@ const UserShelf = ({ setSelectedShelf }) => {
     <div className="book-status">
       <h1>User Book Shelves: </h1>
       <Stack direction="row" spacing={2}>
+        <Button onClick={() => handleShelfClick("")}>All</Button>
         <Button onClick={() => handleShelfClick("read")}>Read</Button>
         <Button onClick={() => handleShelfClick("wantToRead")}>
           Want to Read
