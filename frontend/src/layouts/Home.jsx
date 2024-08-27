@@ -4,6 +4,7 @@ import HomeCardsSection from "../components/HomeCardsSection";
 import AuthorCardsSection from "../components/AuthorCardsSection";
 import { useFetchData } from "../utils/DataFetching";
 import CategoryCardsSection from "../components/CategoryCardSection";
+import BasicSpinner from "../components/BasicSpinner";
 
 function Home() {
   const {
@@ -23,7 +24,7 @@ function Home() {
   } = useFetchData("/api/trend/trending-categories?page=1&limit=5");
 
   if (booksLoading || authorsLoading || categoriesLoading)
-    return <p>Loading...</p>;
+    return <BasicSpinner />;
   if (booksError || authorsError || categoriesError)
     return <p>Error loading data.</p>;
 

@@ -5,6 +5,7 @@ import UserShelf from "./UserShelf";
 import PaginationRounded from "./BookPaging";
 import { useState, useEffect } from "react";
 import ProfileInfo from "./profileInfo";
+import BasicSpinner from "./BasicSpinner";
 
 const UserProfile = () => {
   const [selectedShelf, setSelectedShelf] = useState(""); // Default to no filter, show all books
@@ -33,7 +34,7 @@ const UserProfile = () => {
   };
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <BasicSpinner />;
   }
 
   if (error) {

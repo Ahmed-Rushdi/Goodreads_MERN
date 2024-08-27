@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import BookNormalComponent from "../components/BookNormalComponent";
 import BookMobileComponent from "../components/BookMobileComponent";
 import { useFetchData } from "../utils/DataFetching";
+import BasicSpinner from "../components/BasicSpinner";
 
 export default function BookPage() {
   const { id } = useParams();
@@ -23,7 +24,7 @@ export default function BookPage() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <BasicSpinner />;
   }
 
   if (error) {

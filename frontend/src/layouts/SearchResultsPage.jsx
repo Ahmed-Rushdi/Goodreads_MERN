@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { axiosInstance } from "../utils/AxiosInstance";
 import MainCard from "../components/MainCard";
+import BasicSpinner from "../components/BasicSpinner";
 
 function SearchResultsPage() {
   const location = useLocation();
@@ -43,7 +44,7 @@ function SearchResultsPage() {
   }, [query]);
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <BasicSpinner />;
   }
 
   if (error) {

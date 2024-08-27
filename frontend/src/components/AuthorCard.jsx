@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
 import { useFetchData } from "../utils/DataFetching";
 import ReadMore from "./ReadMore";
+import BasicSpinner from "./BasicSpinner";
 
 export default function AuthorCard({ authorId }) {
   console.log(authorId);
 
   const { data, loading, error } = useFetchData(`/api/authors/${authorId}`);
   if (loading) {
-    return <div>Loading...</div>;
+    return <BasicSpinner />;
   }
 
   if (error) {

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import AuthorMobileComponent from "../components/AuthorMobileComponent";
 import AuthorNormalComponent from "../components/AuthorNormalComponent";
 import { useFetchData } from "../utils/DataFetching";
+import BasicSpinner from "../components/BasicSpinner";
 
 export default function AuthorPage() {
   const { id } = useParams();
@@ -20,7 +21,7 @@ export default function AuthorPage() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <BasicSpinner />;
   }
 
   if (error) {

@@ -12,6 +12,7 @@ import ReviewEditor from "./ReviewEditor";
 import { useFetchData } from "../utils/DataFetching";
 import { useAuth } from "../contexts/AuthenticationContext";
 import MyReviewCard from "./myReviewCard";
+import BasicSpinner from "./BasicSpinner";
 
 function BookMobileComponent({ book }) {
   const { data, loading, error } = useFetchData(
@@ -39,7 +40,7 @@ function BookMobileComponent({ book }) {
     }
   };
 
-  if (loading || myReviewLoading) return <div>Loading...</div>;
+  if (loading || myReviewLoading) return <BasicSpinner />;
   if (error) return <div>Error loading reviews</div>;
 
   return (
