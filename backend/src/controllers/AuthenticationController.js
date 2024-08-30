@@ -44,7 +44,7 @@ const login = async (req, res, next) => {
   try {
     const existingUser = await User.findOne({ email: email });
     if (!existingUser) {
-      return res.status(400).json({ message: "User not found" });
+      return res.status(400).json({ message: "Invalid Credentials" });
     }
 
     const isPasswordCorrect = await bcrypt.compare(
@@ -138,7 +138,7 @@ const fetchUserById = async (req, res) => {
     throw new Error("Failed to fetch user");
   }
   if (!user) {
-    throw new Error("User not found");
+    throw new Error("Invalid Data");
   }
   return user;
 };
@@ -178,7 +178,7 @@ const refreshToken = async (req, res) => {
 
     const existingUser = await User.findById(user.id);
     if (!existingUser) {
-      return res.status(400).json({ message: " user not found" });
+      return res.status(400).json({ message: "Invalid Credentials" });
     }
 
     if (existingUser.refreshToken != refreshToken) {
@@ -376,6 +376,5 @@ module.exports = {
   refreshToken,
   logout,
   resetPassword,
-  verifySecretAnswer,
-  googleLogin
+  verifySecretAnswer
 };

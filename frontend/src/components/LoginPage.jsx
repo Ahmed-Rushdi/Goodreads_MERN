@@ -64,6 +64,7 @@ const LoginPage = () => {
         <button type="submit" className="login-button submit-1">
           Sign In
         </button>
+        {error && <p className="login_error">{error}</p>} {/* Display any error */}
         <div className="google-login">
         </div>
         <button className="login-button sign-up-1" onClick={() => navigate("/register")}>Sign Up</button>
@@ -81,9 +82,10 @@ const LoginPage = () => {
             </button>
           </div>
         </div>
+        
       </div>
       {userName && <p>Welcome, {userName}!</p>} {/* Display user's name */}
-      {error && <p>{error}</p>} {/* Display any error */}
+      
     </div>
   );
 };
