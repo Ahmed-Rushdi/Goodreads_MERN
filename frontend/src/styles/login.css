@@ -14,7 +14,9 @@
   display: flex;
   top: 70px;
 }
-
+.login_error{
+  display: block;
+}
 /* Form */
 .form-1 {
   position: relative;
