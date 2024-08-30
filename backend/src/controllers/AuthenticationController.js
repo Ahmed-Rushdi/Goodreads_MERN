@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 // npm install jsonwebtoken
 const jwt = require("jsonwebtoken");
 const Cookie = require("cookie-parser");
-const { OAuth2Client } = require('google-auth-library');
+// const { OAuth2Client } = require('google-auth-library');
 
 // logic for signing up
 const signup = async (req, res, next) => {
@@ -283,98 +283,86 @@ const resetPassword = async (req, res, next) => {
       .json({ message: "An error occurred during password reset" });
   }
 };
-
+// below is another trial but this time to imeplement login with gmail using only google auth library
 // google login logic !
 
+// const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+// const googleLogin = async (req, res) => {
+//   const { tokenId } = req.body;
 
-const googleLogin = async (req, res) => {
-  const { tokenId } = req.body;
+//   try {
+//     const ticket = await client.verifyIdToken({
+//       idToken: tokenId,
+//       audience: process.env.GOOGLE_CLIENT_ID,
+//     });
 
-  try {
-    const ticket = await client.verifyIdToken({
-      idToken: tokenId,
-      audience: process.env.GOOGLE_CLIENT_ID,
-    });
+//     const { email, name, sub: googleId } = ticket.getPayload();
 
-    const { email, name, sub: googleId } = ticket.getPayload();
+//     let user = await User.findOne({ googleId });
 
-    // Check if the user already exists
-    let user = await User.findOne({ googleId });
+//     if (!user) {
+  
+//       user = new User({
+//         name,
+//         email,
+//         googleId,
+//         isVerified: true, 
+//       });
+//       await user.save();
+//     }
 
-    if (!user) {
-      // If user does not exist, create a new user
-      user = new User({
-        name,
-        email,
-        googleId,
-        isVerified: true, // Assume Google-verified email is verified
-      });
-      await user.save();
-    }
+//     const token = jwt.sign(
+//       { id: user._id },
+//       process.env.JWT_SECRET || "default_secret",
+//       { expiresIn: "25s" }
+//     );
 
-    // Generate JWT tokens
-    const token = jwt.sign(
-      { id: user._id },
-      process.env.JWT_SECRET || "default_secret",
-      { expiresIn: "25s" }
-    );
+//     const refreshToken = jwt.sign(
+//       { id: user._id },
+//       process.env.REFRESH_TOKEN_SECRET || "default_refresh_secret",
+//       { expiresIn: "2h" }
+//     );
 
-    const refreshToken = jwt.sign(
-      { id: user._id },
-      process.env.REFRESH_TOKEN_SECRET || "default_refresh_secret",
-      { expiresIn: "2h" }
-    );
+//     user.refreshToken = refreshToken;
+//     await user.save();
 
-    // Save the refresh token in the database
-    user.refreshToken = refreshToken;
-    await user.save();
+//     res.cookie("token", token, {
+//       path: "/",
+//       maxAge: 24 * 60 * 60 * 1000, 
+//       httpOnly: true,
+//       sameSite: "lax",
+//     });
 
-    // Set cookies for the tokens
-    res.cookie("token", token, {
-      path: "/",
-      maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
-      httpOnly: true,
-      sameSite: "lax",
-    });
+//     res.cookie("tokenExists", true, {
+//       path: "/",
+//       maxAge: 24 * 60 * 60 * 1000, 
+//       httpOnly: false,
+//       sameSite: "lax",
+//     });
 
-    res.cookie("tokenExists", true, {
-      path: "/",
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
-      httpOnly: false,
-      sameSite: "lax",
-    });
+//     res.cookie("refreshToken", refreshToken, {
+//       path: "/",
+//       maxAge: 7 * 24 * 60 * 60 * 1000, 
+//       httpOnly: true,
+//       sameSite: "lax",
+//     });
 
-    res.cookie("refreshToken", refreshToken, {
-      path: "/",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 day lifetime
-      httpOnly: true,
-      sameSite: "lax",
-    });
-
-    return res.status(200).json({
-      message: "Login successful",
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.userRole,
-      },
-      token,
-    });
-  } catch (error) {
-    console.error("Error during Google login", error);
-    return res.status(500).json({ message: "An error occurred during Google login" });
-  }
-};
-
-
-
-
-
-
-
+//     return res.status(200).json({
+//       message: "Login successful",
+//       user: {
+//         id: user._id,
+//         name: user.name,
+//         email: user.email,
+//         role: user.userRole,
+//       },
+//       token,
+//     });
+//   } catch (error) {
+//     console.error("Error during Google login", error);
+//     return res.status(500).json({ message: "An error occurred during Google login" });
+//   }
+// };
 
 
 
