@@ -8,7 +8,7 @@ import TextEditor from "./TextEditor";
 import putData from "../utils/DataUpdating";
 
 const ReviewEditor = forwardRef(({ isbn13, initialReview, onSave }, ref) => {
-  const [formData, setFormData] = useState(initialReview);
+  const [formData, setFormData] = useState(initialReview || "");
   const [notification, setNotification] = useState({
     show: false,
     message: "",
@@ -39,6 +39,10 @@ const ReviewEditor = forwardRef(({ isbn13, initialReview, onSave }, ref) => {
       if (!loading) {
         if (resData) {
           showNotification("Review submitted successfully!", "success");
+          setFormData(""); // Clear form data
+          if (textEditorRef.current) {
+            textEditorRef.current.clearContent(); // Reset the Quill editor content
+          }
         } else if (error) {
           showNotification(
             "Error submitting review. Please try again.",
@@ -69,6 +73,7 @@ const ReviewEditor = forwardRef(({ isbn13, initialReview, onSave }, ref) => {
         <button type="submit" className="p-2 mb-8 mt-2 hover:bg-gray-100">
           Submit Review
         </button>
+        
       </form>
 
       {notification.show && (

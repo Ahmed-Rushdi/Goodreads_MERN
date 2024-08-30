@@ -1,11 +1,21 @@
 .book-status {
     text-align: center;
 }
+
 .book-status h1 {
     margin-bottom: 20px;
 }
- .book-status Button {
+
+.book-status Button {
     border: 0.5px solid #6aa5e0;
     border-radius: 10px;
     padding: 8px 1rem;
- }
+    background-color: transparent;
+    color: black;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.book-status Button.active {
+    background-color: #1976d2;
+    color: white;
+}

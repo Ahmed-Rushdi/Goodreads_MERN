@@ -11,7 +11,7 @@ import TotalReviewsOverview from "./TotalReviewsOverview";
 import ReviewEditor from "./ReviewEditor";
 import { useFetchData } from "../utils/DataFetching";
 import { useAuth } from "../contexts/AuthenticationContext";
-import MyReviewCard from "./myReviewCard";
+import MyReviewCard from "./MyReviewCard";
 import BasicSpinner from "./BasicSpinner";
 
 function BookMobileComponent({ book }) {

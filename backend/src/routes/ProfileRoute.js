@@ -1,5 +1,6 @@
 const express = require('express');
 const { getAllBooksByUser, addToShelf, getBooksbyShelfName } = require('../controllers/UserBooksController');
+const { updateProfileInfo } = require('../controllers/UserController')
 const { verification } = require('../controllers/AuthenticationController');
 
 const router = express.Router();
@@ -13,5 +14,7 @@ router.get('/', verification, getAllBooksByUser);
 router.post('/', verification, addToShelf);
 
 router.post('/filter', verification, getBooksbyShelfName);
+
+router.put('/update', verification, updateProfileInfo)
 
 module.exports = router;
