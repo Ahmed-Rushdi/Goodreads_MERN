@@ -10,11 +10,16 @@ import BasicSpinner from "./BasicSpinner";
 const UserProfile = () => {
   const [selectedShelf, setSelectedShelf] = useState(''); // Default to no filter, show all books
   const [currentPage, setCurrentPage] = useState(1);
+  const [notification, setNotification] = useState({
+    show: false,
+    message: "",
+    type: "",
+  });
   const itemsPerPage = 4;
 
-  const url = selectedShelf ? `http://localhost:3000/api/profile/filter` : `http://localhost:3000/api/profile`;
+  const fetchUrl = selectedShelf ? `http://localhost:3000/api/profile/filter` : `http://localhost:3000/api/profile`;
 
-  const { data, isLoading, error, refetch } = useFetch(url, {
+  const { data, isLoading, error, refetch } = useFetch(fetchUrl, {
     method: selectedShelf ? 'POST' : 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -24,13 +29,34 @@ const UserProfile = () => {
   });
 
   useEffect(() => {
-    console.log(`Fetching data for shelf: ${selectedShelf} with URL: ${url}`); // Debugging log
+    console.log(`Fetching data for shelf: ${selectedShelf} with URL: ${fetchUrl}`); // Debugging log
     refetch(); // Refetch data when selectedShelf changes
   }, [selectedShelf, refetch]);
 
+  useEffect(() => {
+    if (data && data.books && data.books.length === 0 && selectedShelf) {
+      // If no books are found for the selected shelf, show a notification and reset the filter
+      showNotification("No books found for the selected shelf. Showing all books.", "error");
+      setSelectedShelf(''); // Reset to show all books
+    }
+  }, [data, selectedShelf]);
+
+  useEffect(() => {
+    // Reset to the first page when the selected shelf changes
+    setCurrentPage(1);
+  }, [selectedShelf]);
+
   const handlePageChange = (newPage) => {
+    console.log(`Changing page to: ${newPage}`);
     setCurrentPage(newPage);
   };
+
+  function showNotification(message, type) {
+    setNotification({ show: true, message, type });
+    setTimeout(() => {
+      setNotification({ show: false, message: "", type: "" });
+    }, 3000);
+  }
 
   if (isLoading) {
     return <BasicSpinner />;
@@ -43,11 +69,11 @@ const UserProfile = () => {
 
   const books = data?.books || [];
 
-  if (books.length === 0) {
-    return <p>No books available</p>;
-  }
+  // Recalculate currentBooks based on currentPage and itemsPerPage
+  const startIdx = (currentPage - 1) * itemsPerPage;
+  const currentBooks = books.slice(startIdx, startIdx + itemsPerPage);
 
-  const currentBooks = books.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  console.log(`Current page: ${currentPage}, Showing books:`, currentBooks);
 
   return (
     <div className="user-profile">
@@ -56,7 +82,8 @@ const UserProfile = () => {
       </section>
       <section className="info-shelf">
         <div>
-          <UserShelf setSelectedShelf={setSelectedShelf} />
+          {/* Pass active shelf as a prop */}
+          <UserShelf selectedShelf={selectedShelf} setSelectedShelf={setSelectedShelf} />
         </div>
         <div>
           <UserBook books={currentBooks} />
@@ -68,6 +95,16 @@ const UserProfile = () => {
           onPageChange={handlePageChange}
         />
       </section>
+
+      {notification.show && (
+        <div
+          className={`fixed bottom-4 right-4 max-w-sm p-4 rounded shadow-lg text-white ${
+            notification.type === "success" ? "bg-green-500" : "bg-red-500"
+          }`}
+        >
+          {notification.message}
+        </div>
+      )}
     </div>
   );
 };

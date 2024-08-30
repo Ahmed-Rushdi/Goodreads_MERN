@@ -1,41 +1,27 @@
-import { useState } from "react";
 import "../styles/user-book.css";
 import BasicModal from "./dropdownMenu";
 import BasicRating from "./NoRating";
 import ReadMore from "./ReadMore";
-import Rating from "./Rating";
-import Button from "@mui/material/Button";
+import ReviewEditor from "./ReviewEditor";
 
 const UserBook = ({ books }) => {
-  const [shelfState, setShelfState] = useState(() => {
-    const initialState = {};
-    books.forEach((bookObj) => {
-      initialState[bookObj.book.isbn13] = bookObj.shelf;
-    });
-    return initialState;
-  });
-
-  const [bookList, setBookList] = useState(books); // Use state to manage the list of books
+  // Calculate shelfState based on the books prop
+  const shelfState = books.reduce((acc, bookObj) => {
+    acc[bookObj.book.isbn13] = bookObj.shelf;
+    return acc;
+  }, {});
 
   const updateShelf = (isbn, newShelf) => {
-    setShelfState((prevState) => ({
-      ...prevState,
-      [isbn]: newShelf,
-    }));
-
-    // If the book is removed from the shelf, remove it from the list
-    if (!newShelf) {
-      setBookList((prevList) =>
-        prevList.filter((bookObj) => bookObj.book.isbn13 !== isbn)
-      );
-    }
+    // Logic to update shelf, if needed.
+    // This might involve a callback to the parent component
+    // or updating a central state if managed elsewhere.
   };
 
   return (
     <div>
       <h1>User Books:</h1>
       <ul>
-        {bookList.map((bookObj) => {
+        {books.map((bookObj) => {
           const book = bookObj.book;
           const author = book.authorId;
           const categories = book.categories || [];
@@ -55,7 +41,7 @@ const UserBook = ({ books }) => {
                   <BasicModal
                     isbn={book.isbn13}
                     shelf={currentShelf}
-                    onShelfChange={updateShelf} // Pass the update function to BasicModal
+                    onShelfChange={updateShelf}
                   />
                 </div>
               </div>
@@ -95,16 +81,8 @@ const UserBook = ({ books }) => {
                 </div>
               </div>
               <div className="book-review-rating">
-                <h2>Rate this Book</h2>
-                <Rating />
-                <Button>Rate</Button>
                 <h2>Review this Book</h2>
-                <textarea
-                  name="review"
-                  id="review"
-                  placeholder="Review this book..."
-                ></textarea>
-                <Button>Review</Button>
+                <ReviewEditor isbn13={book.isbn13} />
               </div>
             </li>
           );

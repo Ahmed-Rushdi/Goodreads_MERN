@@ -1,10 +1,13 @@
+import React from "react";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import "../styles/user-shelf.css";
 
-const UserShelf = ({ setSelectedShelf }) => {
-  const handleShelfClick = (shelf) => {
-    console.log(`Shelf selected: ${shelf}`); // Debugging log
+const UserShelf = ({ selectedShelf, setSelectedShelf }) => {
+  const handleShelfClick = (shelf, event) => {
+    if (event) {
+      event.preventDefault();
+    }
     setSelectedShelf(shelf);
   };
 
@@ -12,12 +15,28 @@ const UserShelf = ({ setSelectedShelf }) => {
     <div className="book-status">
       <h1>User Book Shelves: </h1>
       <Stack direction="row" spacing={2}>
-        <Button onClick={() => handleShelfClick("")}>All</Button>
-        <Button onClick={() => handleShelfClick("read")}>Read</Button>
-        <Button onClick={() => handleShelfClick("wantToRead")}>
+        <Button
+          onClick={(event) => handleShelfClick("", event)}
+          className={selectedShelf === "" ? "active" : ""}
+        >
+          All
+        </Button>
+        <Button
+          onClick={(event) => handleShelfClick("read", event)}
+          className={selectedShelf === "read" ? "active" : ""}
+        >
+          Read
+        </Button>
+        <Button
+          onClick={(event) => handleShelfClick("wantToRead", event)}
+          className={selectedShelf === "wantToRead" ? "active" : ""}
+        >
           Want to Read
         </Button>
-        <Button onClick={() => handleShelfClick("currentlyReading")}>
+        <Button
+          onClick={(event) => handleShelfClick("currentlyReading", event)}
+          className={selectedShelf === "currentlyReading" ? "active" : ""}
+        >
           Currently Reading
         </Button>
       </Stack>
