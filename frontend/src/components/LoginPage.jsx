@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "../styles/login.css";
 import { useNavigate } from "react-router-dom";
-import { GoogleLogin } from "@react-oauth/google";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthenticationContext";
 
@@ -17,6 +16,22 @@ const LoginPage = () => {
     login(email, password);
   };
   //handle google auth
+
+  const handleGoogleLogin = async (tokenId) => {
+    try {
+      const response = await fetch('/auth/google', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tokenId }),
+      });
+  
+      const data = await response.json();
+      console.log(data)
+      // Handle response (e.g., store tokens, redirect, etc.)
+    } catch (error) {
+      console.error("Error during Google login", error);
+    }
+  };
 
   return (
     <div className="cont-1">
@@ -47,12 +62,12 @@ const LoginPage = () => {
           Sign In
         </button>
         <div className="google-login">
-          {/* <GoogleLogin
-            // onSuccess={handleGoogleAuth}
-            onError={() => setError("Google login failed.")}
-          /> */}
+          <button
+           className="login-button submit-1"
+            onClick={handleGoogleLogin }
+          >Login With gmail</button>
         </div>
-        <button className="login-button sign-up-1">Sign Up</button>
+        <button className="login-button sign-up-1" onClick={() => navigate("/register")}>Sign Up</button>
       </form>
       <div className="sub-cont">
         <div className="img-1">
