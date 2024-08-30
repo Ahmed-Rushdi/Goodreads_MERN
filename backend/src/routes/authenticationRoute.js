@@ -13,8 +13,8 @@ const {
   fetchUserById,
   verifySecretAnswer,
   resetPassword,
-  logout,
-  googleLogin
+  logout
+ 
 } = require("../controllers/AuthenticationController");
 
 // sign up route
@@ -40,7 +40,19 @@ router.post("/verify-secret-answer", verifySecretAnswer);
 //reset password route
 router.post("/reset-password", resetPassword);
 
-router.post('/auth/google', googleLogin);
+
+
+
+// below is trials for google auth usage
+
+
+// // google route 
+// router.post('/auth/google', googleLogin);
+
+
+
+
+
 
 // Google OAuth route
 // router.get(

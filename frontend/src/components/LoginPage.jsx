@@ -3,6 +3,7 @@ import "../styles/login.css";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthenticationContext";
+import queryString from 'query-string';
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -11,27 +12,28 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const { user, isLoggedIn, isLoading, error, login } = useAuth();
 
+
   const handleLogin = async (e) => {
     e.preventDefault();
     login(email, password);
   };
   //handle google auth
-
-  const handleGoogleLogin = async (tokenId) => {
-    try {
-      const response = await fetch('/auth/google', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tokenId }),
-      });
   
-      const data = await response.json();
-      console.log(data)
-      // Handle response (e.g., store tokens, redirect, etc.)
-    } catch (error) {
-      console.error("Error during Google login", error);
-    }
-  };
+  const stringifiedParams = queryString.stringify({
+  
+    client_id: "110004070634-funr4b1knduc5l2pekfg0et7a748udcv.apps.googleusercontent.com",
+    redirect_uri: 'localhost:5173/auth/google',
+    scope: [
+      'https://www.googleapis.com/auth/userinfo.email',
+      'https://www.googleapis.com/auth/userinfo.profile',
+    ].join(' '), // space seperated string
+    response_type: 'code',
+    access_type: 'offline',
+    prompt: 'consent',
+  });
+
+  const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?${stringifiedParams}`;
+
 
   return (
     <div className="cont-1">
@@ -62,10 +64,7 @@ const LoginPage = () => {
           Sign In
         </button>
         <div className="google-login">
-          <button
-           className="login-button submit-1"
-            onClick={handleGoogleLogin }
-          >Login With gmail</button>
+          <a href={googleLoginUrl}>Login With Google</a>
         </div>
         <button className="login-button sign-up-1" onClick={() => navigate("/register")}>Sign Up</button>
       </form>
