@@ -132,9 +132,6 @@ const getReview = async (req, res) => {
     const user = await User.findById(req.user.id);
 
     const review = user.reviews.find((r) => {
-      console.log("Current review bookId:", r.bookId);
-      console.log("Comparing with book _id:", req.params.isbn13);
-
       return r.bookId === req.params.isbn13;
     });
     if (!review) {
