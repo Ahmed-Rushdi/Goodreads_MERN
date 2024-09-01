@@ -43,10 +43,8 @@ const editShelf = async (req, res) => {
 };
 const getBookShelf = async (req, res) => {
   try {
-    const userId = req.user.id; // Assuming the user ID is available in req.user.id
-    const { isbn } = req.query; // Get the ISBN from query parameters
-
-    // Find the user and populate their books
+    const userId = req.user.id; 
+    const { isbn } = req.query; 
     const user = await User.findById(userId).populate({
       path: "books.book",
       model: "Book",
@@ -56,11 +54,11 @@ const getBookShelf = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    // Find the book entry in the user's books array
+
     const bookEntry = user.books.find((b) => b.book.isbn13 === isbn);
 
     if (!bookEntry) {
-      return res.status(200).json({ shelfName: null }); // Book not found in any shelf
+      return res.status(200).json({ shelfName: null }); 
     }
 
     return res.status(200).json({ shelfName: bookEntry.shelf });
