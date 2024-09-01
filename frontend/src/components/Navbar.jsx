@@ -71,7 +71,7 @@ export default function Navbar() {
                 <div className="flex flex-shrink-0 items-center">
                   <img
                     alt="Your Company"
-                    src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+                    src="https://firebasestorage.googleapis.com/v0/b/blogimgupload-3998a.appspot.com/o/logo.png?alt=media&token=4b893306-a1ff-4470-a544-f98af9b8779c"
                     className="h-8 w-auto"
                   />
                 </div>
