@@ -60,17 +60,7 @@ const App = () => {
               <Route path="/forgot-password" element={<ForgotPasswordPage />} />
               <Route path="/test" element={<Test />} />
               <Route path="/secretQuestion" element={<SecretQuestion />} />
-              {/* <Route path="/contact" element={<Contact />} /> */}
-              <Route
-                path="/profile"
-                element={
-                  // <RequireAuth loginPath="/login">
-                  <UserProfile />
-                  // </RequireAuth>
-                }
-              />
-              {/* <Route path="/inquiry" element={<InquiryForm />} />
-          <Route path="/about" element={<About />} /> */}
+              <Route path="/profile" element={<UserProfile />} />
               <Route path="/admin" element={<AdminPage />} />
             </Routes>
           </div>

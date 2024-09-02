@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
       setUser(response.data.user);
       setIsLoggedIn(true);
       setError(null);
-      navigate("/test");
+      navigate("/");
     } catch (err) {
       if (err.response) {
         setError(err.response.data.message || "Invalid email or password");

@@ -109,7 +109,7 @@ const SignUpPage = () => {
 
     if (resData) {
       console.log("User registered successfully:", resData);
-      navigate("/");
+      navigate("/login");
     }
   };
 
