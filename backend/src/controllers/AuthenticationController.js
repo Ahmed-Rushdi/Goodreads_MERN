@@ -70,23 +70,19 @@ const login = async (req, res, next) => {
     // //saving the token in database
     existingUser.refreshToken = refreshToken;
     await existingUser.save();
-
+    console.log(req.hostname);
     res.cookie("token", token, {
       path: "/",
       maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
       httpOnly: true,
-      sameSite: "none",
-      secure: true,
-      domain: process.env.FRONTEND_URL,
+      sameSite: "lax",
     });
 
     res.cookie("tokenExists", true, {
       path: "/",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
       httpOnly: false,
-      sameSite: "none",
-      secure: true,
-      domain: process.env.FRONTEND_URL,
+      sameSite: "lax",
     });
 
     // set the refresh token as httpOnly as well
@@ -94,9 +90,7 @@ const login = async (req, res, next) => {
       path: "/",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 day lifetiime
       httpOnly: true,
-      sameSite: "none",
-      secure: true,
-      domain: process.env.FRONTEND_URL,
+      sameSite: "lax",
     });
 
     return res.status(200).json({
@@ -201,18 +195,14 @@ const refreshToken = async (req, res) => {
       path: "/",
       maxAge: 60 * 60 * 1000,
       httpOnly: true,
-      sameSite: "none",
-      secure: true,
-      domain: process.env.FRONTEND_URL,
+      sameSite: "lax",
     });
 
     res.cookie("tokenExists", true, {
       path: "/",
       maxAge: 60 * 60 * 1000,
       httpOnly: false,
-      sameSite: "none",
-      secure: true,
-      domain: process.env.FRONTEND_URL,
+      sameSite: "lax",
     });
 
     return res.status(200).json({ message: "refreshed token" });
@@ -233,7 +223,7 @@ const logout = async (req, res) => {
 
     res.clearCookie("token");
     // res.clearCookie("refreshToken");
-    console.log("logged out successfully from the backend !");
+    console.log("logged out successfuly from the backend !");
     return res.status(200).json({ message: "Logout successful" });
   } catch (error) {
     console.error(error);
