@@ -1,1 +1,1 @@
-export const API_HOST_URL = "http://localhost:3000";
+export const API_HOST_URL = "https://goodreadsmern-production.up.railway.app";

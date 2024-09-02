@@ -8,12 +8,14 @@ const TokenRefresher = ({ children }) => {
 
   useEffect(() => {
     const refreshAccessToken = async () => {
-     
       if (!Cookies.get("tokenExists")) return;
       try {
-        await axios.get("http://localhost:3000/api/refresh", {
-          withCredentials: true,
-        });
+        await axios.get(
+          "https://goodreadsmern-production.up.railway.app/api/refresh",
+          {
+            withCredentials: true,
+          }
+        );
       } catch (error) {
         console.error("Failed to refresh token", error);
         Cookies.remove("tokenExists");
