@@ -70,7 +70,7 @@ const login = async (req, res, next) => {
     // //saving the token in database
     existingUser.refreshToken = refreshToken;
     await existingUser.save();
-    console.log(req.url);
+    console.log(req.hostname);
     res.cookie("token", token, {
       path: "/",
       maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
