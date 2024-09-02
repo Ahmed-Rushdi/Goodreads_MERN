@@ -74,23 +74,23 @@ const login = async (req, res, next) => {
     res.cookie("token", token, {
       path: "/",
       maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
-      httpOnly: true,
-      sameSite: "lax",
+      sameSite: "None",
+      secure: true,
     });
 
     res.cookie("tokenExists", true, {
       path: "/",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
-      httpOnly: false,
-      sameSite: "lax",
+      sameSite: "None",
+      secure: true,
     });
 
     // set the refresh token as httpOnly as well
     res.cookie("refreshToken", refreshToken, {
       path: "/",
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 day lifetiime
-      httpOnly: true,
-      sameSite: "lax",
+      sameSite: "None",
+      secure: true,
     });
 
     return res.status(200).json({
@@ -302,12 +302,12 @@ const resetPassword = async (req, res, next) => {
 //     let user = await User.findOne({ googleId });
 
 //     if (!user) {
-  
+
 //       user = new User({
 //         name,
 //         email,
 //         googleId,
-//         isVerified: true, 
+//         isVerified: true,
 //       });
 //       await user.save();
 //     }
@@ -329,21 +329,21 @@ const resetPassword = async (req, res, next) => {
 
 //     res.cookie("token", token, {
 //       path: "/",
-//       maxAge: 24 * 60 * 60 * 1000, 
+//       maxAge: 24 * 60 * 60 * 1000,
 //       httpOnly: true,
 //       sameSite: "lax",
 //     });
 
 //     res.cookie("tokenExists", true, {
 //       path: "/",
-//       maxAge: 24 * 60 * 60 * 1000, 
+//       maxAge: 24 * 60 * 60 * 1000,
 //       httpOnly: false,
 //       sameSite: "lax",
 //     });
 
 //     res.cookie("refreshToken", refreshToken, {
 //       path: "/",
-//       maxAge: 7 * 24 * 60 * 60 * 1000, 
+//       maxAge: 7 * 24 * 60 * 60 * 1000,
 //       httpOnly: true,
 //       sameSite: "lax",
 //     });
@@ -364,9 +364,6 @@ const resetPassword = async (req, res, next) => {
 //   }
 // };
 
-
-
-
 module.exports = {
   signup,
   login,
@@ -376,5 +373,5 @@ module.exports = {
   refreshToken,
   logout,
   resetPassword,
-  verifySecretAnswer
+  verifySecretAnswer,
 };
