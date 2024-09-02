@@ -13,6 +13,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import "../styles/profile-info.css"; // Import the CSS file
 import { useAuth } from "../contexts/AuthenticationContext";
 import axios from "axios";
+import { API_HOST_URL } from "../utils/HOST";
 
 export default function UserProfile() {
   const { user } = useAuth();
@@ -32,7 +33,7 @@ export default function UserProfile() {
     setLoading(true);
     try {
       const response = await axios.put(
-        "http://localhost:3000/api/profile/update",
+        `${API_HOST_URL}/api/profile/update`,
         { username, email },
         { withCredentials: true }
       );

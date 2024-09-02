@@ -6,6 +6,7 @@ import PaginationRounded from "./BookPaging";
 import { useState, useEffect } from "react";
 import ProfileInfo from "./profileInfo";
 import BasicSpinner from "./BasicSpinner";
+import { API_HOST_URL } from "../utils/HOST";
 
 const UserProfile = () => {
   const [selectedShelf, setSelectedShelf] = useState(''); // Default to no filter, show all books
@@ -17,7 +18,9 @@ const UserProfile = () => {
   });
   const itemsPerPage = 4;
 
-  const fetchUrl = selectedShelf ? `http://localhost:3000/api/profile/filter` : `http://localhost:3000/api/profile`;
+  const fetchUrl = selectedShelf
+    ? `${API_HOST_URL}/api/profile/filter`
+    : `${API_HOST_URL}/api/profile`;
 
   const { data, isLoading, error, refetch } = useFetch(fetchUrl, {
     method: selectedShelf ? 'POST' : 'GET',
