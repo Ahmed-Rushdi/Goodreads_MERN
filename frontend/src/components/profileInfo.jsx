@@ -12,25 +12,43 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import "../styles/profile-info.css"; // Import the CSS file
 import { useAuth } from "../contexts/AuthenticationContext";
+import axios from "axios";
 
 export default function UserProfile() {
   const { user } = useAuth();
-  console.log(user);
-  const [username, setUsername] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
+  const [username, setUsername] = useState(user?.name || "");
+  const [email, setEmail] = useState(user?.email || "");
   const [profilePhoto, setProfilePhoto] = useState(
     "https://placehold.co/150x150"
   );
   const [editMode, setEditMode] = useState({ username: false, email: false });
+  const [loading, setLoading] = useState(false);
 
   const handleEditClick = (field) => {
     setEditMode((prev) => ({ ...prev, [field]: !prev[field] }));
   };
 
-  const handleSaveChanges = () => {
-    // Handle save changes logic (e.g., API call)
-    setEditMode({ username: false, email: false });
-    alert("Changes saved!");
+  const handleSaveChanges = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.put(
+        "http://localhost:3000/api/profile/update",
+        { username, email },
+        { withCredentials: true }
+      );
+
+      if (response.status === 200) {
+        alert("Profile updated successfully!");
+      } else {
+        alert("Failed to update profile.");
+      }
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      alert("An error occurred while updating the profile.");
+    } finally {
+      setLoading(false);
+      setEditMode({ username: false, email: false });
+    }
   };
 
   return (
@@ -106,8 +124,9 @@ export default function UserProfile() {
             startIcon={<SaveIcon />}
             className="user-profile-save-button"
             onClick={handleSaveChanges}
+            disabled={loading}
           >
-            Save Changes
+            {loading ? "Saving..." : "Save Changes"}
           </Button>
         </Grid>
       </Grid>

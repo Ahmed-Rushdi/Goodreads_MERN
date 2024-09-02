@@ -20,12 +20,18 @@ const TextEditor = forwardRef(({ setPostData, postData }, ref) => {
         quill.focus();
       }
     },
+    clearContent: () => {
+      if (quill) {
+        quill.setText("");
+      }
+    },
   }));
+
   useEffect(() => {
     if (quill == null || editorRef.current == null) return;
 
     // Set the initial content from postData
-    if (postData !== null && quill.root.innerHTML !== postData) {
+    if (postData && quill.root.innerHTML !== postData) {
       quill.root.innerHTML = postData;
     }
 

@@ -13,7 +13,8 @@ const {
   fetchUserById,
   verifySecretAnswer,
   resetPassword,
-  logout,
+  logout
+ 
 } = require("../controllers/AuthenticationController");
 
 // sign up route
@@ -39,61 +40,75 @@ router.post("/verify-secret-answer", verifySecretAnswer);
 //reset password route
 router.post("/reset-password", resetPassword);
 
+
+
+
+// below is trials for google auth usage
+
+
+// // google route 
+// router.post('/auth/google', googleLogin);
+
+
+
+
+
+
 // Google OAuth route
-router.get(
-  "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
+// router.get(
+//   "/google",
+//   passport.authenticate("google", { scope: ["profile", "email"] })
+// );
 
-// Callback route for Google to redirect to
-router.get(
-  "/auth/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: "/login", // Redirect back to login on failure
-  }),
-  async (req, res) => {
-    // Generate JWT and refresh token
-    const token = jwt.sign(
-      { id: req.user._id },
-      process.env.JWT_SECRET || "default_secret",
-      { expiresIn: "1h" }
-    );
+// // Callback route for Google to redirect to
+// router.get(
+//   "/auth/google/callback",
+//   passport.authenticate("google", {
+//     failureRedirect: "/login", // Redirect back to login on failure
+//   }),
+//   async (req, res) => {
+//     // Generate JWT and refresh token
+//     const token = jwt.sign(
+//       { id: req.user._id },
+//       process.env.JWT_SECRET || "default_secret",
+//       { expiresIn: "1h" }
+//     );
 
-    const refreshToken = jwt.sign(
-      { id: req.user._id },
-      process.env.REFRESH_TOKEN_SECRET || "default_refresh_secret",
-      { expiresIn: "2h" }
-    );
+//     const refreshToken = jwt.sign(
+//       { id: req.user._id },
+//       process.env.REFRESH_TOKEN_SECRET || "default_refresh_secret",
+//       { expiresIn: "2h" }
+//     );
 
-    // Save the refresh token in the database
-    req.user.refreshToken = refreshToken;
-    await req.user.save();
+//     // Save the refresh token in the database
+//     req.user.refreshToken = refreshToken;
+//     await req.user.save();
 
-    // Set cookies for token and refresh token
-    res.cookie("token", token, {
-      path: "/",
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
-      httpOnly: true,
-      sameSite: "lax",
-    });
+//     // Set cookies for token and refresh token
+//     res.cookie("token", token, {
+//       path: "/",
+//       maxAge: 24 * 60 * 60 * 1000, // 1 day
+//       httpOnly: true,
+//       sameSite: "lax",
+//     });
 
-    res.cookie("tokenExists", true, {
-      path: "/",
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
-      httpOnly: false,
-      sameSite: "lax",
-    });
+//     res.cookie("tokenExists", true, {
+//       path: "/",
+//       maxAge: 24 * 60 * 60 * 1000, // 1 day
+//       httpOnly: false,
+//       sameSite: "lax",
+//     });
 
-    res.cookie("refreshToken", refreshToken, {
-      path: "/",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-      httpOnly: true,
-      sameSite: "lax",
-    });
+//     res.cookie("refreshToken", refreshToken, {
+//       path: "/",
+//       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+//       httpOnly: true,
+//       sameSite: "lax",
+//     });
 
-    res.redirect("/"); // Redirect to the desired route after successful login
-  }
-);
+//     res.redirect("/"); // Redirect to the desired route after successful login
+//   }
+// );
 
 // router.get("/auth/getUser", authenticateUser, (req, res) => {
 //   // User details are now available in req.user

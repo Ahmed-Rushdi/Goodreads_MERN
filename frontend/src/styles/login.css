@@ -14,7 +14,9 @@
   display: flex;
   top: 70px;
 }
-
+.login_error{
+  display: block;
+}
 /* Form */
 .form-1 {
   position: relative;
@@ -125,7 +127,7 @@
 
 .submit-1 {
   background: #d4af7a;
-  margin-top: 40px;
+  margin-top: 20px;
   margin-bottom: 20px;
   text-transform: uppercase;
   transition-duration: 0.4s;
@@ -218,6 +220,15 @@
 @media (max-width: 768px) {
   .sign-up-1 {
     display: block;
+    color: white;
+    font-weight: 500;
+  }
+  .sign-up-1:hover{
+    background-color: #d4af7a;
+    transition: background-color 0.3s ease;
+  }
+  .sign-up-1:active {
+    transform: translateY(4px);
   }
   .cont {
     flex-direction: column;
