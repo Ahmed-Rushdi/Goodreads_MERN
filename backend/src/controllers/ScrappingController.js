@@ -96,7 +96,7 @@ exports.scrapeBook = async (req, res) => {
   try {
     const book = await fetchBookData(isbn);
     const postResponse = await axios.post(
-      "http://localhost:3000/api/books",
+      "https://goodreadsmern-production.up.railway.app/api/books",
       book
     );
     res.status(postResponse.status).json(postResponse.data);
