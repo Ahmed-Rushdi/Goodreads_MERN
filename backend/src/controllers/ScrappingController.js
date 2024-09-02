@@ -87,20 +87,28 @@ async function fetchAuthorBioAndImage(authorName) {
 
 exports.scrapeBook = async (req, res) => {
   const { isbn } = req.body;
-  console.log(req.body);
+  console.log("Request body:", req.body); // Log the request body
 
   if (!isbn) {
+    console.log("ISBN is missing"); // Log if ISBN is missing
     return res.status(400).json({ error: "ISBN is required" });
   }
 
   try {
+    console.log("Fetching book data for ISBN:", isbn);
     const book = await fetchBookData(isbn);
+    console.log("Fetched book data:", book); // Log the fetched book data
+
+    console.log("Posting book data to external API...");
     const postResponse = await axios.post(
-      "https://goodreadsmern-production.up.railway.app/api/books",
+      "http://localhost:3000/api/books",
       book
     );
+    console.log("Post response:", postResponse.status, postResponse.data); // Log the response status and data
+
     res.status(postResponse.status).json(postResponse.data);
   } catch (error) {
+    console.error("Error during processing:", error.message); // Log the error message
     res
       .status(500)
       .json({ error: `Error processing request: ${error.message}` });
