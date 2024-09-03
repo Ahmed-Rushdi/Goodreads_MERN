@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL = "http://localhost:3000";
+const URL = "https://goodreadsmern-production.up.railway.app";
 
 export const axiosInstance = axios.create({
   baseURL: `${URL}`,
