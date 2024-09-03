@@ -10,11 +10,7 @@ const useFetch = (url, options = {}) => {
         setError(null);
 
         try {
-            const res = await fetch(url, {
-              ...options,
-              withCredentials: true,
-              headers: { "x-access-token": localStorage.getItem("token") },
-            });
+            const res = await fetch(url, options);
             if (!res.ok) {
                 const errorText = await res.text();
                 console.error(`Error ${res.status}: ${errorText}`);

@@ -35,10 +35,7 @@ export default function UserProfile() {
       const response = await axios.put(
         `${API_HOST_URL}/api/profile/update`,
         { username, email },
-        {
-          withCredentials: true,
-          headers: { "x-access-token": localStorage.getItem("token") },
-        }
+        { withCredentials: true }
       );
 
       if (response.status === 200) {

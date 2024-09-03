@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User.model");
 
 const userAuth = (req, res, next) => {
-  const token = req.headers ?? req.headers["x-access-token"];
+  const token = req.cookies?.token;
 
   if (!token) {
     return res.status(403).send("Token not found");
