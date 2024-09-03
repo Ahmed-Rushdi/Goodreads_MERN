@@ -1,6 +1,52 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
 
+const Book = require("../models/Book.model");
+const Author = require("../models/Author.model");
+const Category = require("../models/Category.model");
+
+const addBookToDatabase = async (bookData) => {
+  const { author, categories, ...otherBookData } = bookData;
+
+  try {
+    // Find or create the author
+    let authorDoc = await Author.findOne({ name: author.name });
+    if (!authorDoc) {
+      authorDoc = await Author.create(author);
+    }
+
+    // Find or create the categories
+    const categoryDocs = categories
+      ? await Promise.all(
+          categories.map(async (categoryName) => {
+            let categoryDoc = await Category.findOne({ name: categoryName });
+            if (!categoryDoc) {
+              categoryDoc = await Category.create({ name: categoryName });
+            }
+            return categoryDoc._id;
+          })
+        )
+      : [];
+
+    // Create the book
+    const book = new Book({
+      ...otherBookData,
+      authorId: authorDoc._id,
+      categories: categoryDocs,
+    });
+
+    // Save the book to the database
+    await book.save();
+    return { status: 201, data: { message: "Book created", book } };
+  } catch (error) {
+    console.error("Error saving book to database:", error.message);
+    return {
+      status: 409,
+      data: { error: `An error occurred: ${error.message}` },
+    };
+  }
+};
+
 function removeSquareBrackets(text) {
   return text.replace(/\[.*?\]/g, "");
 }
@@ -100,10 +146,8 @@ exports.scrapeBook = async (req, res) => {
     console.log("Fetched book data:", book); // Log the fetched book data
 
     console.log("Posting book data to external API...");
-    const postResponse = await axios.post(
-      "http://localhost:3000/api/books",
-      book
-    );
+    const postResponse = await addBookToDatabase(book);
+
     console.log("Post response:", postResponse.status, postResponse.data); // Log the response status and data
 
     res.status(postResponse.status).json(postResponse.data);
