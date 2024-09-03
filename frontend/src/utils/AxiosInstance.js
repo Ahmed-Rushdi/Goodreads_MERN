@@ -4,7 +4,18 @@ const URL = "https://goodreadsmern-production.up.railway.app";
 export const axiosInstance = axios.create({
   baseURL: `${URL}`,
   withCredentials: true,
-  // headers: {
-  //   Authorization: `Bearer ${token}`,
-  // },
 });
+
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("token"); // Replace 'token' with your key
+    if (token) {
+      config.headers["x-access-token"] = token;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+

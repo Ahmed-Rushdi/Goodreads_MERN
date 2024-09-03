@@ -34,6 +34,7 @@ export const AuthProvider = ({ children }) => {
         password,
       });
 
+      localStorage.setItem("token", response.data.token);
       setUser(response.data.user);
       setIsLoggedIn(true);
       setError(null);
@@ -55,6 +56,8 @@ export const AuthProvider = ({ children }) => {
       await axiosInstance.post("/api/logout", {
         email: user.email,
       });
+
+      localStorage.removeItem("token");
       setUser(null);
       setIsLoggedIn(false);
       navigate("/login");

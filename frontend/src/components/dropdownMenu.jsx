@@ -18,7 +18,10 @@ export default function BasicModal({ isbn, onShelfChange }) {
       const response = await axios.post(
         "https://goodreadsmern-production.up.railway.app/api/profile",
         { isbn, shelf: newShelf },
-        { withCredentials: true }
+        {
+          withCredentials: true,
+          headers: { "x-access-token": localStorage.getItem("token") },
+        }
       );
 
       console.log("Book added to shelf:", response.data);
@@ -37,7 +40,10 @@ export default function BasicModal({ isbn, onShelfChange }) {
       const response = await axios.post(
         "https://goodreadsmern-production.up.railway.app/api/profile",
         { isbn, shelf: null }, // Set shelf to null for removal
-        { withCredentials: true }
+        {
+          withCredentials: true,
+          headers: { "x-access-token": localStorage.getItem("token") },
+        }
       );
 
       console.log("Book removed from shelf:", response.data);

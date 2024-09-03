@@ -58,40 +58,40 @@ const login = async (req, res, next) => {
     const token = jwt.sign(
       { id: existingUser._id },
       process.env.JWT_SECRET || "default_secret",
-      { expiresIn: "25s" }
+      { expiresIn: "1h" }
     );
     // // create a refresh token
     const refreshToken = jwt.sign(
       { id: existingUser._id },
       process.env.REFRESH_TOKEN_SECRET || "default_refresh_secret",
-      { expiresIn: "2h" }
+      { expiresIn: "7d" }
     );
 
     // //saving the token in database
     existingUser.refreshToken = refreshToken;
     await existingUser.save();
 
-    res.cookie("token", token, {
-      path: "/",
-      maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
-      sameSite: "None",
-      secure: true,
-    });
+    // res.cookie("token", token, {
+    //   path: "/",
+    //   maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
+    //   sameSite: "None",
+    //   secure: true,
+    // });
 
-    res.cookie("tokenExists", true, {
-      path: "/",
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
-      sameSite: "None",
-      secure: true,
-    });
+    // res.cookie("tokenExists", true, {
+    //   path: "/",
+    //   maxAge: 24 * 60 * 60 * 1000, // 1 day
+    //   sameSite: "None",
+    //   secure: true,
+    // });
 
-    // set the refresh token as httpOnly as well
-    res.cookie("refreshToken", refreshToken, {
-      path: "/",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 day lifetiime
-      sameSite: "None",
-      secure: true,
-    });
+    // // set the refresh token as httpOnly as well
+    // res.cookie("refreshToken", refreshToken, {
+    //   path: "/",
+    //   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 day lifetiime
+    //   sameSite: "None",
+    //   secure: true,
+    // });
 
     return res.status(200).json({
       message: "Login successful",
@@ -101,7 +101,7 @@ const login = async (req, res, next) => {
         email: existingUser.email,
         role: existingUser.userRole,
       },
-      token,
+      token: token,
     });
   } catch (error) {
     console.error(error);
@@ -111,7 +111,7 @@ const login = async (req, res, next) => {
 
 // verification of jwt token
 const verification = (req, res, next) => {
-  const token = req.cookies.token; // Access token from cookies
+  const token = req.headers["x-access-token"]; // Access token from cookies
 
   console.log("Retrieved Token:", token); // Log the token
 
@@ -165,7 +165,15 @@ const getUser = async (req, res, next) => {
 // refresh token endpoint
 
 const refreshToken = async (req, res) => {
-  const refreshToken = req.cookies.refreshToken;
+  const token = req.headers["x-access-token"];
+
+  if (!token) {
+    return res.status(403).json({ message: " token not found" });
+  }
+  const id_from_token = jwt.verify(token, "midomashakel2").id;
+  const refreshToken = await User.findById({
+    _id: id_from_token,
+  });
 
   if (!refreshToken) {
     return res.status(403).json({ message: " refresh token not found" });
@@ -191,19 +199,19 @@ const refreshToken = async (req, res) => {
       { expiresIn: "30s" }
     );
 
-    res.cookie("token", newAccessToken, {
-      path: "/",
-      maxAge: 60 * 60 * 1000,
-      httpOnly: true,
-      sameSite: "lax",
-    });
-
-    res.cookie("tokenExists", true, {
-      path: "/",
-      maxAge: 60 * 60 * 1000,
-      httpOnly: false,
-      sameSite: "lax",
-    });
+    // res.cookie("token", newAccessToken, {
+    //   path: "/",
+    //   maxAge: 60 * 60 * 1000,
+    //   httpOnly: true,
+    //   sameSite: "lax",
+    // });
+    //
+    // res.cookie("tokenExists", true, {
+    //   path: "/",
+    //   maxAge: 60 * 60 * 1000,
+    //   httpOnly: false,
+    //   sameSite: "lax",
+    // });
 
     return res.status(200).json({ message: "refreshed token" });
   });
