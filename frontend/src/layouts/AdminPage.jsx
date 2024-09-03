@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useFetchData } from "../utils/DataFetching";
 import BasicSpinner from "../components/BasicSpinner";
 import { Navigate } from "react-router-dom";
+import Scrape from "../components/Scrape";
 const items = [
   {
     key: 0,
@@ -26,7 +27,7 @@ const items = [
   {
     key: 3,
     label: "Scrape",
-    children: "Check Public Databases for ISBN and automatically add author",
+    children: <Scrape />,
   },
 ];
 
